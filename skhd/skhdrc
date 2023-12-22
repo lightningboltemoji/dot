@@ -1,0 +1,47 @@
+# Applications
+alt - space: kitty
+alt - a: open "/Applications/Arc.app"
+alt - w: yabai -m window --close
+
+# Navigation
+alt - j: yabai -m window --focus west
+alt - k : yabai -m window --focus south
+alt - i : yabai -m window --focus north
+alt - l : yabai -m window --focus east
+
+# Spaces
+alt - 1: skhd -k "ctrl - 1"
+alt - 2: skhd -k "ctrl - 2"
+alt - 3: skhd -k "ctrl - 3"
+alt - 4: skhd -k "ctrl - 4"
+shift + alt - 1 : yabai -m window --space 1; skhd -k "ctrl - 1"
+shift + alt - 2 : yabai -m window --space 2; skhd -k "ctrl - 2"
+shift + alt - 3 : yabai -m window --space 3; skhd -k "ctrl - 3"
+shift + alt - 4 : yabai -m window --space 4; skhd -k "ctrl - 4"
+
+# Moving windows
+shift + alt - j : yabai -m window --warp west
+shift + alt - k : yabai -m window --warp south
+shift + alt - i : yabai -m window --warp north
+shift + alt - l : yabai -m window --warp east
+
+# Rotate windows clockwise and anticlockwise
+shift + alt - e : yabai -m space --rotate 270
+shift + alt - r : yabai -m space --rotate 90
+
+# Float / Unfloat window
+alt - f : \
+    yabai -m window --toggle float; \
+    yabai -m window --toggle border
+shift + alt - f: \
+    yabai -m config layout float; \
+    brew services stop sketchybar; \
+    osascript -e 'tell application "System Events" to set autohide menu bar of dock preferences to false'
+shift + alt - g: \
+    yabai -m config layout bsp; \
+    brew services start sketchybar; \
+    osascript -e 'tell application "System Events" to set autohide menu bar of dock preferences to true'
+shift + alt - h: \
+    yabai -m config layout float; \
+    brew services start sketchybar; \
+    osascript -e 'tell application "System Events" to set autohide menu bar of dock preferences to true'
