@@ -1,5 +1,5 @@
 # Applications
-alt - space: kitty
+alt - space: open "/Applications/kitty.app"
 alt - a: open "/Applications/Arc.app"
 alt - w: yabai -m window --close
 
@@ -20,9 +20,9 @@ shift + alt - 3 : yabai -m window --space 3; skhd -k "ctrl - 3"
 shift + alt - 4 : yabai -m window --space 4; skhd -k "ctrl - 4"
 
 # Moving windows
-shift + alt - j : yabai -m window --warp west
-shift + alt - k : yabai -m window --warp south
-shift + alt - i : yabai -m window --warp north
+shift + alt - h : yabai -m window --warp west
+shift + alt - j : yabai -m window --warp south
+shift + alt - k : yabai -m window --warp north
 shift + alt - l : yabai -m window --warp east
 
 # Rotate windows clockwise and anticlockwise
