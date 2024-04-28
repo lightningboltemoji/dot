@@ -12,6 +12,11 @@
   "ui_font_family": "Zed Sans",
   "ui_font_size": 15,
   "buffer_font_size": 13,
+  "git": {
+    "inline_blame": {
+      "enabled": false
+    }
+  },
   "telemetry": {
     "diagnostics": false,
     "metrics": false
