@@ -7,7 +7,7 @@ setopt HIST_EXPIRE_DUPS_FIRST
 setopt HIST_IGNORE_DUPS
 
 function desktop() {
-  defaults write com.apple.finder CreateDesktop "$1" 
+  defaults write com.apple.finder CreateDesktop "$1"
   killall Finder
 }
 
