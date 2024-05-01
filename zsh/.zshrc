@@ -6,6 +6,8 @@ setopt SHARE_HISTORY
 setopt HIST_EXPIRE_DUPS_FIRST
 setopt HIST_IGNORE_DUPS
 
+alias vi="nvim"
+
 function desktop() {
   defaults write com.apple.finder CreateDesktop "$1"
   killall Finder
