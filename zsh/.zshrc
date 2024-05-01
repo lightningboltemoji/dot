@@ -12,8 +12,9 @@ function desktop() {
 }
 
 function iconapply() {
-  for f in $(ls $XDG_CONFIG_HOME/fileicon); do
-    [ ! -d /Applications/${f%.*}.app ] || fileicon -q set /Applications/${f%.*}.app $XDG_CONFIG_HOME/fileicon/$f
+  for f in $XDG_CONFIG_HOME/fileicon/*; do
+    app="/Applications/${$(basename "$f")%.*}.app"
+    [ ! -d "$app" ] || fileicon -q set "$app" "$f"
   done
 }
 
