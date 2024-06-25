@@ -1,0 +1,11 @@
+/*
+!.gitignore
+!aerospace
+!fileicon
+!kitty
+!sketchybar
+!skhd
+!zed/*.json
+!zsh
+/zsh/.zsh_history
+/zsh/.zsh_sessions/

@@ -23,4 +23,4 @@ function iconapply() {
 export PATH="$HOME/Developer/scripts:$PATH"
 export GOPATH="$HOME/.go"
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source <(fzf --zsh)
