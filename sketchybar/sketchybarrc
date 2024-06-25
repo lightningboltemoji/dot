@@ -25,7 +25,7 @@ sketchybar --bar height=38        \
 # For a full list of all available item properties see:
 # https://felixkratz.github.io/SketchyBar/config/items
 
-sketchybar --default icon.font="Hack Nerd Font:Regular:14.0"  \
+sketchybar --default icon.font="Symbols Nerd Font:Regular:14.0"  \
                      icon.color=0xff000000                 \
                      label.font="Menlo:Regular:12.0" \
                      label.color=0xff000000                \
