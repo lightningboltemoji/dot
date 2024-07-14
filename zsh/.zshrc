@@ -14,6 +14,7 @@ function desktop() {
 }
 
 function iconapply() {
+  defaults write company.thebrowser.Browser currentAppIconName colorful # Arc
   for f in $XDG_CONFIG_HOME/fileicon/*; do
     app="/Applications/${$(basename "$f")%.*}.app"
     [ ! -d "$app" ] || fileicon -q set "$app" "$f"
