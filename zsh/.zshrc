@@ -14,6 +14,7 @@ function desktop() {
   killall Finder
 }
 
+export HOMEBREW_AUTO_UPDATE_SECS=3600
 export PATH="$HOME/Developer/scripts:$PATH"
 export GOPATH="$HOME/.go"
 
