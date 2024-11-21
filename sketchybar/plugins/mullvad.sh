@@ -13,4 +13,3 @@ Disconnected)
 esac
 
 sketchybar --set $NAME drawing="$DRAWING" icon="$ICON" label="$STATUS"
-

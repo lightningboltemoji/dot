@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ "$FOCUSED_WORKSPACE" == "off" ]; then
-    sketchybar --set $NAME icon="" label.drawing="off"
+	sketchybar --set $NAME label="󰏤"
 else
-    sketchybar --set $NAME icon="" label.drawing="on" label="${FOCUSED_WORKSPACE:-$(aerospace list-workspaces --focused)}"
+	sketchybar --set $NAME icon="" label="${FOCUSED_WORKSPACE:-$(aerospace list-workspaces --focused)}"
 fi
