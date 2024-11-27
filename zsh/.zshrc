@@ -16,6 +16,7 @@ function desktop() {
 
 export HOMEBREW_AUTO_UPDATE_SECS=3600
 export PATH="$HOME/Developer/scripts:$PATH"
+export PATH="/opt/homebrew/opt/rustup/bin:$PATH"
 export GOPATH="$HOME/.go"
 
 source <(fzf --zsh)
