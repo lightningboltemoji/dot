@@ -1,4 +1,4 @@
 # Toggle AeroSpace
 alt - 0x21: aerospace enable on && /opt/homebrew/opt/sketchybar/bin/sketchybar --trigger aerospace_workspace_change
 alt - 0x1E: aerospace enable off && /opt/homebrew/opt/sketchybar/bin/sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE="off"
-alt - space: open /Applications/kitty.app
+alt - space: open /Applications/Ghostty.app

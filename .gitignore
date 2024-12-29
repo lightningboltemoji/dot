@@ -2,6 +2,7 @@
 !.gitignore
 !aerospace
 !chicon
+!ghostty
 !kitty
 !nvim
 !sketchybar
