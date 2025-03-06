@@ -40,12 +40,12 @@ sketchybar --add item apple left \
 	label.padding_left=4 \
 	label.padding_right=6
 
-sketchybar --add event aerospace_workspace_change
+sketchybar --add event workspace_change
 sketchybar --add item space left \
-	--subscribe space aerospace_workspace_change \
+	--subscribe space workspace_change \
 	--set space \
 	icon.drawing=on \
-	script="$CONFIG_DIR/plugins/aerospace.sh"
+	script="$CONFIG_DIR/plugins/workspace.sh"
 
 sketchybar --add item front_app left \
 	--set front_app script="$PLUGIN_DIR/front_app.sh" \
