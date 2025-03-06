@@ -7,7 +7,7 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
-  "theme": "Rosé Pine Moon",
+  "theme": "Gruvbox Light Soft",
   "vim_mode": false,
   "ui_font_family": "Zed Sans",
   "ui_font_size": 15,

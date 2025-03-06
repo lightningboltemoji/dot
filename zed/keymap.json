@@ -4,5 +4,12 @@
       "cmd-[": "pane::GoBack",
       "cmd-]": "pane::GoForward"
     }
+  },
+  {
+    "context": "Editor",
+    "use_key_equivalents": true,
+    "bindings": {
+      "alt-enter": "editor::ToggleCodeActions"
+    }
   }
 ]
