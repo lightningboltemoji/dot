@@ -4,6 +4,6 @@ copy-on-select = false
 cursor-color = #C8C8C8
 window-padding-x = 6
 window-padding-y = 4
-theme = BirdsOfParadise
+theme = Birds Of Paradise
 macos-titlebar-style = tabs
 font-thicken = true

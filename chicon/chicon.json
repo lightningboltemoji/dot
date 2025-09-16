@@ -1,10 +1,10 @@
 {
   "/Applications/Amazon Chime.app": "Amazon Chime.icns",
+  "/Applications/Ghostty.app": "Ghostty.icns",
   "/Applications/Microsoft Outlook.app": "Microsoft Outlook.icns",
   "/Applications/Obsidian.app": "Obsidian.icns",
   "/Applications/Slack.app": "Slack.png",
-  "/Applications/Spotify.app": "Spotify.png",
+  "/Applications/Spotify.app": "Spotify.icns",
   "/Applications/Visual Studio Code.app": "Visual Studio Code.icns",
-  "/Applications/Zed.app": "Zed.icns",
-  "/Applications/kitty.app": "kitty.icns"
+  "/Applications/Zed.app": "Zed.icns"
 }
