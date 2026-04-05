@@ -1,0 +1,40 @@
+{
+  "plugins": {
+    "fzf-lua": {
+      "rev": "abacb0693d7a37de9e85e6fcb2d22d848cb75cef",
+      "src": "https://github.com/ibhagwan/fzf-lua"
+    },
+    "lualine.nvim": {
+      "rev": "8811f3f3f4dc09d740c67e9ce399e7a541e2e5b2",
+      "src": "https://github.com/nvim-lualine/lualine.nvim"
+    },
+    "nvim-web-devicons": {
+      "rev": "40e9d5a6cc3db11b309e39593fc7ac03bb844e38",
+      "src": "https://github.com/nvim-tree/nvim-web-devicons"
+    },
+    "snacks.nvim": {
+      "rev": "ad9ede6a9cddf16cedbd31b8932d6dcdee9b716e",
+      "src": "https://github.com/folke/snacks.nvim"
+    },
+    "vim-fern": {
+      "rev": "a96f8c6c52746346fe568e3711792c1e9268cf91",
+      "src": "https://github.com/lambdalisue/vim-fern"
+    },
+    "vim-fern-hijack": {
+      "rev": "f65524899231b15528066744e714fb344abf0892",
+      "src": "https://github.com/lambdalisue/vim-fern-hijack"
+    },
+    "vim-fern-renderer-nerdfont": {
+      "rev": "325629c68eb543229715b68920fbcb92b206beb6",
+      "src": "https://github.com/lambdalisue/vim-fern-renderer-nerdfont"
+    },
+    "vim-nerdfont": {
+      "rev": "cc50782ee9580fc70b659cf1ebd55229d94b37ab",
+      "src": "https://github.com/lambdalisue/vim-nerdfont"
+    },
+    "which-key.nvim": {
+      "rev": "3aab2147e74890957785941f0c1ad87d0a44c15a",
+      "src": "https://github.com/folke/which-key.nvim"
+    }
+  }
+}
