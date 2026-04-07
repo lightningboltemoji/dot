@@ -4,6 +4,9 @@ vim.g.mapleader = ' '
 vim.opt.number = true
 vim.opt.relativenumber = true
 
+-- Sync with macOS clipboard
+vim.opt.clipboard = 'unnamedplus'
+
 -- Use terminal's 16-color palette
 vim.opt.termguicolors = false
 
