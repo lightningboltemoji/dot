@@ -94,10 +94,10 @@ require('snacks').setup({
     },
   },
 })
-require('nvim-treesitter').install({ 'lua', 'typescript', 'tsx', 'javascript', 'html', 'css', 'json' }):wait(300000)
+require('nvim-treesitter').install({ 'lua', 'typescript', 'tsx', 'javascript', 'html', 'css', 'json', 'python', 'java', 'rust' }):wait(300000)
 
 vim.api.nvim_create_autocmd('FileType', {
-  pattern = { 'lua', 'typescript', 'typescriptreact', 'javascript', 'javascriptreact', 'html', 'css', 'json' },
+  pattern = { 'lua', 'typescript', 'typescriptreact', 'javascript', 'javascriptreact', 'html', 'css', 'json', 'python', 'java', 'rust' },
   callback = function() vim.treesitter.start() end,
 })
 
@@ -213,8 +213,43 @@ vim.lsp.config('ts_ls', {
   root_markers = { 'tsconfig.json', 'jsconfig.json', 'package.json', '.git' },
 })
 
+vim.lsp.config('rust_analyzer', {
+  cmd = { 'rust-analyzer' },
+  filetypes = { 'rust' },
+  root_markers = { 'Cargo.toml' },
+})
+vim.lsp.config('jdtls', {
+  cmd = function(config)
+    local workspace = vim.fn.expand('~/.local/share/jdtls/workspace/') .. vim.fn.fnamemodify(config.root_dir, ':t')
+    return { 'jdtls', '-data', workspace }
+  end,
+  filetypes = { 'java' },
+  root_markers = { 'pom.xml', 'build.gradle', 'build.gradle.kts', '.git' },
+})
+vim.lsp.config('pyright', {
+  cmd = { 'pyright-langserver', '--stdio' },
+  filetypes = { 'python' },
+  root_markers = { 'pyrightconfig.json', 'pyproject.toml', 'setup.py', 'setup.cfg', '.git' },
+  settings = {
+    python = { analysis = { autoSearchPaths = true, useLibraryCodeForTypes = true } },
+  },
+  on_attach = function(client)
+    client.server_capabilities.documentFormattingProvider = false
+    client.server_capabilities.documentRangeFormattingProvider = false
+  end,
+})
+vim.lsp.config('ruff', {
+  cmd = { 'ruff', 'server' },
+  filetypes = { 'python' },
+  root_markers = { 'ruff.toml', '.ruff.toml', 'pyproject.toml', '.git' },
+})
+
 vim.lsp.enable('lua_ls')
 vim.lsp.enable('ts_ls')
+vim.lsp.enable('rust_analyzer')
+vim.lsp.enable('jdtls')
+vim.lsp.enable('pyright')
+vim.lsp.enable('ruff')
 
 vim.keymap.set('n', '<leader>cf', function() vim.lsp.buf.format() end, { desc = 'format' })
 vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end, { desc = 'go to definition' })
