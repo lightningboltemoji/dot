@@ -3,6 +3,8 @@ vim.g.mapleader = ' '
 -- Line numbers
 vim.opt.number = true
 vim.opt.relativenumber = true
+vim.opt.cursorline = true
+vim.opt.cursorlineopt = 'number'
 
 -- Sync with macOS clipboard
 vim.opt.clipboard = 'unnamedplus'
@@ -20,6 +22,8 @@ vim.api.nvim_set_hl(0, 'Pmenu', { bg = 'NONE' })
 vim.api.nvim_set_hl(0, 'PmenuSel', { reverse = true })
 vim.api.nvim_set_hl(0, 'StatusLine', { bg = 'NONE' })
 vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = 'NONE' })
+vim.api.nvim_set_hl(0, 'LineNr', { ctermfg = 8 })
+vim.api.nvim_set_hl(0, 'CursorLineNr', { ctermfg = 7 })
 
 vim.o.winborder = 'single'
 
@@ -172,10 +176,10 @@ require('fzf-lua').setup({
 -- Lualine accepts numbers for fg/bg and passes them straight to ctermfg/ctermbg
 -- when termguicolors is off (see lualine/highlight.lua and color_utils.lua).
 local bubbles_theme = {
-  normal = {
-    a = { fg = 0, bg = 5 }, -- black on magenta
-    b = { fg = 7, bg = 8 }, -- white on bright black
-    c = { fg = 7 },         -- white
+  normal   = {
+    a = { fg = 0, bg = 5 },              -- black on magenta
+    b = { fg = 7, bg = 8 },              -- white on bright black
+    c = { fg = 7 },                      -- white
   },
   insert   = { a = { fg = 0, bg = 4 } }, -- black on blue
   visual   = { a = { fg = 0, bg = 6 } }, -- black on cyan
@@ -200,7 +204,7 @@ require('lualine').setup({
     lualine_c = {},
     lualine_x = {},
     lualine_y = { 'branch', 'diff' },
-    lualine_z = { { 'location', separator = {right = ''}, left_padding = 2 } },
+    lualine_z = { { 'location', separator = { right = '' }, left_padding = 2 } },
   },
   inactive_sections = {
     lualine_a = { 'filename' },
@@ -239,6 +243,7 @@ vim.lsp.config('lua_ls', {
   settings = {
     Lua = {
       runtime = { version = 'LuaJIT' },
+      diagnostics = { globals = { 'vim' } },
       workspace = { library = { vim.env.VIMRUNTIME } },
     },
   },
