@@ -1,10 +1,15 @@
 vim.g.mapleader = ' '
 
+-- New UI opt-in
+require('vim._core.ui2').enable({})
+
 -- Line numbers
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.cursorline = true
 vim.opt.cursorlineopt = 'number'
+-- Right-align the current line's number too (default left-aligns it)
+vim.opt.statuscolumn = '%s%=%{v:relnum?v:relnum:v:lnum} '
 
 -- Sync with macOS clipboard
 vim.opt.clipboard = 'unnamedplus'
