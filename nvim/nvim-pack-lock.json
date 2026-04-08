@@ -13,6 +13,10 @@
       "rev": "9f0432fdd7825ab163520045831a40b6df82ea28",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
+    "goyo.vim": {
+      "rev": "9c72fdf2d202914318581f9f0dd09fd102f8504d",
+      "src": "https://github.com/junegunn/goyo.vim"
+    },
     "leap.nvim": {
       "rev": "b960d5038c5c505c52e56a54490f9bbb1f0e6ef6",
       "src": "https://codeberg.org/andyg/leap.nvim.git"

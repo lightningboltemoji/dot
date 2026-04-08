@@ -18,6 +18,8 @@ vim.api.nvim_set_hl(0, 'FloatBorder', { ctermfg = 8 })
 vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'NONE' })
 vim.api.nvim_set_hl(0, 'Pmenu', { bg = 'NONE' })
 vim.api.nvim_set_hl(0, 'PmenuSel', { reverse = true })
+vim.api.nvim_set_hl(0, 'StatusLine', { bg = 'NONE' })
+vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = 'NONE' })
 
 vim.o.winborder = 'single'
 
@@ -38,6 +40,7 @@ vim.pack.add({
   'https://codeberg.org/andyg/leap.nvim.git',
   'https://github.com/MunifTanjim/nui.nvim',
   'https://github.com/folke/noice.nvim',
+  'https://github.com/junegunn/goyo.vim',
 })
 
 -- Window navigation with ctrl+hjkl
@@ -94,7 +97,8 @@ require('snacks').setup({
     },
   },
 })
-require('nvim-treesitter').install({ 'lua', 'typescript', 'tsx', 'javascript', 'html', 'css', 'json', 'python', 'java', 'rust' }):wait(300000)
+require('nvim-treesitter').install({ 'lua', 'typescript', 'tsx', 'javascript', 'html', 'css', 'json', 'python', 'java',
+  'rust' }):wait(300000)
 
 vim.api.nvim_create_autocmd('FileType', {
   pattern = { 'lua', 'typescript', 'typescriptreact', 'javascript', 'javascriptreact', 'html', 'css', 'json', 'python', 'java', 'rust' },
@@ -164,16 +168,48 @@ require('fzf-lua').setup({
   buffers = { no_header = true, no_header_i = true, buf_flag = false, buf_nr = false },
 })
 
+-- Bubbles theme using cterm palette indices so colors come from the terminal.
+-- Lualine accepts numbers for fg/bg and passes them straight to ctermfg/ctermbg
+-- when termguicolors is off (see lualine/highlight.lua and color_utils.lua).
+local bubbles_theme = {
+  normal = {
+    a = { fg = 0, bg = 5 }, -- black on magenta
+    b = { fg = 7, bg = 8 }, -- white on bright black
+    c = { fg = 7 },         -- white
+  },
+  insert   = { a = { fg = 0, bg = 4 } }, -- black on blue
+  visual   = { a = { fg = 0, bg = 6 } }, -- black on cyan
+  replace  = { a = { fg = 0, bg = 1 } }, -- black on red
+  inactive = {
+    a = { fg = 7, bg = 0 },
+    b = { fg = 7, bg = 0 },
+    c = { fg = 7 },
+  },
+}
+
 require('lualine').setup({
-  options = { globalstatus = true },
+  options = {
+    theme = bubbles_theme,
+    globalstatus = true,
+    section_separators = { left = '', right = '' },
+    component_separators = '',
+  },
   sections = {
-    lualine_a = { 'mode' },
+    lualine_a = { { 'mode', separator = { left = '' }, right_padding = 2 } },
     lualine_b = { 'filetype', 'filename' },
     lualine_c = {},
     lualine_x = {},
-    lualine_y = {},
-    lualine_z = { 'branch', 'diff', 'location' },
+    lualine_y = { 'branch', 'diff' },
+    lualine_z = { { 'location', separator = {right = ''}, left_padding = 2 } },
   },
+  inactive_sections = {
+    lualine_a = { 'filename' },
+    lualine_b = {},
+    lualine_c = {},
+    lualine_x = {},
+    lualine_y = {},
+    lualine_z = { 'location' },
+  }
 })
 
 -- Fern settings
@@ -244,12 +280,24 @@ vim.lsp.config('ruff', {
   root_markers = { 'ruff.toml', '.ruff.toml', 'pyproject.toml', '.git' },
 })
 
+vim.lsp.config('harper_ls', {
+  cmd = { 'harper-ls', '--stdio' },
+  filetypes = { 'markdown', 'text', 'tex', 'typst' },
+  root_markers = { '.git' },
+  init_options = {
+    ['harper-ls'] = {
+      linters = { SentenceCapitalization = false },
+    },
+  },
+})
+
 vim.lsp.enable('lua_ls')
 vim.lsp.enable('ts_ls')
 vim.lsp.enable('rust_analyzer')
 vim.lsp.enable('jdtls')
 vim.lsp.enable('pyright')
 vim.lsp.enable('ruff')
+vim.lsp.enable('harper_ls')
 
 vim.keymap.set('n', '<leader>cf', function() vim.lsp.buf.format() end, { desc = 'format' })
 vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end, { desc = 'go to definition' })
@@ -258,7 +306,8 @@ vim.keymap.set('n', 'K', function() vim.lsp.buf.hover() end, { desc = 'hover' })
 vim.keymap.set('n', '<leader>cr', function() vim.lsp.buf.rename() end, { desc = 'rename' })
 vim.keymap.set('n', '<leader>ca', function() vim.lsp.buf.code_action() end, { desc = 'code action' })
 vim.keymap.set('n', '<leader>cd', function() vim.diagnostic.open_float() end, { desc = 'diagnostic' })
-vim.keymap.set('n', '<leader>ch', function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end, { desc = 'inlay hints' })
+vim.keymap.set('n', '<leader>ch', function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end,
+  { desc = 'inlay hints' })
 
 require('blink.cmp').setup({
   keymap = { preset = 'enter' },
@@ -284,6 +333,16 @@ vim.keymap.set('n', '<leader>qq', '<cmd>confirm qa<cr>', { desc = 'quit' })
 -- Git
 vim.keymap.set('n', '<leader>tg', function() Snacks.lazygit() end, { desc = 'lazygit' })
 vim.keymap.set('n', '<leader>tt', function() Snacks.terminal() end, { desc = 'terminal' })
+vim.keymap.set('n', '<leader>tw', '<cmd>Goyo<cr>', { desc = 'writing mode' })
+
+vim.api.nvim_create_autocmd('User', {
+  pattern = 'GoyoEnter',
+  callback = function() require('lualine').hide() end,
+})
+vim.api.nvim_create_autocmd('User', {
+  pattern = 'GoyoLeave',
+  callback = function() require('lualine').hide({ unhide = true }) end,
+})
 
 -- Toggle fern file drawer with <leader>e
 vim.keymap.set('n', '<leader>e', '<cmd>Fern . -drawer -toggle -reveal=%<cr>', { desc = 'fern' })
