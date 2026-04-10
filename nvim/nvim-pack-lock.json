@@ -21,6 +21,10 @@
       "rev": "b960d5038c5c505c52e56a54490f9bbb1f0e6ef6",
       "src": "https://codeberg.org/andyg/leap.nvim.git"
     },
+    "lsp_signature.nvim": {
+      "rev": "a65b38f260cc3470a05b4afb84c8d868617d476d",
+      "src": "https://github.com/ray-x/lsp_signature.nvim"
+    },
     "lualine.nvim": {
       "rev": "8811f3f3f4dc09d740c67e9ce399e7a541e2e5b2",
       "src": "https://github.com/nvim-lualine/lualine.nvim"

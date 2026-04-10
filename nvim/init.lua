@@ -8,6 +8,8 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.cursorline = true
 vim.opt.cursorlineopt = 'number'
+-- Always reserve sign column space so diagnostics don't shift the gutter
+vim.opt.signcolumn = 'yes'
 -- Right-align the current line's number too (default left-aligns it)
 vim.opt.statuscolumn = '%s%=%{v:relnum?v:relnum:v:lnum} '
 
@@ -17,6 +19,13 @@ vim.opt.clipboard = 'unnamedplus'
 -- Auto-reload files changed on disk (prompts if buffer is also modified)
 vim.o.autoread = true
 vim.o.updatetime = 250
+
+-- Persistent undo: keeps full undo tree across sessions under ~/.local/state/nvim/undo
+vim.opt.undofile = true
+
+-- Built-in undo tree visualizer (nvim 0.12+, ships with nvim but must be packadd'd)
+vim.cmd.packadd('nvim.undotree')
+vim.keymap.set('n', '<leader>tu', '<cmd>Undotree<cr>', { desc = 'undotree' })
 vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' }, {
   callback = function()
     if vim.fn.mode() ~= 'c' then vim.cmd.checktime() end
@@ -58,6 +67,7 @@ vim.pack.add({
   'https://github.com/MunifTanjim/nui.nvim',
   'https://github.com/folke/noice.nvim',
   'https://github.com/junegunn/goyo.vim',
+  'https://github.com/ray-x/lsp_signature.nvim',
 })
 
 -- Window navigation with ctrl+hjkl
@@ -73,6 +83,23 @@ vim.keymap.set('n', '<leader>wk', '<cmd>aboveleft split<cr>', { desc = 'split up
 vim.keymap.set('n', '<leader>wl', '<cmd>belowright vsplit<cr>', { desc = 'split right' })
 vim.keymap.set('n', '<leader>wd', '<cmd>close<cr>', { desc = 'close window' })
 
+-- Swap the current window's buffer with its neighbor in the given direction.
+local function swap_window(dir)
+  local src = vim.api.nvim_get_current_win()
+  vim.cmd('wincmd ' .. dir)
+  local tgt = vim.api.nvim_get_current_win()
+  if tgt == src then return end -- no neighbor in that direction
+  local src_buf = vim.api.nvim_win_get_buf(src)
+  local tgt_buf = vim.api.nvim_win_get_buf(tgt)
+  vim.api.nvim_win_set_buf(src, tgt_buf)
+  vim.api.nvim_win_set_buf(tgt, src_buf)
+  -- Cursor is now in tgt, which holds the originally-active buffer.
+end
+vim.keymap.set('n', '<leader>wsh', function() swap_window('h') end, { desc = 'swap left' })
+vim.keymap.set('n', '<leader>wsj', function() swap_window('j') end, { desc = 'swap down' })
+vim.keymap.set('n', '<leader>wsk', function() swap_window('k') end, { desc = 'swap up' })
+vim.keymap.set('n', '<leader>wsl', function() swap_window('l') end, { desc = 'swap right' })
+
 require('which-key').setup({
   delay = 0,
   win = {
@@ -85,9 +112,10 @@ require('which-key').add({
   { '<leader>c', group = 'code' },
   { '<leader>f', group = 'find' },
   { '<leader>b', group = 'buffer' },
-  { '<leader>t', group = 'terminal' },
+  { '<leader>t', group = 'tool' },
   { '<leader>q', group = 'quit' },
   { '<leader>w', group = 'window' },
+  { '<leader>ws', group = 'swap' },
 })
 require('snacks').setup({
   input = { enabled = true },
@@ -167,12 +195,19 @@ require('mini.animate').setup()
 vim.keymap.set({ 'n', 'x', 'o' }, 's', '<Plug>(leap-forward)')
 vim.keymap.set({ 'n', 'x', 'o' }, 'S', '<Plug>(leap-backward)')
 require('noice').setup({
-  views = {
-    hover = { border = { style = 'single' } },
+  -- Native LSP handles hover (K) and lsp_signature.nvim handles signature
+  -- help. Noice kept overlapping/unbordering those popups.
+  lsp = {
+    hover = { enabled = false },
+    signature = { enabled = false },
   },
 })
+require('lsp_signature').setup({
+  hint_enable = false,
+  handler_opts = { border = 'single' },
+})
 require('fzf-lua').setup({
-  buffers = { no_header = true, no_header_i = true, buf_flag = false, buf_nr = false },
+  buffers = { no_header_i = true },
 })
 
 -- Bubbles theme using cterm palette indices so colors come from the terminal.
