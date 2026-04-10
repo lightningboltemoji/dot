@@ -387,8 +387,17 @@ vim.api.nvim_create_autocmd('User', {
   callback = function() require('lualine').hide({ unhide = true }) end,
 })
 
--- Toggle fern file drawer with <leader>e
-vim.keymap.set('n', '<leader>e', '<cmd>Fern . -drawer -toggle -reveal=%<cr>', { desc = 'fern' })
+-- Open fern drawer (or reveal current file if already open) with <leader>e,
+-- close it with <leader>E.
+vim.keymap.set('n', '<leader>e', '<cmd>Fern . -drawer -reveal=%<cr>', { desc = 'fern' })
+vim.keymap.set('n', '<leader>E', function()
+  for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+    local buf = vim.api.nvim_win_get_buf(win)
+    if vim.bo[buf].filetype == 'fern' then
+      vim.api.nvim_win_close(win, false)
+    end
+  end
+end, { desc = 'close fern' })
 
 -- Startup view: empty main buffer + fern drawer on the side.
 -- Handles `nvim` (no args) and `nvim <dir>` (directory arg). Plain file args
