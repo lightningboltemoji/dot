@@ -7,6 +7,8 @@ setopt HIST_EXPIRE_DUPS_FIRST
 setopt HIST_IGNORE_DUPS
 
 alias vi="nvim"
+alias lg="lazygit"
+alias ll="ls -l"
 alias ve="source .venv/bin/activate"
 
 function desktop() {
