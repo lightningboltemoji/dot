@@ -14,6 +14,15 @@ vim.opt.statuscolumn = '%s%=%{v:relnum?v:relnum:v:lnum} '
 -- Sync with macOS clipboard
 vim.opt.clipboard = 'unnamedplus'
 
+-- Auto-reload files changed on disk (prompts if buffer is also modified)
+vim.o.autoread = true
+vim.o.updatetime = 250
+vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' }, {
+  callback = function()
+    if vim.fn.mode() ~= 'c' then vim.cmd.checktime() end
+  end,
+})
+
 -- Use terminal's 16-color palette
 vim.opt.termguicolors = false
 
