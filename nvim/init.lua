@@ -44,7 +44,6 @@ vim.o.winborder = 'single'
 -- Plugin management (neovim 0.12 built-in)
 vim.pack.add({
   'https://github.com/lambdalisue/vim-fern',
-  'https://github.com/lambdalisue/vim-fern-hijack',
   'https://github.com/lambdalisue/vim-fern-renderer-nerdfont',
   'https://github.com/lambdalisue/vim-nerdfont',
   'https://github.com/folke/which-key.nvim',
@@ -67,6 +66,13 @@ vim.keymap.set('n', '<c-j>', '<c-w>j')
 vim.keymap.set('n', '<c-k>', '<c-w>k')
 vim.keymap.set('n', '<c-l>', '<c-w>l')
 
+-- Directional splits (hjkl = where the new window lands)
+vim.keymap.set('n', '<leader>wh', '<cmd>aboveleft vsplit<cr>', { desc = 'split left' })
+vim.keymap.set('n', '<leader>wj', '<cmd>belowright split<cr>', { desc = 'split down' })
+vim.keymap.set('n', '<leader>wk', '<cmd>aboveleft split<cr>', { desc = 'split up' })
+vim.keymap.set('n', '<leader>wl', '<cmd>belowright vsplit<cr>', { desc = 'split right' })
+vim.keymap.set('n', '<leader>wd', '<cmd>close<cr>', { desc = 'close window' })
+
 require('which-key').setup({
   delay = 0,
   win = {
@@ -81,27 +87,10 @@ require('which-key').add({
   { '<leader>b', group = 'buffer' },
   { '<leader>t', group = 'terminal' },
   { '<leader>q', group = 'quit' },
+  { '<leader>w', group = 'window' },
 })
 require('snacks').setup({
   input = { enabled = true },
-  dashboard = {
-    enabled = true,
-    preset = {
-      keys = {
-        { icon = ' ', key = 'f', desc = 'Find File', action = ":lua Snacks.dashboard.pick('files')" },
-        { icon = ' ', key = 'n', desc = 'New File', action = ':ene | startinsert' },
-        { icon = ' ', key = 'r', desc = 'Recent Files', action = ":lua Snacks.dashboard.pick('oldfiles')" },
-        { icon = ' ', key = 'c', desc = 'Config', action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
-        { icon = '󰒲 ', key = 'q', desc = 'Quit', action = ':qa' },
-      },
-    },
-    sections = {
-      { section = 'header' },
-      { icon = ' ', title = 'Keymaps', section = 'keys', indent = 2, padding = 1 },
-      { icon = ' ', title = 'Recent Files', section = 'recent_files', indent = 2, padding = 1 },
-      { icon = ' ', title = 'Projects', section = 'projects', indent = 2, padding = 1, limit = 10 },
-    },
-  },
   notifier = { enabled = false },
   lazygit = { enabled = true },
   terminal = {
@@ -346,7 +335,7 @@ vim.keymap.set('n', '<leader>fg', '<cmd>FzfLua live_grep<cr>', { desc = 'grep' }
 vim.keymap.set('n', '<leader>fb', '<cmd>FzfLua buffers<cr>', { desc = 'buffers' })
 
 -- Quit with <leader>qq
-vim.keymap.set('n', '<leader>bd', '<cmd>bdelete<cr>', { desc = 'delete buffer' })
+vim.keymap.set('n', '<leader>bd', '<cmd>confirm bdelete<cr>', { desc = 'delete buffer' })
 vim.keymap.set('n', '<leader>qq', '<cmd>confirm qa<cr>', { desc = 'quit' })
 
 -- Git
@@ -365,3 +354,24 @@ vim.api.nvim_create_autocmd('User', {
 
 -- Toggle fern file drawer with <leader>e
 vim.keymap.set('n', '<leader>e', '<cmd>Fern . -drawer -toggle -reveal=%<cr>', { desc = 'fern' })
+
+-- Startup view: empty main buffer + fern drawer on the side.
+-- Handles `nvim` (no args) and `nvim <dir>` (directory arg). Plain file args
+-- are left alone.
+vim.api.nvim_create_autocmd('VimEnter', {
+  callback = function()
+    local argv = vim.fn.argv()
+    local is_dir_arg = #argv == 1 and vim.fn.isdirectory(argv[1]) == 1
+    if not (is_dir_arg or #argv == 0) then return end
+    if is_dir_arg then
+      vim.cmd.cd(argv[1])
+      vim.cmd.enew()
+      vim.cmd('silent! bwipeout #')
+    end
+    -- Defer fern so it runs after any other VimEnter handlers have finished.
+    vim.schedule(function()
+      vim.cmd('Fern . -drawer')
+      vim.cmd.wincmd('p')
+    end)
+  end,
+})
