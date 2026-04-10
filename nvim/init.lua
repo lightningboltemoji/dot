@@ -109,12 +109,12 @@ require('which-key').setup({
   },
 })
 require('which-key').add({
-  { '<leader>c', group = 'code' },
-  { '<leader>f', group = 'find' },
-  { '<leader>b', group = 'buffer' },
-  { '<leader>t', group = 'tool' },
-  { '<leader>q', group = 'quit' },
-  { '<leader>w', group = 'window' },
+  { '<leader>c',  group = 'code' },
+  { '<leader>f',  group = 'find' },
+  { '<leader>b',  group = 'buffer' },
+  { '<leader>t',  group = 'tool' },
+  { '<leader>q',  group = 'quit' },
+  { '<leader>w',  group = 'window' },
   { '<leader>ws', group = 'swap' },
 })
 require('snacks').setup({
