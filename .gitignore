@@ -8,6 +8,7 @@
 !nvim
 !skhd
 !zed/*.json
+!zellij
 !zsh
 /zsh/.zsh_history
 /zsh/.zsh_sessions/

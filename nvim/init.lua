@@ -359,6 +359,10 @@ require('blink.cmp').setup({
     menu = { border = 'single' },
     documentation = { auto_show = true, window = { border = 'single' } },
   },
+  -- Blink enables ghost text in cmdline mode by default. Fern's "are you
+  -- sure?" delete prompt runs in cmdline, which left stale ghost-text state
+  -- that then errored on extmark placement after the buffer shrank.
+  cmdline = { completion = { ghost_text = { enabled = false } } },
 })
 
 -- Clear search highlights with Esc
