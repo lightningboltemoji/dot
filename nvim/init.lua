@@ -62,12 +62,14 @@ vim.pack.add({
   'https://github.com/folke/snacks.nvim',
   { src = 'https://github.com/saghen/blink.cmp', version = 'v1' },
   'https://github.com/nvim-treesitter/nvim-treesitter',
+  'https://github.com/windwp/nvim-ts-autotag',
   'https://github.com/nvim-mini/mini.animate',
   'https://codeberg.org/andyg/leap.nvim.git',
   'https://github.com/MunifTanjim/nui.nvim',
   'https://github.com/folke/noice.nvim',
   'https://github.com/junegunn/goyo.vim',
   'https://github.com/ray-x/lsp_signature.nvim',
+  'https://github.com/stevearc/conform.nvim',
 })
 
 -- Window navigation with ctrl+hjkl
@@ -139,6 +141,8 @@ vim.api.nvim_create_autocmd('FileType', {
   pattern = { 'lua', 'typescript', 'typescriptreact', 'javascript', 'javascriptreact', 'html', 'css', 'json', 'python', 'java', 'rust' },
   callback = function() vim.treesitter.start() end,
 })
+
+require('nvim-ts-autotag').setup()
 
 -- Treesitter incremental selection
 local function select_ts_node(node)
@@ -365,7 +369,25 @@ vim.lsp.enable('pyright')
 vim.lsp.enable('ruff')
 vim.lsp.enable('harper_ls')
 
-vim.keymap.set('n', '<leader>cf', function() vim.lsp.buf.format() end, { desc = 'format' })
+require('conform').setup({
+  formatters_by_ft = {
+    javascript = { 'prettier' },
+    javascriptreact = { 'prettier' },
+    typescript = { 'prettier' },
+    typescriptreact = { 'prettier' },
+    html = { 'prettier' },
+    css = { 'prettier' },
+    json = { 'prettier' },
+    markdown = { 'prettier' },
+    python = { 'ruff_organize_imports', 'ruff_format' },
+    rust = { 'rustfmt' },
+  },
+  format_on_save = { timeout_ms = 2000, lsp_format = 'fallback' },
+})
+
+vim.keymap.set('n', '<leader>cf', function()
+  require('conform').format({ async = true, lsp_format = 'fallback' })
+end, { desc = 'format' })
 vim.keymap.set('n', 'gd', function() require('fzf-lua').lsp_definitions() end, { desc = 'go to definition' })
 vim.keymap.set('n', 'gr', function() require('fzf-lua').lsp_references() end, { desc = 'references' })
 vim.keymap.set('n', 'K', function() vim.lsp.buf.hover() end, { desc = 'hover' })
