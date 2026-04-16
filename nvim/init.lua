@@ -382,12 +382,44 @@ require('conform').setup({
     python = { 'ruff_organize_imports', 'ruff_format' },
     rust = { 'rustfmt' },
   },
-  format_on_save = { timeout_ms = 2000, lsp_format = 'fallback' },
+  format_on_save = function(bufnr)
+    if vim.g.format_on_save == false then return end
+    local dir = vim.fs.dirname(vim.api.nvim_buf_get_name(bufnr))
+    if vim.fs.find('.noformat', { path = dir, upward = true, stop = vim.fn.getcwd() })[1] then return end
+    return { timeout_ms = 2000, lsp_format = 'fallback' }
+  end,
 })
 
 vim.keymap.set('n', '<leader>cf', function()
   require('conform').format({ async = true, lsp_format = 'fallback' })
 end, { desc = 'format' })
+
+vim.keymap.set('n', '<leader>cF', function()
+  local file = vim.fn.expand('%:p')
+  local diff = vim.fn.systemlist('git diff --unified=0 -- ' .. vim.fn.shellescape(file))
+  if vim.v.shell_error ~= 0 or #diff == 0 then
+    vim.notify('No git changes to format', vim.log.levels.INFO)
+    return
+  end
+  local ranges = {}
+  for _, line in ipairs(diff) do
+    local start, count = line:match('^@@ %-%d+,?%d* %+(%d+),?(%d*) @@')
+    if start then
+      start = tonumber(start)
+      count = tonumber(count) or 1
+      if count > 0 then
+        table.insert(ranges, { start = { start, 0 }, ['end'] = { start + count - 1, 0 } })
+      end
+    end
+  end
+  if #ranges == 0 then
+    vim.notify('No changed lines to format', vim.log.levels.INFO)
+    return
+  end
+  for _, range in ipairs(ranges) do
+    require('conform').format({ range = range, lsp_format = 'fallback' })
+  end
+end, { desc = 'format changed lines' })
 vim.keymap.set('n', 'gd', function() require('fzf-lua').lsp_definitions() end, { desc = 'go to definition' })
 vim.keymap.set('n', 'gr', function() require('fzf-lua').lsp_references() end, { desc = 'references' })
 vim.keymap.set('n', 'K', function() vim.lsp.buf.hover() end, { desc = 'hover' })
@@ -396,6 +428,10 @@ vim.keymap.set('n', '<leader>ca', function() vim.lsp.buf.code_action() end, { de
 vim.keymap.set('n', '<leader>cd', function() vim.diagnostic.open_float() end, { desc = 'diagnostic' })
 vim.keymap.set('n', '<leader>ch', function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end,
   { desc = 'inlay hints' })
+vim.keymap.set('n', '<leader>cs', function()
+  vim.g.format_on_save = vim.g.format_on_save == false
+  vim.notify('Format on save: ' .. (vim.g.format_on_save and 'on' or 'off'))
+end, { desc = 'toggle format on save' })
 
 require('blink.cmp').setup({
   keymap = { preset = 'enter' },
