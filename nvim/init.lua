@@ -64,6 +64,7 @@ vim.pack.add({
   'https://github.com/nvim-treesitter/nvim-treesitter',
   'https://github.com/windwp/nvim-ts-autotag',
   'https://github.com/nvim-mini/mini.animate',
+  'https://github.com/nvim-mini/mini.ai',
   'https://codeberg.org/andyg/leap.nvim.git',
   'https://github.com/MunifTanjim/nui.nvim',
   'https://github.com/folke/noice.nvim',
@@ -119,6 +120,7 @@ require('which-key').add({
   { '<leader>w',  group = 'window' },
   { '<leader>ws', group = 'swap' },
 })
+local saved_mouse
 require('snacks').setup({
   input = { enabled = true },
   notifier = { enabled = false },
@@ -128,6 +130,16 @@ require('snacks').setup({
     win = {
       position = 'float',
       border = 'single',
+      on_win = function()
+        saved_mouse = vim.o.mouse
+        vim.o.mouse = ''
+      end,
+      on_close = function()
+        if saved_mouse then
+          vim.o.mouse = saved_mouse
+          saved_mouse = nil
+        end
+      end,
       keys = {
         esc_esc = { '<Esc><Esc>', function(self) self:hide() end, mode = 't' },
       },
@@ -196,6 +208,7 @@ vim.keymap.set('x', '-', function()
   end
 end)
 require('mini.animate').setup()
+require('mini.ai').setup()
 vim.keymap.set({ 'n', 'x', 'o' }, 's', '<Plug>(leap-forward)')
 vim.keymap.set({ 'n', 'x', 'o' }, 'S', '<Plug>(leap-backward)')
 require('noice').setup({
