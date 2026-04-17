@@ -40,7 +40,7 @@ vim.o.winborder = 'single'
 
 -- Plugin management (neovim 0.12 built-in)
 vim.pack.add({
-  'https://github.com/folke/tokyonight.nvim',
+  'https://github.com/embark-theme/vim',
   'https://github.com/lambdalisue/vim-fern',
   'https://github.com/lambdalisue/vim-fern-renderer-nerdfont',
   'https://github.com/lambdalisue/vim-nerdfont',
@@ -62,26 +62,21 @@ vim.pack.add({
   'https://github.com/stevearc/conform.nvim',
 })
 
-require('tokyonight').setup({
-  style = 'storm',
-  transparent = true,
-  styles = {
-    sidebars = 'transparent',
-    floats = 'transparent',
-  },
-  -- Belt-and-suspenders: force StatusLine transparent so lualine's middle (c)
-  -- section + section transitions don't pick up a tinted bg. Line number /
-  -- sign column transparency is kept here so it carries over if we swap
-  -- colorschemes later.
-  on_highlights = function(hl)
-    hl.StatusLine = { bg = 'NONE' }
-    hl.StatusLineNC = { bg = 'NONE' }
-    hl.LineNr = { bg = 'NONE' }
-    hl.CursorLineNr = { bg = 'NONE' }
-    hl.SignColumn = { bg = 'NONE' }
+-- Force transparency for backgrounds the colorscheme would otherwise tint.
+-- ColorScheme autocmd so overrides re-apply if the theme reloads (e.g. via
+-- lualine's own ColorScheme handler).
+vim.api.nvim_create_autocmd('ColorScheme', {
+  callback = function()
+    for _, group in ipairs({
+      'Normal', 'NormalNC', 'NormalFloat',
+      'StatusLine', 'StatusLineNC',
+      'LineNr', 'CursorLineNr', 'SignColumn',
+    }) do
+      vim.api.nvim_set_hl(0, group, { bg = 'NONE' })
+    end
   end,
 })
-vim.cmd.colorscheme('tokyonight')
+vim.cmd.colorscheme('embark')
 
 -- Window navigation with ctrl+hjkl
 vim.keymap.set('n', '<c-h>', '<c-w>h')

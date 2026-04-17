@@ -73,6 +73,10 @@
       "rev": "cdc07ac78467a233fd62c493de29a17e0cf2b2b6",
       "src": "https://github.com/folke/tokyonight.nvim"
     },
+    "vim": {
+      "rev": "7014644e25d5cebcb3e70a079804c44ec14d8e46",
+      "src": "https://github.com/embark-theme/vim"
+    },
     "vim-fern": {
       "rev": "a96f8c6c52746346fe568e3711792c1e9268cf91",
       "src": "https://github.com/lambdalisue/vim-fern"
