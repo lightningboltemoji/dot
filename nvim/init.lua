@@ -398,7 +398,7 @@ require('conform').setup({
   format_on_save = function(bufnr)
     if vim.g.format_on_save == false then return end
     local dir = vim.fs.dirname(vim.api.nvim_buf_get_name(bufnr))
-    if vim.fs.find('.noformat', { path = dir, upward = true, stop = vim.fn.getcwd() })[1] then return end
+    if vim.fs.find('.noformat', { path = dir, upward = true, stop = vim.fs.dirname(vim.fn.getcwd()) })[1] then return end
     return { timeout_ms = 2000, lsp_format = 'fallback' }
   end,
 })
