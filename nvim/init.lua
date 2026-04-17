@@ -32,26 +32,15 @@ vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHo
   end,
 })
 
--- Use terminal's 16-color palette
-vim.opt.termguicolors = false
-
--- Use terminal background color
-vim.api.nvim_set_hl(0, 'Normal', { bg = 'NONE' })
-vim.api.nvim_set_hl(0, 'NormalNC', { bg = 'NONE' })
+vim.opt.termguicolors = true
 vim.opt.fillchars = { eob = ' ' }
-vim.api.nvim_set_hl(0, 'FloatBorder', { ctermfg = 8 })
-vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'NONE' })
-vim.api.nvim_set_hl(0, 'Pmenu', { bg = 'NONE' })
 vim.api.nvim_set_hl(0, 'PmenuSel', { reverse = true })
-vim.api.nvim_set_hl(0, 'StatusLine', { bg = 'NONE' })
-vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = 'NONE' })
-vim.api.nvim_set_hl(0, 'LineNr', { ctermfg = 8 })
-vim.api.nvim_set_hl(0, 'CursorLineNr', { ctermfg = 7 })
 
 vim.o.winborder = 'single'
 
 -- Plugin management (neovim 0.12 built-in)
 vim.pack.add({
+  'https://github.com/folke/tokyonight.nvim',
   'https://github.com/lambdalisue/vim-fern',
   'https://github.com/lambdalisue/vim-fern-renderer-nerdfont',
   'https://github.com/lambdalisue/vim-nerdfont',
@@ -72,6 +61,27 @@ vim.pack.add({
   'https://github.com/ray-x/lsp_signature.nvim',
   'https://github.com/stevearc/conform.nvim',
 })
+
+require('tokyonight').setup({
+  style = 'storm',
+  transparent = true,
+  styles = {
+    sidebars = 'transparent',
+    floats = 'transparent',
+  },
+  -- Belt-and-suspenders: force StatusLine transparent so lualine's middle (c)
+  -- section + section transitions don't pick up a tinted bg. Line number /
+  -- sign column transparency is kept here so it carries over if we swap
+  -- colorschemes later.
+  on_highlights = function(hl)
+    hl.StatusLine = { bg = 'NONE' }
+    hl.StatusLineNC = { bg = 'NONE' }
+    hl.LineNr = { bg = 'NONE' }
+    hl.CursorLineNr = { bg = 'NONE' }
+    hl.SignColumn = { bg = 'NONE' }
+  end,
+})
+vim.cmd.colorscheme('tokyonight')
 
 -- Window navigation with ctrl+hjkl
 vim.keymap.set('n', '<c-h>', '<c-w>h')
@@ -227,28 +237,16 @@ require('fzf-lua').setup({
   buffers = { no_header_i = true },
 })
 
--- Bubbles theme using cterm palette indices so colors come from the terminal.
--- Lualine accepts numbers for fg/bg and passes them straight to ctermfg/ctermbg
--- when termguicolors is off (see lualine/highlight.lua and color_utils.lua).
-local bubbles_theme = {
-  normal   = {
-    a = { fg = 0, bg = 5 },              -- black on magenta
-    b = { fg = 7, bg = 8 },              -- white on bright black
-    c = { fg = 7 },                      -- white
-  },
-  insert   = { a = { fg = 0, bg = 4 } }, -- black on blue
-  visual   = { a = { fg = 0, bg = 6 } }, -- black on cyan
-  replace  = { a = { fg = 0, bg = 1 } }, -- black on red
-  inactive = {
-    a = { fg = 7, bg = 0 },
-    b = { fg = 7, bg = 0 },
-    c = { fg = 7 },
-  },
-}
+-- Bundled colorscheme lualine themes tend to hard-code a bg for the c section,
+-- so override it after load to keep the middle gap transparent.
+local theme = require('lualine.themes.auto')
+for _, mode in pairs(theme) do
+  if mode.c then mode.c.bg = 'NONE' end
+end
 
 require('lualine').setup({
   options = {
-    theme = bubbles_theme,
+    theme = theme,
     globalstatus = true,
     section_separators = { left = '', right = '' },
     component_separators = '',
