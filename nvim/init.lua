@@ -156,10 +156,10 @@ require('snacks').setup({
   },
 })
 require('nvim-treesitter').install({ 'lua', 'typescript', 'tsx', 'javascript', 'html', 'css', 'json', 'python', 'java',
-  'rust' }):wait(300000)
+  'rust', 'typespec' }):wait(300000)
 
 vim.api.nvim_create_autocmd('FileType', {
-  pattern = { 'lua', 'typescript', 'typescriptreact', 'javascript', 'javascriptreact', 'html', 'css', 'json', 'python', 'java', 'rust' },
+  pattern = { 'lua', 'typescript', 'typescriptreact', 'javascript', 'javascriptreact', 'html', 'css', 'json', 'python', 'java', 'rust', 'typespec' },
   callback = function() vim.treesitter.start() end,
 })
 
@@ -283,7 +283,13 @@ vim.api.nvim_create_autocmd('FileType', {
     vim.keymap.set('n', '<c-l>', '<c-w>l', opts)
     vim.keymap.set('n', 'm', '<Plug>(fern-action-mark)', opts)
     vim.keymap.set('n', 'R', '<cmd>Fern . -drawer -reveal=%<cr>', opts)
-    vim.keymap.set('n', '<cr>', '<Plug>(fern-action-open-or-expand)', opts)
+    vim.keymap.set('n', '<cr>', function()
+      return vim.fn['fern#smart#leaf'](
+        '<Plug>(fern-action-open)',
+        '<Plug>(fern-action-expand)',
+        '<Plug>(fern-action-collapse)'
+      )
+    end, { buffer = true, expr = true, replace_keycodes = true })
     vim.keymap.set('n', '=', '<Plug>(fern-action-enter)', opts)
     vim.opt_local.number = false
     vim.opt_local.relativenumber = false
@@ -360,6 +366,12 @@ vim.lsp.config('ruff', {
   root_markers = { 'ruff.toml', '.ruff.toml', 'pyproject.toml', '.git' },
 })
 
+vim.lsp.config('tsp_server', {
+  cmd = { 'bunx', '-p', '@typespec/compiler', 'tsp-server', '--stdio' },
+  filetypes = { 'typespec' },
+  root_markers = { 'tspconfig.yaml', 'package.json', '.git' },
+})
+
 vim.lsp.config('harper_ls', {
   cmd = { 'harper-ls', '--stdio' },
   filetypes = { 'markdown', 'text', 'tex', 'typst' },
@@ -377,6 +389,7 @@ vim.lsp.enable('rust_analyzer')
 vim.lsp.enable('jdtls')
 vim.lsp.enable('pyright')
 vim.lsp.enable('ruff')
+vim.lsp.enable('tsp_server')
 vim.lsp.enable('harper_ls')
 
 require('conform').setup({
