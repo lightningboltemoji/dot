@@ -40,7 +40,7 @@ vim.o.winborder = 'single'
 
 -- Plugin management (neovim 0.12 built-in)
 vim.pack.add({
-  'https://github.com/embark-theme/vim',
+  'https://github.com/vague-theme/vague.nvim',
   'https://github.com/lambdalisue/vim-fern',
   'https://github.com/lambdalisue/vim-fern-renderer-nerdfont',
   'https://github.com/lambdalisue/vim-nerdfont',
@@ -76,7 +76,11 @@ vim.api.nvim_create_autocmd('ColorScheme', {
     end
   end,
 })
-vim.cmd.colorscheme('embark')
+require('vague').setup({
+  transparent = false,
+  italic = false,
+})
+vim.cmd.colorscheme('vague')
 
 -- Window navigation with ctrl+hjkl
 vim.keymap.set('n', '<c-h>', '<c-w>h')
@@ -399,6 +403,20 @@ require('conform').setup({
 vim.keymap.set('n', '<leader>cf', function()
   require('conform').format({ async = true, lsp_format = 'fallback' })
 end, { desc = 'format' })
+
+local function clean_buffer()
+  local view = vim.fn.winsaveview()
+  vim.cmd([[silent! keeppatterns %s/\s\+$//e]])
+  vim.fn.winrestview(view)
+end
+
+vim.keymap.set('n', '<leader>cC', clean_buffer, { desc = 'clean (trim trailing whitespace)' })
+
+-- Auto-clean on write. `fixendofline` (on by default) handles the trailing
+-- newline; this just strips trailing whitespace. Use `:noa w` to write raw.
+vim.api.nvim_create_autocmd('BufWritePre', {
+  callback = clean_buffer,
+})
 
 vim.keymap.set('n', '<leader>cF', function()
   local file = vim.fn.expand('%:p')

@@ -1,4 +1,4 @@
 # Toggle AeroSpace
 alt - 0x21: aerospace enable on
 alt - 0x1E: aerospace enable off
-alt - return: osascript -e 'tell application "Ghostty" to new window'
+alt - space: osascript -e 'tell application "Ghostty" to new window'
