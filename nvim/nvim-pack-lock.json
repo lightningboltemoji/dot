@@ -14,19 +14,23 @@
       "src": "https://github.com/folke/flash.nvim"
     },
     "fzf-lua": {
-      "rev": "b437bafc981a180d609bb4092c56ce8999f7a2c4",
+      "rev": "cf4c30892644f01ebfb1e248eeca9e259856f9dc",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
     "goyo.vim": {
       "rev": "9c72fdf2d202914318581f9f0dd09fd102f8504d",
       "src": "https://github.com/junegunn/goyo.vim"
     },
+    "guess-indent.nvim": {
+      "rev": "84a4987ff36798c2fc1169cbaff67960aed9776f",
+      "src": "https://github.com/NMAC427/guess-indent.nvim"
+    },
     "kanagawa.nvim": {
       "rev": "8ad3b4cdcc804b332c32db8f9743667e1bb82b99",
       "src": "https://github.com/rebelot/kanagawa.nvim"
     },
     "leap.nvim": {
-      "rev": "156c71aabb68d520c6269db4103c8e5580e3ea67",
+      "rev": "5ad712bbc927c09b6b6ebd3df414669bb80b6c77",
       "src": "https://codeberg.org/andyg/leap.nvim.git"
     },
     "lsp_signature.nvim": {
@@ -38,7 +42,7 @@
       "src": "https://github.com/nvim-lualine/lualine.nvim"
     },
     "mini.ai": {
-      "rev": "43eb2074843950a3a25aae56a5f41362ec043bfa",
+      "rev": "7e10ce8468c0fce4f527ae2c0e5c484f7667f73d",
       "src": "https://github.com/nvim-mini/mini.ai"
     },
     "mini.animate": {
@@ -82,7 +86,7 @@
       "src": "https://github.com/embark-theme/vim"
     },
     "vim-fern": {
-      "rev": "a96f8c6c52746346fe568e3711792c1e9268cf91",
+      "rev": "b4520a50d8df51969838d35eb07f797e2785b234",
       "src": "https://github.com/lambdalisue/vim-fern"
     },
     "vim-fern-hijack": {

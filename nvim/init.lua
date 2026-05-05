@@ -13,6 +13,12 @@ vim.opt.signcolumn = 'yes'
 -- Right-align the current line's number too (default left-aligns it)
 vim.opt.statuscolumn = '%s%=%{v:relnum?v:relnum:v:lnum} '
 
+-- Default to 2-space indentation; guess-indent overrides per-buffer when it can.
+vim.opt.expandtab = true
+vim.opt.shiftwidth = 2
+vim.opt.tabstop = 2
+vim.opt.softtabstop = 2
+
 -- Sync with macOS clipboard
 vim.opt.clipboard = 'unnamedplus'
 
@@ -60,6 +66,7 @@ vim.pack.add({
   'https://github.com/junegunn/goyo.vim',
   'https://github.com/ray-x/lsp_signature.nvim',
   'https://github.com/stevearc/conform.nvim',
+  'https://github.com/NMAC427/guess-indent.nvim',
 })
 
 -- Force transparency for backgrounds the colorscheme would otherwise tint.
@@ -164,6 +171,7 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 
 require('nvim-ts-autotag').setup()
+require('guess-indent').setup()
 
 -- Treesitter incremental selection
 local function select_ts_node(node)
