@@ -290,7 +290,7 @@ vim.api.nvim_create_autocmd('FileType', {
     vim.keymap.set('n', '<c-k>', '<c-w>k', opts)
     vim.keymap.set('n', '<c-l>', '<c-w>l', opts)
     vim.keymap.set('n', 'm', '<Plug>(fern-action-mark)', opts)
-    vim.keymap.set('n', 'R', '<cmd>Fern . -drawer -reveal=%<cr>', opts)
+    vim.keymap.set('n', 'R', '<Plug>(fern-action-rename)', opts)
     vim.keymap.set('n', '<cr>', function()
       return vim.fn['fern#smart#leaf'](
         '<Plug>(fern-action-open)',
