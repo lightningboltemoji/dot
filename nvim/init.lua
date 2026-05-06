@@ -494,12 +494,37 @@ require('blink.cmp').setup({
 -- Clear search highlights with Esc
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<cr>')
 
+-- Hop out of fern (or any sidebar-y buffer) before opening a picker, so the
+-- file we pick doesn't replace the drawer.
+local function leave_sidebar()
+  if vim.bo.filetype ~= 'fern' then return end
+  -- Skip fern, ui2 message/cmd splits, terminals, and other non-editor buffers
+  -- by accepting only buftype = '' (a normal file/scratch buffer).
+  for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+    local buf = vim.api.nvim_win_get_buf(win)
+    if vim.bo[buf].buftype == '' then
+      vim.api.nvim_set_current_win(win)
+      return
+    end
+  end
+  local fern_win = vim.api.nvim_get_current_win()
+  vim.cmd('rightbelow vnew')
+  vim.api.nvim_win_set_width(fern_win, vim.g['fern#drawer_width'] or 40)
+end
+
+local function pick(cmd)
+  return function()
+    leave_sidebar()
+    vim.cmd(cmd)
+  end
+end
+
 -- Fuzzy finding
-vim.keymap.set('n', '<leader>ff', '<cmd>FzfLua files<cr>', { desc = 'files' })
-vim.keymap.set('n', '<leader>fg', '<cmd>FzfLua live_grep<cr>', { desc = 'grep' })
-vim.keymap.set('n', '<leader>fb', '<cmd>FzfLua buffers<cr>', { desc = 'buffers' })
-vim.keymap.set('n', '<leader>fr', '<cmd>FzfLua resume<cr>', { desc = 'resume' })
-vim.keymap.set('n', '<leader><space>', '<cmd>FzfLua global<cr>', { desc = 'global' })
+vim.keymap.set('n', '<leader>ff', pick('FzfLua files'), { desc = 'files' })
+vim.keymap.set('n', '<leader>fg', pick('FzfLua live_grep'), { desc = 'grep' })
+vim.keymap.set('n', '<leader>fb', pick('FzfLua buffers'), { desc = 'buffers' })
+vim.keymap.set('n', '<leader>fr', pick('FzfLua resume'), { desc = 'resume' })
+vim.keymap.set('n', '<leader><space>', pick('FzfLua global'), { desc = 'global' })
 
 -- Quit with <leader>qq
 vim.keymap.set('n', '<leader>bd', '<cmd>confirm bdelete<cr>', { desc = 'delete buffer' })
