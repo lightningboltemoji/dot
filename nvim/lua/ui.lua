@@ -111,7 +111,12 @@ require('lualine').setup({
 })
 
 -- Tools
-vim.keymap.set('n', '<leader>tg', function() Snacks.lazygit() end, { desc = 'lazygit' })
+vim.keymap.set('n', '<leader>tg', function()
+  local file = vim.api.nvim_buf_get_name(0)
+  local dir = file ~= '' and vim.fn.fnamemodify(file, ':h') or vim.fn.getcwd()
+  local root = vim.fn.systemlist('git -C ' .. vim.fn.shellescape(dir) .. ' rev-parse --show-toplevel')[1]
+  Snacks.lazygit({ cwd = (vim.v.shell_error == 0 and root) or nil })
+end, { desc = 'lazygit' })
 vim.keymap.set('n', '<leader>tt', function() Snacks.terminal() end, { desc = 'terminal' })
 vim.keymap.set('n', '<leader>tw', '<cmd>Goyo<cr>', { desc = 'writing mode' })
 

@@ -11,7 +11,7 @@ vim.lsp.config('lua_ls', {
   },
 })
 vim.lsp.config('ts_ls', {
-  cmd = { 'typescript-language-server', '--stdio' },
+  cmd = { 'bunx', '-p', 'typescript-language-server', '-p', 'typescript', 'typescript-language-server', '--stdio' },
   filetypes = { 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' },
   root_markers = { 'tsconfig.json', 'jsconfig.json', 'package.json', '.git' },
 })
@@ -119,7 +119,8 @@ vim.api.nvim_create_autocmd('BufWritePre', {
 
 vim.keymap.set('n', '<leader>cF', function()
   local file = vim.fn.expand('%:p')
-  local diff = vim.fn.systemlist('git diff --unified=0 -- ' .. vim.fn.shellescape(file))
+  local dir = vim.fn.fnamemodify(file, ':h')
+  local diff = vim.fn.systemlist('git -C ' .. vim.fn.shellescape(dir) .. ' diff HEAD --unified=0 -- ' .. vim.fn.shellescape(file))
   if vim.v.shell_error ~= 0 or #diff == 0 then
     vim.notify('No git changes to format', vim.log.levels.INFO)
     return

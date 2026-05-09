@@ -20,6 +20,8 @@ vim.api.nvim_create_autocmd('FileType', {
       )
     end, { buffer = true, expr = true, replace_keycodes = true })
     vim.keymap.set('n', '=', '<Plug>(fern-action-enter)', opts)
+    -- Restore leap's `s` (fern binds it to open-in-split by default)
+    vim.keymap.set('n', 's', '<Plug>(leap)', opts)
     vim.opt_local.number = false
     vim.opt_local.relativenumber = false
   end,
