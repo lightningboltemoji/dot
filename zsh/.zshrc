@@ -1,4 +1,4 @@
-PROMPT="%F{cyan}%n%f@%F{green}MBP %F{yellow}[%~] %F{blue}%% %f"
+PROMPT="%F{cyan}%n%f@%F{green}mac %F{yellow}[%~] %F{blue}%% %f"
 HISTSIZE=10000000
 SAVEHIST=10000000
 setopt INC_APPEND_HISTORY

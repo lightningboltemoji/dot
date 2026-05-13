@@ -91,6 +91,14 @@ require('conform').setup({
     python = { 'ruff_organize_imports', 'ruff_format' },
     rust = { 'rustfmt' },
   },
+  formatters = {
+    prettier = function(bufnr)
+      local dir = vim.fs.dirname(vim.api.nvim_buf_get_name(bufnr))
+      local bin = vim.fs.find('node_modules/.bin/prettier', { path = dir, upward = true })[1]
+      return bin and { command = bin }
+        or { command = 'bunx', prepend_args = { 'prettier' } }
+    end,
+  },
   format_on_save = function(bufnr)
     if vim.g.format_on_save == false then return end
     local dir = vim.fs.dirname(vim.api.nvim_buf_get_name(bufnr))
@@ -132,7 +140,7 @@ vim.keymap.set('n', '<leader>cF', function()
       start = tonumber(start)
       count = tonumber(count) or 1
       if count > 0 then
-        table.insert(ranges, { start = { start, 0 }, ['end'] = { start + count - 1, 0 } })
+        table.insert(ranges, { start = { start, 0 }, ['end'] = { start + count, 0 } })
       end
     end
   end
