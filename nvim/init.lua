@@ -62,6 +62,7 @@ vim.pack.add({
   { src = 'https://github.com/saghen/blink.cmp', version = 'v1' },
   'https://github.com/nvim-treesitter/nvim-treesitter',
   'https://github.com/windwp/nvim-ts-autotag',
+  'https://github.com/windwp/nvim-autopairs',
   'https://github.com/nvim-mini/mini.animate',
   'https://github.com/nvim-mini/mini.ai',
   'https://codeberg.org/andyg/leap.nvim.git',

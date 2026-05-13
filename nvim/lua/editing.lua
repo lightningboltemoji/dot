@@ -7,6 +7,7 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 
 require('nvim-ts-autotag').setup()
+require('nvim-autopairs').setup({ check_ts = true })
 require('guess-indent').setup()
 
 -- Treesitter incremental selection

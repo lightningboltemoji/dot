@@ -11,7 +11,7 @@ vim.lsp.config('lua_ls', {
   },
 })
 vim.lsp.config('ts_ls', {
-  cmd = { 'bunx', '-p', 'typescript-language-server', '-p', 'typescript', 'typescript-language-server', '--stdio' },
+  cmd = { 'bunx', '-p', 'typescript', '-p', 'typescript-language-server', 'typescript-language-server', '--stdio' },
   filetypes = { 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' },
   root_markers = { 'tsconfig.json', 'jsconfig.json', 'package.json', '.git' },
 })
