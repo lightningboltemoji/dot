@@ -42,11 +42,32 @@ require('which-key').add({
   { '<leader>ws', group = 'swap' },
 })
 
+-- Let ctrl-hjkl move between the explorer drawer and the editor, matching the
+-- global window-nav keymaps. Snacks picker windows otherwise swallow them.
+local win_nav = {
+  ['<c-h>'] = function() vim.cmd.wincmd('h') end,
+  ['<c-j>'] = function() vim.cmd.wincmd('j') end,
+  ['<c-k>'] = function() vim.cmd.wincmd('k') end,
+  ['<c-l>'] = function() vim.cmd.wincmd('l') end,
+}
+
 local saved_mouse
 require('snacks').setup({
   input = { enabled = true },
   notifier = { enabled = false },
   lazygit = { enabled = true },
+  explorer = { enabled = true },
+  picker = {
+    sources = {
+      explorer = {
+        layout = { preset = 'sidebar', preview = false },
+        win = {
+          list = { keys = win_nav },
+          input = { keys = win_nav },
+        },
+      },
+    },
+  },
   terminal = {
     enabled = true,
     win = {

@@ -19,11 +19,11 @@ The lock file `nvim-pack-lock.json` pins each plugin to a specific commit. To up
 `init.lua` is the entry point: editor options, the `vim.pack.add` plugin list, then ordered `require`s of the modules under `lua/`. Each module owns one concern end-to-end — its plugin setup, autocmds, and keymaps live together so the file reads top-to-bottom:
 
 - `lua/keymaps.lua` — non-plugin keymaps (window nav, splits, swap, buffer, quit, esc) + the autoread `checktime` autocmd
-- `lua/ui.lua` — colorscheme, lualine, which-key, noice, snacks (terminal/lazygit), goyo, undotree
-- `lua/editing.lua` — treesitter (incl. incremental selection), nvim-ts-autotag, mini.ai/mini.animate, leap, guess-indent, blink.cmp
+- `lua/ui.lua` — colorscheme, lualine, which-key, noice, snacks (terminal/lazygit/explorer), goyo, undotree
+- `lua/editing.lua` — treesitter (incl. incremental selection), nvim-ts-autotag, mini.ai/mini.animate, flash, guess-indent, blink.cmp
 - `lua/lsp.lua` — LSP server configs/enables, lsp_signature, conform + format-on-save, whitespace trim, LSP keymaps
-- `lua/explorer.lua` — fern (drawer keymaps, FileType autocmds, qf re-anchor, VimEnter startup view)
-- `lua/finder.lua` — fzf-lua + the `leave_sidebar` helper that hops out of fern before opening a picker
+- `lua/explorer.lua` — snacks explorer (drawer keymaps, VimEnter startup view; the explorer source itself is configured in `ui.lua`'s snacks setup)
+- `lua/finder.lua` — fzf-lua + the `leave_sidebar` helper that hops out of the explorer before opening a picker
 
 Modules are imperative side-effect files — they don't return anything. Local helpers stay `local` to the module that uses them; nothing is shared across modules. Keep modules focused: if a new feature spans two concerns, pick the one it belongs to most rather than splitting it.
 
@@ -50,4 +50,4 @@ Completion is handled by blink.cmp (pinned to v1 branch).
 - `<leader>f` — find (fzf)
 - `<leader>t` — terminal/tools
 - `<leader>q` — quit
-- `<leader>e` — file explorer (Fern)
+- `<leader>e` — file explorer (snacks)

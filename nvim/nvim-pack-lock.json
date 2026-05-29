@@ -6,7 +6,7 @@
       "version": "'v1'"
     },
     "conform.nvim": {
-      "rev": "dca1a190aa85f9065979ef35802fb77131911106",
+      "rev": "619363c30309d29ffa631e67c8183f2a72caa373",
       "src": "https://github.com/stevearc/conform.nvim"
     },
     "flash.nvim": {
@@ -14,7 +14,7 @@
       "src": "https://github.com/folke/flash.nvim"
     },
     "fzf-lua": {
-      "rev": "cf4c30892644f01ebfb1e248eeca9e259856f9dc",
+      "rev": "fea9eedc6894c44d44cbb772a5cd11c93b82d7a1",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
     "goyo.vim": {
@@ -26,15 +26,15 @@
       "src": "https://github.com/NMAC427/guess-indent.nvim"
     },
     "kanagawa.nvim": {
-      "rev": "8ad3b4cdcc804b332c32db8f9743667e1bb82b99",
+      "rev": "bb85e4bfc8d89b0e62c8fa53ccdd13d12e2f77b3",
       "src": "https://github.com/rebelot/kanagawa.nvim"
     },
     "leap.nvim": {
-      "rev": "5ad712bbc927c09b6b6ebd3df414669bb80b6c77",
+      "rev": "59d70b1bdf8e76e0637e6ebcc150fb6767f67fc5",
       "src": "https://codeberg.org/andyg/leap.nvim.git"
     },
     "lsp_signature.nvim": {
-      "rev": "a65b38f260cc3470a05b4afb84c8d868617d476d",
+      "rev": "b7ace9ddb1640ce266012a45a672dfdaedfa5ec6",
       "src": "https://github.com/ray-x/lsp_signature.nvim"
     },
     "lualine.nvim": {
@@ -42,11 +42,11 @@
       "src": "https://github.com/nvim-lualine/lualine.nvim"
     },
     "mini.ai": {
-      "rev": "7e10ce8468c0fce4f527ae2c0e5c484f7667f73d",
+      "rev": "4ce4c35e411ea329a15d4b15e9c89c2a3089e437",
       "src": "https://github.com/nvim-mini/mini.ai"
     },
     "mini.animate": {
-      "rev": "72e04cf86ccbcd50efb53c2b87397386195bc3a7",
+      "rev": "a133965b027a6377fddca43f11659af357c12758",
       "src": "https://github.com/nvim-mini/mini.animate"
     },
     "noice.nvim": {
@@ -70,11 +70,11 @@
       "src": "https://github.com/windwp/nvim-ts-autotag"
     },
     "nvim-web-devicons": {
-      "rev": "4fc505ac7bd7692824a142e96e5f529c133862f8",
+      "rev": "dfbfaa967a6f7ec50789bead7ef87e336c1fa63c",
       "src": "https://github.com/nvim-tree/nvim-web-devicons"
     },
     "snacks.nvim": {
-      "rev": "ad9ede6a9cddf16cedbd31b8932d6dcdee9b716e",
+      "rev": "882c996cf28183f4d63640de0b4c02ec886d01f2",
       "src": "https://github.com/folke/snacks.nvim"
     },
     "tokyonight.nvim": {
@@ -102,7 +102,7 @@
       "src": "https://github.com/lambdalisue/vim-fern-renderer-nerdfont"
     },
     "vim-nerdfont": {
-      "rev": "cc50782ee9580fc70b659cf1ebd55229d94b37ab",
+      "rev": "0d1a98cb7917f5db1ed3ff773320aa1010a86859",
       "src": "https://github.com/lambdalisue/vim-nerdfont"
     },
     "which-key.nvim": {

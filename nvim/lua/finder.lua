@@ -2,12 +2,13 @@ require('fzf-lua').setup({
   buffers = { no_header_i = true },
 })
 
--- Hop out of fern (or any sidebar-y buffer) before opening a picker, so the
--- file we pick doesn't replace the drawer.
+-- Hop out of the explorer drawer (a snacks picker window) before opening a
+-- picker, so the file we pick doesn't replace the drawer.
 local function leave_sidebar()
-  if vim.bo.filetype ~= 'fern' then return end
-  -- Skip fern, ui2 message/cmd splits, terminals, and other non-editor buffers
-  -- by accepting only buftype = '' (a normal file/scratch buffer).
+  local ft = vim.bo.filetype
+  if ft ~= 'snacks_picker_list' and ft ~= 'snacks_picker_input' then return end
+  -- Accept only buftype = '' (a normal file/scratch buffer), skipping the
+  -- explorer, ui2 message/cmd splits, terminals, and other non-editor buffers.
   for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
     local buf = vim.api.nvim_win_get_buf(win)
     if vim.bo[buf].buftype == '' then
@@ -15,9 +16,7 @@ local function leave_sidebar()
       return
     end
   end
-  local fern_win = vim.api.nvim_get_current_win()
   vim.cmd('rightbelow vnew')
-  vim.api.nvim_win_set_width(fern_win, vim.g['fern#drawer_width'] or 40)
 end
 
 local function pick(cmd)

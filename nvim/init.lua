@@ -51,9 +51,6 @@ vim.o.timeoutlen = 300
 -- Plugin management (neovim 0.12 built-in)
 vim.pack.add({
   'https://github.com/vague-theme/vague.nvim',
-  'https://github.com/lambdalisue/vim-fern',
-  'https://github.com/lambdalisue/vim-fern-renderer-nerdfont',
-  'https://github.com/lambdalisue/vim-nerdfont',
   'https://github.com/folke/which-key.nvim',
   'https://github.com/nvim-lualine/lualine.nvim',
   'https://github.com/nvim-tree/nvim-web-devicons',
@@ -65,7 +62,7 @@ vim.pack.add({
   'https://github.com/windwp/nvim-autopairs',
   'https://github.com/nvim-mini/mini.animate',
   'https://github.com/nvim-mini/mini.ai',
-  'https://codeberg.org/andyg/leap.nvim.git',
+  'https://github.com/folke/flash.nvim',
   'https://github.com/MunifTanjim/nui.nvim',
   'https://github.com/folke/noice.nvim',
   'https://github.com/junegunn/goyo.vim',

@@ -64,8 +64,18 @@ end)
 
 require('mini.animate').setup()
 require('mini.ai').setup()
-vim.keymap.set({ 'n', 'x', 'o' }, 's', '<Plug>(leap-forward)')
-vim.keymap.set({ 'n', 'x', 'o' }, 'S', '<Plug>(leap-backward)')
+
+-- flash's default keymaps. lazy.nvim ships these as a `keys` spec, so with
+-- vim.pack we set them explicitly. `s`/`S` jump and treesitter-select; `r`/`R`
+-- act in operator-pending/visual mode (normal-mode `r`/`R` are untouched);
+-- `<c-s>` toggles flash labels while searching with `/`.
+local flash = require('flash')
+flash.setup()
+vim.keymap.set({ 'n', 'x', 'o' }, 's', function() flash.jump() end, { desc = 'flash' })
+vim.keymap.set({ 'n', 'x', 'o' }, 'S', function() flash.treesitter() end, { desc = 'flash treesitter' })
+vim.keymap.set('o', 'r', function() flash.remote() end, { desc = 'remote flash' })
+vim.keymap.set({ 'o', 'x' }, 'R', function() flash.treesitter_search() end, { desc = 'treesitter search' })
+vim.keymap.set('c', '<c-s>', function() flash.toggle() end, { desc = 'toggle flash search' })
 
 require('blink.cmp').setup({
   keymap = { preset = 'enter' },
@@ -74,8 +84,8 @@ require('blink.cmp').setup({
     menu = { border = 'single' },
     documentation = { auto_show = true, window = { border = 'single' } },
   },
-  -- Blink enables ghost text in cmdline mode by default. Fern's "are you
-  -- sure?" delete prompt runs in cmdline, which left stale ghost-text state
-  -- that then errored on extmark placement after the buffer shrank.
+  -- Blink enables ghost text in cmdline mode by default, but it can leave stale
+  -- ghost-text state that errors on extmark placement when a prompt's buffer
+  -- shrinks. We don't want cmdline completion ghost text anyway.
   cmdline = { completion = { ghost_text = { enabled = false } } },
 })
