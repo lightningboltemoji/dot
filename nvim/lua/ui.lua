@@ -16,6 +16,8 @@ vim.api.nvim_create_autocmd('ColorScheme', {
     }) do
       vim.api.nvim_set_hl(0, group, { bg = 'NONE' })
     end
+    -- Dim the snacks picker (explorer) border so it reads as a quiet frame.
+    vim.api.nvim_set_hl(0, 'SnacksPickerBorder', { link = 'WinSeparator' })
   end,
 })
 require('vague').setup({
@@ -60,9 +62,11 @@ require('snacks').setup({
   picker = {
     sources = {
       explorer = {
+        title = '⚡️',
         layout = { preset = 'sidebar', preview = false },
         win = {
-          list = { keys = win_nav },
+          -- <esc> in the list normally closes the explorer; keep it open.
+          list = { keys = vim.tbl_extend('force', win_nav, { ['<esc>'] = false }) },
           input = { keys = win_nav },
         },
       },

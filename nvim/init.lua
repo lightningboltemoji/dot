@@ -34,6 +34,10 @@ vim.opt.fillchars = { eob = ' ' }
 
 vim.o.winborder = 'single'
 
+-- Reclaim the bottom row for the statusline; noice routes the cmdline and
+-- messages into popups instead of the command line.
+vim.o.cmdheight = 0
+
 -- Keep context around the cursor when scrolling/searching
 vim.o.scrolloff = 5
 vim.o.sidescrolloff = 5

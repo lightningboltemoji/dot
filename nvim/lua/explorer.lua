@@ -4,8 +4,12 @@
 local explorer = require('snacks').explorer
 
 -- Open the drawer (revealing the current file) with <leader>e, close it with
--- <leader>E.
-vim.keymap.set('n', '<leader>e', function() explorer.reveal() end, { desc = 'explorer' })
+-- <leader>E. reveal() only moves the tree's target; we also focus the list so
+-- the cursor lands on the current file, matching fern's reveal behavior.
+vim.keymap.set('n', '<leader>e', function()
+  local p = explorer.reveal()
+  if p then vim.schedule(function() p:focus('list') end) end
+end, { desc = 'explorer' })
 vim.keymap.set('n', '<leader>E', function()
   local p = Snacks.picker.get({ source = 'explorer' })[1]
   if p then p:close() end
