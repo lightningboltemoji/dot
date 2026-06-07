@@ -1,6 +1,5 @@
 /*
 !.gitignore
-!aerospace
 !Brewfile
 !chicon
 !fish
@@ -8,6 +7,7 @@
 !lazygit
 !nvim
 !skhd
+!yabai
 !zed/*.json
 !zellij
 !zsh
