@@ -3,3 +3,5 @@ git:
 gui:
   scrollHeight: 15
 notARepository: 'skip'
+os:
+  editPreset: nvim
