@@ -44,13 +44,40 @@ require('which-key').add({
   { '<leader>ws', group = 'swap' },
 })
 
--- Let ctrl-hjkl move between the explorer drawer and the editor, matching the
--- global window-nav keymaps. Snacks picker windows otherwise swallow them.
+-- Move to the window in `dir`, but never wrap. The explorer's windows are
+-- floats, so a plain `wincmd h/l` from the drawer jumps to the editor even when
+-- nothing sits in that direction (e.g. C-h at the left edge "wraps" right).
+-- Bail unless the window we'd land on is actually on the requested side.
+local function win_move(dir)
+  local from = vim.api.nvim_get_current_win()
+  local frow, fcol = unpack(vim.api.nvim_win_get_position(from))
+  vim.cmd.wincmd(dir)
+  local to = vim.api.nvim_get_current_win()
+  if to == from then return end
+  local trow, tcol = unpack(vim.api.nvim_win_get_position(to))
+  local ok = (dir == 'h' and tcol < fcol) or (dir == 'l' and tcol > fcol)
+    or (dir == 'k' and trow < frow) or (dir == 'j' and trow > frow)
+  if not ok then vim.api.nvim_set_current_win(from) end
+end
+
+-- In the explorer, ctrl-hjkl move between the drawer and the editor (window
+-- nav), matching the global keymaps — snacks would otherwise swallow them.
+-- C-j/C-k are special-cased: while filtering (insert mode) they navigate the
+-- result list, which is when you actually want them; in normal mode they stay
+-- window nav. The rhs gets the picker win, so win:execute runs the list action.
+local function nav(dir, action)
+  return {
+    function(self)
+      if vim.fn.mode() == 'i' then self:execute(action) else win_move(dir) end
+    end,
+    mode = { 'i', 'n' },
+  }
+end
 local win_nav = {
-  ['<c-h>'] = function() vim.cmd.wincmd('h') end,
-  ['<c-j>'] = function() vim.cmd.wincmd('j') end,
-  ['<c-k>'] = function() vim.cmd.wincmd('k') end,
-  ['<c-l>'] = function() vim.cmd.wincmd('l') end,
+  ['<c-h>'] = function() win_move('h') end,
+  ['<c-l>'] = function() win_move('l') end,
+  ['<c-j>'] = nav('j', 'list_down'),
+  ['<c-k>'] = nav('k', 'list_up'),
 }
 
 local saved_mouse
