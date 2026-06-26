@@ -18,6 +18,12 @@ vim.api.nvim_create_autocmd('ColorScheme', {
     end
     -- Dim the snacks picker (explorer) border so it reads as a quiet frame.
     vim.api.nvim_set_hl(0, 'SnacksPickerBorder', { link = 'WinSeparator' })
+    -- vague gives Search, IncSearch and CurSearch the same blue-grey background,
+    -- so the *active* match never stands out: during `:s///c` it's IncSearch,
+    -- and under the cursor on `n`/`N` it's CurSearch. Paint those amber so you
+    -- can always tell which match is about to be acted on.
+    vim.api.nvim_set_hl(0, 'IncSearch', { fg = '#141415', bg = '#f3be7c', bold = true })
+    vim.api.nvim_set_hl(0, 'CurSearch', { fg = '#141415', bg = '#f3be7c', bold = true })
   end,
 })
 require('vague').setup({
@@ -56,7 +62,7 @@ local function win_move(dir)
   if to == from then return end
   local trow, tcol = unpack(vim.api.nvim_win_get_position(to))
   local ok = (dir == 'h' and tcol < fcol) or (dir == 'l' and tcol > fcol)
-    or (dir == 'k' and trow < frow) or (dir == 'j' and trow > frow)
+      or (dir == 'k' and trow < frow) or (dir == 'j' and trow > frow)
   if not ok then vim.api.nvim_set_current_win(from) end
 end
 
@@ -127,6 +133,18 @@ require('noice').setup({
   lsp = {
     hover = { enabled = false },
     signature = { enabled = false },
+  },
+  -- The `:s///c` prompt is delivered on the *cmdline* channel (not as a
+  -- confirm/confirm_sub message), so by default it lands in the centered
+  -- `cmdline_popup` view — right on top of the match. Match that one prompt by
+  -- its y/n/a/q text and send it to the classic bottom cmdline view, where it
+  -- can't cover anything. Custom routes win over defaults, so normal `:`/`/`
+  -- keep using the centered popup.
+  routes = {
+    {
+      view = 'cmdline',
+      filter = { event = 'cmdline', find = '%(y%)es/%(n%)o/%(a%)ll' },
+    },
   },
 })
 

@@ -1,8 +1,5 @@
 vim.g.mapleader = ' '
 
--- New UI opt-in
-require('vim._core.ui2').enable({})
-
 -- Line numbers
 vim.opt.number = true
 vim.opt.relativenumber = true

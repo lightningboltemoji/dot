@@ -14,7 +14,7 @@
       "src": "https://github.com/folke/flash.nvim"
     },
     "fzf-lua": {
-      "rev": "fea9eedc6894c44d44cbb772a5cd11c93b82d7a1",
+      "rev": "b9919229c84bd64d8539367e67e32811cf39a836",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
     "goyo.vim": {
@@ -30,7 +30,7 @@
       "src": "https://github.com/rebelot/kanagawa.nvim"
     },
     "leap.nvim": {
-      "rev": "59d70b1bdf8e76e0637e6ebcc150fb6767f67fc5",
+      "rev": "d7f8ee64155b7790188f17a993390f32577cfb81",
       "src": "https://codeberg.org/andyg/leap.nvim.git"
     },
     "lsp_signature.nvim": {
@@ -38,15 +38,15 @@
       "src": "https://github.com/ray-x/lsp_signature.nvim"
     },
     "lualine.nvim": {
-      "rev": "131a558e13f9f28b15cd235557150ccb23f89286",
+      "rev": "221ce6b2d999187044529f49da6554a92f740a96",
       "src": "https://github.com/nvim-lualine/lualine.nvim"
     },
     "mini.ai": {
-      "rev": "4ce4c35e411ea329a15d4b15e9c89c2a3089e437",
+      "rev": "d73c36349aa7b0bab5f77ad71701a1d42211a1df",
       "src": "https://github.com/nvim-mini/mini.ai"
     },
     "mini.animate": {
-      "rev": "a133965b027a6377fddca43f11659af357c12758",
+      "rev": "343092309be1a16f35bc756cc037256af06173ce",
       "src": "https://github.com/nvim-mini/mini.animate"
     },
     "noice.nvim": {
@@ -82,7 +82,7 @@
       "src": "https://github.com/folke/tokyonight.nvim"
     },
     "vague.nvim": {
-      "rev": "fd58046b9d64259d9785e4aeb6d6f494c6943cad",
+      "rev": "49fe06ad33d8847b931ba4279197bda222374cd1",
       "src": "https://github.com/vague-theme/vague.nvim"
     },
     "vim": {
@@ -90,7 +90,7 @@
       "src": "https://github.com/embark-theme/vim"
     },
     "vim-fern": {
-      "rev": "b4520a50d8df51969838d35eb07f797e2785b234",
+      "rev": "3d580357c09e199b0fa7d560b2db1ad05de02b9c",
       "src": "https://github.com/lambdalisue/vim-fern"
     },
     "vim-fern-hijack": {
