@@ -4,6 +4,9 @@
 # Feel free to omit keys that you don't use in your config.
 # If the key is absent in your config the default value is taken from this config
 
+config-version = 2
+auto-reload-config = true
+
 # You can use it to add commands that run after login to macOS user session.
 # 'start-at-login' needs to be 'true' for 'after-login-command' to work
 # Available commands: https://nikitabobko.github.io/AeroSpace/commands
@@ -51,12 +54,12 @@ key-mapping.preset = 'qwerty'
 #                 Monitor pattern is the same as for 'workspace-to-monitor-force-assignment'.
 #                 See: https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
 [gaps]
-inner.horizontal = [{ monitor."built-in" = 0}, 4]
-inner.vertical =   [{ monitor."built-in" = 0}, 4]
-outer.left =       [{ monitor."built-in" = 0}, 4]
-outer.bottom =     [{ monitor."built-in" = 0}, 4]
-outer.top =        [{ monitor."built-in" = 0}, 4]
-outer.right =      [{ monitor."built-in" = 0}, 4]
+inner.horizontal = [{ monitor."built-in" = 8}, 12]
+inner.vertical =   [{ monitor."built-in" = 8}, 12]
+outer.left =       [{ monitor."built-in" = 8}, 12]
+outer.bottom =     [{ monitor."built-in" = 8}, 12]
+outer.top =        [{ monitor."built-in" = 8}, 12]
+outer.right =      [{ monitor."built-in" = 8}, 12]
 
 # See https://nikitabobko.github.io/AeroSpace/guide#exec-env-vars
 [exec]
