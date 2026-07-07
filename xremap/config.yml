@@ -1,0 +1,28 @@
+modmap:
+  - name: Capslock to alt
+    remap:
+      KEY_CAPSLOCK: KEY_LEFTALT
+  - name: Swap Super<->Ctrl everywhere except Ghostty
+    application:
+      not:
+        - com.mitchellh.ghostty
+    remap:
+      KEY_LEFTMETA:  KEY_LEFTCTRL
+      KEY_RIGHTMETA: KEY_RIGHTCTRL
+      KEY_LEFTCTRL:  KEY_LEFTMETA
+      KEY_RIGHTCTRL: KEY_RIGHTMETA
+
+keymap:
+  - name: Keep Super+Space as Super+Space (undo the modmap swap)
+    application:
+      not:
+        - com.mitchellh.ghostty
+    remap:
+      Ctrl-Space: Super-Space
+  - name: Super+W to close
+    application:
+      not:
+        - com.mitchellh.ghostty
+        - firefox
+    remap:
+      Ctrl-W: Super-W

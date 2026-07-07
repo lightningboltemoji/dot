@@ -1,4 +1,5 @@
-PROMPT="%F{cyan}%n%f@%F{green}mac %F{yellow}[%~] %F{blue}%% %f"
+PROMPT="%F{cyan}%n%f@%F{green}%m %F{yellow}[%~] %F{blue}%% %f"
+HISTFILE="$HOME/.zsh_history"
 HISTSIZE=10000000
 SAVEHIST=10000000
 setopt INC_APPEND_HISTORY
@@ -23,3 +24,13 @@ export PATH="/opt/homebrew/opt/rustup/bin:$PATH"
 export GOPATH="$HOME/.go"
 
 source <(fzf --zsh)
+
+bindkey "^[[1;3D" backward-word   # alt+left
+bindkey "^[[1;3C" forward-word    # alt+right
+
+bindkey "^[[1;5D" backward-word   # ctrl+left
+bindkey "^[[1;5C" forward-word    # ctrl+right
+bindkey "^[[H"    beginning-of-line
+bindkey "^[[F"    end-of-line
+bindkey "^[[3~"   delete-char     # Delete
+bindkey "^H"      backward-kill-word  # ctrl+backspace

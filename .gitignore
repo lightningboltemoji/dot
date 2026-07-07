@@ -6,8 +6,10 @@
 !fish
 !ghostty
 !lazygit
+!niri
 !nvim
 !skhd
+!xremap
 !zed/*.json
 !zellij
 !zsh
