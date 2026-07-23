@@ -10,11 +10,11 @@
       "src": "https://github.com/stevearc/conform.nvim"
     },
     "flash.nvim": {
-      "rev": "fcea7ff883235d9024dc41e638f164a450c14ca2",
+      "rev": "b6346946d10d07998efee029fb0f7a593806d0cd",
       "src": "https://github.com/folke/flash.nvim"
     },
     "fzf-lua": {
-      "rev": "b9919229c84bd64d8539367e67e32811cf39a836",
+      "rev": "532d463f5c83595192fe740572d8fd6902b2217a",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
     "goyo.vim": {
@@ -42,11 +42,11 @@
       "src": "https://github.com/nvim-lualine/lualine.nvim"
     },
     "mini.ai": {
-      "rev": "d73c36349aa7b0bab5f77ad71701a1d42211a1df",
+      "rev": "25248c6aa002391936a6200f12d1466015987133",
       "src": "https://github.com/nvim-mini/mini.ai"
     },
     "mini.animate": {
-      "rev": "343092309be1a16f35bc756cc037256af06173ce",
+      "rev": "fe1257505eaec2b988aa1f80f6471db850d99bb1",
       "src": "https://github.com/nvim-mini/mini.animate"
     },
     "noice.nvim": {
@@ -70,7 +70,7 @@
       "src": "https://github.com/windwp/nvim-ts-autotag"
     },
     "nvim-web-devicons": {
-      "rev": "dfbfaa967a6f7ec50789bead7ef87e336c1fa63c",
+      "rev": "0ca28b61a04fe7426cefbdd52c2647ef0e335b5f",
       "src": "https://github.com/nvim-tree/nvim-web-devicons"
     },
     "snacks.nvim": {
@@ -82,7 +82,7 @@
       "src": "https://github.com/folke/tokyonight.nvim"
     },
     "vague.nvim": {
-      "rev": "49fe06ad33d8847b931ba4279197bda222374cd1",
+      "rev": "161384e625e7b6cca118a3fa66225ba5cacdfb50",
       "src": "https://github.com/vague-theme/vague.nvim"
     },
     "vim": {
@@ -102,7 +102,7 @@
       "src": "https://github.com/lambdalisue/vim-fern-renderer-nerdfont"
     },
     "vim-nerdfont": {
-      "rev": "0d1a98cb7917f5db1ed3ff773320aa1010a86859",
+      "rev": "3a28b3f061a8b6de751175cc3f91f072d4bfc811",
       "src": "https://github.com/lambdalisue/vim-nerdfont"
     },
     "which-key.nvim": {

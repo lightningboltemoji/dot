@@ -38,6 +38,14 @@ vim.keymap.set('n', '<leader>wsl', function() swap_window('l') end, { desc = 'sw
 -- Clear search highlights with Esc
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<cr>')
 
+-- Stay put during * searches
+vim.keymap.set('n', '*', '*N', { silent = true, desc = 'search word (stay put)' })
+local visual_star = vim.fn.maparg('*', 'x', false, true)
+if visual_star.callback then
+  vim.keymap.set('x', '*', function() return visual_star.callback() .. 'N' end,
+    { expr = true, replace_keycodes = true, desc = 'search selection (stay put)' })
+end
+
 vim.keymap.set('n', '<leader>bd', '<cmd>confirm bdelete<cr>', { desc = 'delete buffer' })
 vim.keymap.set('n', '<leader>bn', '<cmd>enew<cr>', { desc = 'new buffer' })
 vim.keymap.set('n', '<leader>qq', '<cmd>confirm qa<cr>', { desc = 'quit' })
