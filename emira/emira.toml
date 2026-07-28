@@ -1,0 +1,50 @@
+[layout]
+column-gap = 20
+window-gap = 20
+outer-gap = 20
+outer-gap-top = 8
+
+[animation]
+window = "crop"
+
+[keys]
+alt-1 = "focus-workspace 1"
+alt-2 = "focus-workspace 2"
+alt-3 = "focus-workspace 3"
+alt-4 = "focus-workspace 4"
+alt-5 = "focus-workspace 5"
+alt-q = "focus-workspace q"
+alt-w = "focus-workspace w"
+alt-e = "focus-workspace e"
+alt-r = "focus-workspace r"
+alt-t = "focus-workspace t"
+
+alt-shift-1 = "move-to-workspace-and-focus 1"
+alt-shift-2 = "move-to-workspace-and-focus 2"
+alt-shift-3 = "move-to-workspace-and-focus 3"
+alt-shift-4 = "move-to-workspace-and-focus 4"
+alt-shift-5 = "move-to-workspace-and-focus 5"
+alt-shift-q = "move-to-workspace-and-focus q"
+alt-shift-w = "move-to-workspace-and-focus w"
+alt-shift-e = "move-to-workspace-and-focus e"
+alt-shift-r = "move-to-workspace-and-focus r"
+alt-shift-t = "move-to-workspace-and-focus t"
+
+alt-h = "focus left"
+alt-j = "focus down"
+alt-k = "focus up"
+alt-l = "focus right"
+alt-f = "fullscreen"
+alt-shift-f = "float toggle"
+
+alt-shift-h = "move-window left"
+alt-shift-j = "move-window down"
+alt-shift-k = "move-window up"
+alt-shift-l = "move-window right"
+
+alt-shift-leftbracket = "consume-or-expel left"
+alt-shift-rightbracket = "consume-or-expel right"
+alt-equal = "grow 10%"
+alt-minus = "shrink 10%"
+
+alt-space = "exec osascript -e 'tell application \"Ghostty\" to new window'"
