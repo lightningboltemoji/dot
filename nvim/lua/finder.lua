@@ -1,5 +1,10 @@
+-- `hidden` includes dotfiles; gitignored files stay opt-in behind alt-i.
+-- Must be set per-provider — a top-level `hidden` doesn't reach grep.
 require('fzf-lua').setup({
   buffers = { no_header_i = true },
+  files = { hidden = true },
+  grep = { hidden = true },
+  global = { hidden = true },
 })
 
 -- Hop out of the explorer drawer (a snacks picker window) before opening a
