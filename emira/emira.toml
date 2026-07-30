@@ -4,8 +4,12 @@ window-gap = 20
 outer-gap = 20
 outer-gap-top = 8
 
+[focus]
+system-events = "on-screen"
+
 [animation]
 window = "crop"
+cover = "immediate"
 
 [keys]
 alt-1 = "focus-workspace 1"

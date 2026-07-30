@@ -1,10 +1,31 @@
+local fzf = require('fzf-lua')
+
 -- `hidden` includes dotfiles; gitignored files stay opt-in behind alt-i.
 -- Must be set per-provider — a top-level `hidden` doesn't reach grep.
-require('fzf-lua').setup({
+fzf.setup({
   buffers = { no_header_i = true },
   files = { hidden = true },
-  grep = { hidden = true },
+  -- fzf-lua's default grep `rg_opts` plus `-g "!.git"`. `files`/`global` already
+  -- exclude .git through their own defaults; rg drops it on its own too, but only
+  -- while gitignore rules apply — alt-i (`--no-ignore`) lets it back in, and an
+  -- explicit glob survives that. `-e` has to stay last.
+  grep = {
+    hidden = true,
+    rg_opts = '--column --line-number --no-heading --color=always --smart-case '
+      .. '--max-columns=4096 -g "!.git" -e',
+  },
   global = { hidden = true },
+  actions = {
+    -- alt-h belongs to system-level window management, so toggle hidden lives on
+    -- ctrl-h instead (which shadows fzf's ctrl-h = backward-delete-char).
+    files = {
+      -- `true` inherits fzf-lua's default file actions; without it this table
+      -- replaces them wholesale and even `enter` (open the file) stops working.
+      true,
+      ['alt-h'] = false,
+      ['ctrl-h'] = { fn = fzf.actions.toggle_hidden, reuse = true, header = false },
+    },
+  },
 })
 
 -- Hop out of the explorer drawer (a snacks picker window) before opening a
