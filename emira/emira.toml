@@ -3,11 +3,13 @@ column-gap = 20
 window-gap = 20
 outer-gap = 20
 outer-gap-top = 8
+resize-detent = true
 
 [focus]
 system-events = "on-screen"
 
 [animation]
+transition = "smooth"
 window = "crop"
 cover = "immediate"
 
