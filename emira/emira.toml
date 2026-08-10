@@ -4,9 +4,23 @@ window-gap = 20
 outer-gap = 20
 outer-gap-top = 8
 resize-detent = true
+height-presets = [0.5, 0.666]
+width-presets = [0.5, 0.666]
 
 [focus]
 system-events = "on-screen"
+# follows-mouse = true
+
+# [guide]
+# style = "preview"
+# position = "top-center"
+# width = 0.1
+
+[mouse]
+hide = true
+follows-focus = "except-hover"
+trackpad-scroll = "magnet"
+trackpad-scroll-direction = "natural"
 
 [animation]
 transition = "smooth"
@@ -14,43 +28,43 @@ window = "crop"
 cover = "immediate"
 
 [keys]
-alt-1 = "focus-workspace 1"
-alt-2 = "focus-workspace 2"
-alt-3 = "focus-workspace 3"
-alt-4 = "focus-workspace 4"
-alt-5 = "focus-workspace 5"
-alt-q = "focus-workspace q"
-alt-w = "focus-workspace w"
-alt-e = "focus-workspace e"
-alt-r = "focus-workspace r"
-alt-t = "focus-workspace t"
+fn-1 = "focus-workspace 1"
+fn-2 = "focus-workspace 2"
+fn-3 = "focus-workspace 3"
+fn-4 = "focus-workspace 4"
+fn-5 = "focus-workspace 5"
+fn-q = "focus-workspace q"
+fn-w = "focus-workspace w"
+fn-e = "focus-workspace e"
+fn-r = "focus-workspace r"
+fn-t = "focus-workspace t"
 
-alt-shift-1 = "move-to-workspace-and-focus 1"
-alt-shift-2 = "move-to-workspace-and-focus 2"
-alt-shift-3 = "move-to-workspace-and-focus 3"
-alt-shift-4 = "move-to-workspace-and-focus 4"
-alt-shift-5 = "move-to-workspace-and-focus 5"
-alt-shift-q = "move-to-workspace-and-focus q"
-alt-shift-w = "move-to-workspace-and-focus w"
-alt-shift-e = "move-to-workspace-and-focus e"
-alt-shift-r = "move-to-workspace-and-focus r"
-alt-shift-t = "move-to-workspace-and-focus t"
+fn-shift-1 = "move-to-workspace-and-focus 1"
+fn-shift-2 = "move-to-workspace-and-focus 2"
+fn-shift-3 = "move-to-workspace-and-focus 3"
+fn-shift-4 = "move-to-workspace-and-focus 4"
+fn-shift-5 = "move-to-workspace-and-focus 5"
+fn-shift-q = "move-to-workspace-and-focus q"
+fn-shift-w = "move-to-workspace-and-focus w"
+fn-shift-e = "move-to-workspace-and-focus e"
+fn-shift-r = "move-to-workspace-and-focus r"
+fn-shift-t = "move-to-workspace-and-focus t"
 
-alt-h = "focus left"
-alt-j = "focus down"
-alt-k = "focus up"
-alt-l = "focus right"
-alt-f = "fullscreen"
-alt-shift-f = "float toggle"
+fn-h = "focus left"
+fn-j = "focus down"
+fn-k = "focus up"
+fn-l = "focus right"
+fn-f = "fullscreen"
+fn-shift-f = "float toggle"
 
-alt-shift-h = "move-window left"
-alt-shift-j = "move-window down"
-alt-shift-k = "move-window up"
-alt-shift-l = "move-window right"
+fn-shift-h = "move-window left"
+fn-shift-j = "move-window down"
+fn-shift-k = "move-window up"
+fn-shift-l = "move-window right"
 
-alt-shift-leftbracket = "consume-or-expel left"
-alt-shift-rightbracket = "consume-or-expel right"
-alt-equal = "grow 10%"
-alt-minus = "shrink 10%"
+fn-shift-leftbracket = "consume-or-expel left"
+fn-shift-rightbracket = "consume-or-expel right"
+fn-equal = "grow 10%"
+fn-minus = "shrink 10%"
 
-alt-space = "exec osascript -e 'tell application \"Ghostty\" to new window'"
+fn-space = "exec osascript -e 'tell application \"Ghostty\" to new window'"
