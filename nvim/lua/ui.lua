@@ -99,7 +99,12 @@ require('snacks').setup({
         layout = { preset = 'sidebar', preview = false },
         win = {
           -- <esc> in the list normally closes the explorer; keep it open.
-          list = { keys = vim.tbl_extend('force', win_nav, { ['<esc>'] = false }) },
+          -- `/` normally just jumps to the filter input, and the first character
+          -- you type there swaps the tree for a flat recursive fd search — a
+          -- whole new result set, so your spot in the tree is gone. Unmap it so
+          -- `/` is a plain buffer search over the rows currently on screen; `i`
+          -- still reaches the filter when you want the real subtree search.
+          list = { keys = vim.tbl_extend('force', win_nav, { ['<esc>'] = false, ['/'] = false }) },
           input = { keys = win_nav },
         },
       },

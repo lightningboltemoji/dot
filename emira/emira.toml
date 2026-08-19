@@ -11,11 +11,6 @@ width-presets = [0.5, 0.666]
 system-events = "on-screen"
 # follows-mouse = true
 
-# [guide]
-# style = "preview"
-# position = "top-center"
-# width = 0.1
-
 [mouse]
 hide = true
 follows-focus = "except-hover"
@@ -68,3 +63,12 @@ fn-equal = "grow 10%"
 fn-minus = "shrink 10%"
 
 fn-space = "exec osascript -e 'tell application \"Ghostty\" to new window'"
+
+[guide.names]
+enabled = true
+gap = 120
+
+[[window-rules]]
+smaller-than-focused = 0.6
+from-focused-app = true
+float = true
