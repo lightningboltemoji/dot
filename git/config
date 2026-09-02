@@ -1,0 +1,13 @@
+[user]
+	name = Tanner
+	email = 51724788+lightningboltemoji@users.noreply.github.com
+	signingkey = key::ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEpPXQ8cJ/lYwZ75rPA+rTwX1fWXFQr4qWPdhMnAp95y
+[gpg]
+	format = ssh
+[commit]
+	gpgsign = true
+	template = /Users/tanner/.stCommitMsg
+[init]
+	defaultBranch = main
+[pull]
+	rebase = true
