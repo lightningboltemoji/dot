@@ -3,6 +3,8 @@ cursor-color = #C8C8C8
 window-padding-x = 6
 window-padding-y = 4
 theme = branch
+auto-update-channel = tip
+auto-update = off
 
 config-file = ?config.linux
 config-file = ?config.mac
