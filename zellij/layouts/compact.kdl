@@ -1,0 +1,7 @@
+// Overrides the built-in "compact" layout to put the bar at the top
+layout {
+    pane size=2 borderless=true {
+        plugin location="compact-bar"
+    }
+    pane
+}
