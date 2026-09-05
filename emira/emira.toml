@@ -7,13 +7,13 @@ resize-detent = true
 height-presets = [0.5, 0.666]
 width-presets = [0.5, 0.666]
 
-[focus]
-system-events = "on-screen"
+# [focus]
+# system-events = "on-screen"
 # follows-mouse = true
 
 [mouse]
 hide = true
-follows-focus = "except-hover"
+# follows-focus = "except-hover"
 trackpad-scroll = "magnet"
 trackpad-scroll-direction = "natural"
 
@@ -53,6 +53,8 @@ fn-shift-leftbracket = "consume-or-expel left"
 fn-shift-rightbracket = "consume-or-expel right"
 fn-equal = "grow 10%"
 fn-minus = "shrink 10%"
+fn-p = "pin toggle-left"
+fn-i = "focus-pinned"
 
 fn-space = "exec osascript -e 'tell application \"Ghostty\" to new window'"
 
