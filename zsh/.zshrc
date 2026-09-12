@@ -11,7 +11,6 @@ alias vi="nvim"
 alias gs="git status"
 alias lg="lazygit"
 alias ll="ls -l"
-alias ve="source .venv/bin/activate"
 
 function desktop() {
   defaults write com.apple.finder CreateDesktop "$1"
@@ -23,7 +22,16 @@ export PATH="$HOME/Developer/scripts:$PATH"
 export PATH="/opt/homebrew/opt/rustup/bin:$PATH"
 export GOPATH="$HOME/.go"
 
+autoload -Uz compinit
+compinit
 source <(fzf --zsh)
+eval "$(zoxide init zsh)"
+
+if [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+elif [ -x /opt/homebrew/bin/brew ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
 
 bindkey "^[[1;3D" backward-word   # alt+left
 bindkey "^[[1;3C" forward-word    # alt+right
