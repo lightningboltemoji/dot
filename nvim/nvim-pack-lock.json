@@ -10,7 +10,7 @@
       "src": "https://github.com/stevearc/conform.nvim"
     },
     "flash.nvim": {
-      "rev": "b6346946d10d07998efee029fb0f7a593806d0cd",
+      "rev": "5f0f270fdc7c5b0c21d903ee85b9cb06f2ac636a",
       "src": "https://github.com/folke/flash.nvim"
     },
     "fzf-lua": {
@@ -30,11 +30,11 @@
       "src": "https://github.com/rebelot/kanagawa.nvim"
     },
     "leap.nvim": {
-      "rev": "e51ba2a70169bb6fd58342312ccde591242ac739",
+      "rev": "38af0ab56c6eb8757ee6006dd13ab79c2bc11a49",
       "src": "https://codeberg.org/andyg/leap.nvim.git"
     },
     "lsp_signature.nvim": {
-      "rev": "b7ace9ddb1640ce266012a45a672dfdaedfa5ec6",
+      "rev": "1997451c4c9956a1380d8bea4b0e33ebdf07976e",
       "src": "https://github.com/ray-x/lsp_signature.nvim"
     },
     "lualine.nvim": {
@@ -42,7 +42,7 @@
       "src": "https://github.com/nvim-lualine/lualine.nvim"
     },
     "mini.ai": {
-      "rev": "25248c6aa002391936a6200f12d1466015987133",
+      "rev": "cb02c5444613475b7edf0c8dc98264c1c857aa6e",
       "src": "https://github.com/nvim-mini/mini.ai"
     },
     "mini.animate": {
@@ -54,15 +54,15 @@
       "src": "https://github.com/folke/noice.nvim"
     },
     "nui.nvim": {
-      "rev": "a25dd472316d806eb38a5dd667c2e40da5570c75",
+      "rev": "10fc361835c856ba4233ef5ea135b919bf3dce97",
       "src": "https://github.com/MunifTanjim/nui.nvim"
     },
     "nvim-autopairs": {
-      "rev": "7b9923abad60b903ece7c52940e1321d39eccc79",
+      "rev": "430522f95fe4fb7c511ec64f8c1a90cc6a66c05c",
       "src": "https://github.com/windwp/nvim-autopairs"
     },
     "nvim-treesitter": {
-      "rev": "074aa4422bf029908338e855d0c0f71470a971bb",
+      "rev": "9a168f6357ed21c3a636e1727bc7d382abc451b8",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "nvim-ts-autotag": {
@@ -70,7 +70,7 @@
       "src": "https://github.com/windwp/nvim-ts-autotag"
     },
     "nvim-web-devicons": {
-      "rev": "2ae6958df7ced50baac5035cec0c15799eedfbf7",
+      "rev": "5f032a85be210cd1c6ac98861eb3b187ff3bd5eb",
       "src": "https://github.com/nvim-tree/nvim-web-devicons"
     },
     "snacks.nvim": {
@@ -90,7 +90,7 @@
       "src": "https://github.com/embark-theme/vim"
     },
     "vim-fern": {
-      "rev": "3bbca3c87a57cdc87495b91a695b8eda722a1de1",
+      "rev": "fd039979718b608a7c5912f163a07b230da1b5f4",
       "src": "https://github.com/lambdalisue/vim-fern"
     },
     "vim-fern-hijack": {
