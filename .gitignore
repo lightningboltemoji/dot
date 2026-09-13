@@ -12,6 +12,7 @@
 !lazygit
 !nvim
 !skhd
+!tmux
 !xremap
 !zed/*.json
 !zellij
