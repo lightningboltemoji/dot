@@ -1,7 +1,47 @@
 git:
   overrideGpg: true
+  disableForcePushing: true
+
 gui:
   scrollHeight: 15
+  skipAmendWarning: false
+  skipDiscardChangeWarning: false
+  skipStashWarning: false
+  skipNoStagedFilesWarning: false
+  skipRewordInEditorWarning: false
+  skipSwitchWorktreeOnCheckoutWarning: false
+
 notARepository: 'skip'
+
 os:
   editPreset: nvim
+
+keybinding:
+  universal:
+    pullFiles: <disabled>
+    pushFiles: <disabled>
+
+customCommands:
+  - key: 'p'
+    context: 'global'
+    description: 'Pull (asks first)'
+    command: 'git pull'
+    loadingText: 'Pulling'
+    output: log
+    after:
+      checkForConflicts: true
+    prompts:
+      - type: 'confirm'
+        title: 'Pull'
+        body: 'Pull from the remote?'
+
+  - key: 'P'
+    context: 'global'
+    description: 'Push (asks first)'
+    command: "if git rev-parse --abbrev-ref '@{u}' >/dev/null 2>&1; then git push; else git push --set-upstream origin HEAD; fi"
+    loadingText: 'Pushing'
+    output: log
+    prompts:
+      - type: 'confirm'
+        title: 'Push'
+        body: 'Push to the remote?'

@@ -55,6 +55,8 @@ fn-equal = "grow 10%"
 fn-minus = "shrink 10%"
 fn-p = "pin toggle-left"
 fn-i = "focus-pinned"
+fn-slash = "layout strip"
+fn-period = "layout stack"
 
 fn-space = "exec osascript -e 'tell application \"Ghostty\" to new window'"
 
