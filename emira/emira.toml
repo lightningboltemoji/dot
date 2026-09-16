@@ -7,9 +7,9 @@ resize-detent = true
 height-presets = [0.5, 0.666]
 width-presets = [0.5, 0.666]
 
-# [focus]
-# system-events = "on-screen"
-# follows-mouse = true
+[focus]
+unfocused-opacity = 0.75
+unfocused-blur = 8
 
 [mouse]
 hide = true
