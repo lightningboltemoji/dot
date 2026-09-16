@@ -8,7 +8,7 @@ height-presets = [0.5, 0.666]
 width-presets = [0.5, 0.666]
 
 [focus]
-unfocused-opacity = 0.75
+unfocused-opacity = 0.5
 unfocused-blur = 8
 
 [mouse]
