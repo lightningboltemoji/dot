@@ -1,0 +1,40 @@
+bar {
+  hole radius=60 feather=0 proximity=80 click="reveal"
+
+  item "apple" module="text" {
+    content {
+      icon "apple.logo"
+    }
+  }
+  item "app" module="front-app" priority=10 format="{name}" max-length=28
+  spacer
+  notch
+  spacer
+  group "system" {
+    // Sampled every second; the two lines are the last 5 seconds and the last minute.
+    item "cpu" module="cpu" interval="1s" windows="5s 1m" history="40s" {
+      warn 70
+      critical 90
+      content {
+        row align="stretch" {
+          graph values="{history}" max=1 kind="area" scroll="smooth" width=40
+          column class="stacked" align="end" {
+            text "{load-5s:%3.0f}%"
+            text "{load-1m:%3.0f}%"
+          }
+        }
+      }
+    }
+    item "mem" module="mem" interval="2s" preset="meter"
+    item "net" module="net" interval="1s" preset="stacked"
+  }
+  spacer
+  group "status" {
+    item "wifi" module="wifi" format="{icon}"
+    item "volume" module="volume" format="{icon}"
+    item "battery" module="battery" format="{icon} {pct}%" {
+      low 20
+    }
+  }
+  item "clock" module="clock" format="EEE, MMM d | h:mm:ss" priority=10 on-click="exec open -a Calendar"
+}

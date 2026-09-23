@@ -1,0 +1,56 @@
+/* Cascades on top of bario's built-in style, so only the changes live here. */
+:root {
+  --item-bg: rgba(24, 24, 28, 0.85);
+  --item-bg-hover: rgba(44, 44, 50, 0.9);
+  --item-fg: rgb(230, 230, 235);
+  --item-border: rgba(255, 255, 255, 0.18);
+  --radius: 18pt;
+}
+
+bar {
+  font-family: ui-monospace;
+  color: var(--item-fg);
+  padding: 0pt 16pt;
+}
+
+item {
+  /* 3pt more per side than the built-in 2pt 9pt, so each item grows 6pt each way. */
+  padding: 3pt 12pt;
+  border-radius: var(--radius);
+  corner-shape: squircle;
+  background: var(--item-bg);
+  border: 3pt var(--item-border);
+}
+
+item:hover {
+  background: var(--item-bg-hover);
+}
+
+/* Grouped items round only their outer corners; the built-in rules use 8pt. */
+group item:first-child {
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+group item:last-child {
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+group item:only-child {
+  border-radius: var(--radius);
+}
+
+/* The logo reads small at the text's 12pt. icon-size scales only the glyph; font-size would
+   also raise the line height and so the bubble. */
+#apple {
+  icon-size: 14pt;
+}
+
+/* Stats. Two 9pt lines (the built-in .stacked size) fit inside the bubble's 3pt padding and
+   border; the graph stretches to their height. */
+#cpu row { gap: 5pt; }
+#cpu .stacked text:last-child { opacity: 0.6; }
+#cpu graph { fill: rgba(130, 190, 255, 0.6); }
+#cpu.warn graph { fill: rgba(255, 190, 90, 0.75); }
+#cpu.critical graph { fill: rgba(255, 95, 85, 0.85); }
+
+#mem meter { track: rgba(255, 255, 255, 0.15); }
+#mem.pressure-warn meter { fill: rgb(255, 190, 90); }
+#mem.pressure-critical meter { fill: rgb(255, 95, 85); }
