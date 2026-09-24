@@ -1,3 +1,15 @@
+// emira's desktop, a snapshot per change, under `emira` in the store. No bubble.
+source "emira" module="exec" interval="watch" {
+  command "emira" "watch"
+}
+
+// On while the desktop moves, and for 700ms after the last change or movement.
+mode "guide" {
+  while "emira.moving"
+  changed "emira.focus" "emira.displays"
+  hold "700ms"
+}
+
 bar {
   hole radius=60 feather=0 proximity=80 click="reveal"
 
@@ -6,7 +18,12 @@ bar {
       icon "apple.logo"
     }
   }
-  item "app" module="front-app" priority=10 format="{name}" max-length=28
+  item "app" module="front-app" priority=10 format="{name}" max-length=28 unless="guide"
+  spacer when="guide"
+  // Reads `emira`, asks for no permissions; `max` keeps the 7 columns nearest focus.
+  item "names" module="wasm" path="~/.config/bario/modules/emira-names.wasm" when="guide" {
+    config source="emira" max=7
+  }
   spacer
   notch
   spacer

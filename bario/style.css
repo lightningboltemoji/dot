@@ -54,3 +54,19 @@ group item:only-child {
 #mem meter { track: rgba(255, 255, 255, 0.15); }
 #mem.pressure-warn meter { fill: rgb(255, 190, 90); }
 #mem.pressure-critical meter { fill: rgb(255, 95, 85); }
+
+/* emira's names guide: the app name rolls away and the focused strip's columns roll in. */
+#app, #names {
+  transition: transform 280ms ease-in-out, opacity 220ms ease-in;
+}
+@starting-style {
+  #app, #names { transform: perspective(120pt) rotateX(-90deg); opacity: 0; }
+}
+#app:leaving, #names:leaving {
+  transform: perspective(120pt) rotateX(90deg); opacity: 0;
+}
+#names         { padding: 5pt 6pt; }
+#names .column { padding: 2pt 9pt; border-radius: 12pt; corner-shape: squircle; }
+#names .focused { background: rgba(255, 255, 255, 0.16); }
+#names .app    { text-transform: lowercase; }
+#names .more   { opacity: 0.5; padding: 0pt 4pt; }

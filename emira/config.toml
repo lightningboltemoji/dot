@@ -60,10 +60,6 @@ fn-period = "layout stack"
 
 fn-space = "exec osascript -e 'tell application \"Ghostty\" to new window'"
 
-[guide.names]
-enabled = true
-gap = 120
-
 [[window-rules]]
 smaller-than-focused = 0.6
 from-focused-app = true
