@@ -1,5 +1,6 @@
 // emira's desktop, a snapshot per change, under `emira` in the store. No bubble.
-source "emira" module="exec" interval="watch" {
+// `emira watch` exits at once while the daemon is down, so retry often: back within 5s of it.
+source "emira" module="exec" interval="watch" max-backoff="5s" {
   command "emira" "watch"
 }
 
@@ -11,6 +12,9 @@ mode "guide" {
 }
 
 bar {
+  // The same on every display, down from the top of the screen: the MacBook's menu bar. On
+  // the Studio Display (30pt menu bar) it hangs 8pt below the menu bar.
+  height 38
   hole radius=60 feather=0 proximity=80 click="reveal"
 
   item "apple" module="text" {
