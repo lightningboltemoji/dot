@@ -56,13 +56,13 @@ group item:only-child {
 #mem.pressure-critical meter { fill: rgb(255, 95, 85); }
 
 /* emira's names guide: the app name rolls away and the focused strip's columns roll in. */
-#app, #names {
+#app, #names, #badges {
   transition: transform 280ms ease-in-out, opacity 220ms ease-in;
 }
 @starting-style {
-  #app, #names { transform: perspective(120pt) rotateX(-90deg); opacity: 0; }
+  #app, #names, #badges { transform: perspective(120pt) rotateX(-90deg); opacity: 0; }
 }
-#app:leaving, #names:leaving {
+#app:leaving, #names:leaving, #badges:leaving {
   transform: perspective(120pt) rotateX(90deg); opacity: 0;
 }
 #names         { padding: 5pt 6pt; }
@@ -70,3 +70,17 @@ group item:only-child {
 #names .focused { background: rgba(255, 255, 255, 0.16); }
 #names .app    { text-transform: lowercase; }
 #names .more   { opacity: 0.5; padding: 0pt 4pt; }
+
+/* Ping's badges: the app's own icon in colour while it has something to say, its shape alone
+   while it has not, and the count in red once it is worth dropping things for. */
+#badges .app { icon-rendering: multicolor; icon-size: 15pt; }
+#badges .clear .app { icon-rendering: monochrome; }
+#badges .badge { font-weight: bold; }
+#badges .warn .badge { color: rgb(255, 190, 90); }
+#badges .critical .badge { color: rgb(255, 95, 85); }
+#badges .acknowledged, #badges .snoozed, #badges .silent { opacity: 0.5; }
+
+/* Slack: yellow for a dot or a word, red for a count. */
+#slack.dot icon, #slack.text icon { icon-color: system(systemYellowColor); }
+#slack.text .badge { color: system(systemYellowColor); }
+#slack.count icon, #slack.count .badge { icon-color: system(systemRedColor); color: system(systemRedColor); }

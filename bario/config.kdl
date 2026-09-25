@@ -11,6 +11,12 @@ mode "guide" {
   hold "700ms"
 }
 
+// Ping's reading of the Dock, under `ping`: every app's badge, and whether it was acknowledged
+// or snoozed. No bubble. `watch` exits at once while Ping is down, so retry often.
+source "ping" module="exec" interval="watch" max-backoff="5s" {
+  command "/Applications/Ping.app/Contents/MacOS/ping-dot-app" "watch"
+}
+
 bar {
   // The same on every display, down from the top of the screen: the MacBook's menu bar. On
   // the Studio Display (30pt menu bar) it hangs 8pt below the menu bar.
@@ -23,8 +29,15 @@ bar {
     }
   }
   item "app" module="front-app" priority=10 format="{name}" max-length=28 unless="guide"
-  spacer when="guide"
-  // Reads `emira`, asks for no permissions; `max` keeps the 7 columns nearest focus.
+  spacer
+  group "badges" unless="guide" {
+    item "slack" module="wasm" path="~/.config/bario/modules/ping-badge.wasm" on-click="exec open -a Slack" {
+      config app="Slack" icon="number" dot="" hide="quiet"
+    }
+    item "messages" module="wasm" path="~/.config/bario/modules/ping-badge.wasm" on-click="exec open -a Messages" {
+      config app="Messages" hide="quiet"
+    }
+  }
   item "names" module="wasm" path="~/.config/bario/modules/emira-names.wasm" when="guide" {
     config source="emira" max=7
   }
@@ -32,7 +45,6 @@ bar {
   notch
   spacer
   group "system" {
-    // Sampled every second; the two lines are the last 5 seconds and the last minute.
     item "cpu" module="cpu" interval="1s" windows="5s 1m" history="40s" {
       warn 70
       critical 90
