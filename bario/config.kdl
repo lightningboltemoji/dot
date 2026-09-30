@@ -21,7 +21,8 @@ bar {
   // The same on every display, down from the top of the screen: the MacBook's menu bar. On
   // the Studio Display (30pt menu bar) it hangs 8pt below the menu bar.
   height 38
-  hole radius=60 feather=0 proximity=80 click="reveal"
+  hole radius=120 feather=0 proximity=0 click="reveal"
+  option "reveal"
 
   item "apple" module="text" {
     content {

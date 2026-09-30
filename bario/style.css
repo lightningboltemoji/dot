@@ -80,7 +80,12 @@ group item:only-child {
 #badges .critical .badge { color: rgb(255, 95, 85); }
 #badges .acknowledged, #badges .snoozed, #badges .silent { opacity: 0.5; }
 
-/* Slack: yellow for a dot or a word, red for a count. */
+/* Slack: yellow for a dot or a word; a count fills the whole bubble red, contents in white. */
 #slack.dot icon, #slack.text icon { icon-color: system(systemYellowColor); }
 #slack.text .badge { color: system(systemYellowColor); }
-#slack.count icon, #slack.count .badge { icon-color: system(systemRedColor); color: system(systemRedColor); }
+#slack.count {
+  background: system(systemRedColor);
+  color: white;
+  icon-color: white;
+}
+#slack.count:hover { background: rgb(255, 105, 95); }
