@@ -64,3 +64,7 @@ fn-space = "exec osascript -e 'tell application \"Ghostty\" to new window'"
 smaller-than-focused = 0.6
 from-focused-app = true
 float = true
+
+[[display]]
+name-regex = "Studio Display"
+outer-gap-top = 16
