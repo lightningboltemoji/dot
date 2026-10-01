@@ -43,6 +43,12 @@ group item:only-child {
   icon-size: 14pt;
 }
 
+/* The apple is a 21pt canvas, as tall as the bubble's inside, and 9pt wider than the logo for
+   its shine: this padding puts the logo where the icon was. The shine shows while caffeinate
+   is running. */
+#apple { padding: 0pt 7.5pt; --shine: transparent; }
+#apple.running { --shine: currentColor; }
+
 /* Stats. Two 9pt lines (the built-in .stacked size) fit inside the bubble's 3pt padding and
    border; the graph stretches to their height. */
 #cpu row { gap: 5pt; }

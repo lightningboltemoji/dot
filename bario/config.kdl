@@ -24,9 +24,24 @@ bar {
   hole radius=120 feather=0 proximity=0 click="reveal"
   option "reveal"
 
-  item "apple" module="text" {
+  // A click keeps the display awake, and another lets it sleep; it shines while awake. -w ends
+  // caffeinate with bario ($PPID), even if bario crashes rather than quits.
+  item "apple" module="exec" interval="watch" running=#false on-click="toggle" {
+    command "exec caffeinate -d -w $PPID"
     content {
-      icon "apple.logo"
+      // The logo where the icon drew it, centred at (11, 10.35), with its shine either side:
+      // three ticks each, level and 25° above and below, 7.75pt to 10pt out from the middle.
+      canvas width=22 height=21 {
+        image "apple.logo" { rect 4.7 2.3 13 16 }
+        stroke "var(--shine)" width=1.5 cap="round" {
+          move 18 7.1; line 20.1 6.1
+          move 18.75 10.35; line 21 10.35
+          move 18 13.6; line 20.1 14.6
+          move 4 7.1; line 1.9 6.1
+          move 3.25 10.35; line 1 10.35
+          move 4 13.6; line 1.9 14.6
+        }
+      }
     }
   }
   item "app" module="front-app" priority=10 format="{name}" max-length=28 unless="guide"
