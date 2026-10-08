@@ -23,6 +23,7 @@ bar {
   height 38
   hole radius=120 feather=0 proximity=0 click="reveal"
   option "reveal"
+  position "fixed"
 
   // A click keeps the display awake, and another lets it sleep; it shines while awake. -w ends
   // caffeinate with bario ($PPID), even if bario crashes rather than quits.
