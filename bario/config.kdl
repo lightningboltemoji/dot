@@ -17,6 +17,9 @@ source "ping" module="exec" interval="watch" max-backoff="5s" {
   command "/Applications/Ping.app/Contents/MacOS/ping-dot-app" "watch"
 }
 
+// Text that turns over as on a drum, for the workspace bubble.
+renderer "roll" path="~/.config/bario/renderers/roll.wasm"
+
 bar {
   // The same on every display, down from the top of the screen: the MacBook's menu bar. On
   // the Studio Display (30pt menu bar) it hangs 8pt below the menu bar.
@@ -47,9 +50,10 @@ bar {
       }
     }
   }
-  // emira's focused workspace, its name alone, from the source.
+  // emira's focused workspace, its name alone, from the source. It rolls as emira pans: up to a
+  // later workspace, down to an earlier one.
   item "workspace" module="wasm" path="~/.config/bario/modules/emira-workspace.wasm" {
-    config source="emira"
+    config source="emira" roll=#true
   }
   item "app" module="front-app" priority=10 format="{name}" max-length=28 unless="guide"
   spacer

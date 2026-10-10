@@ -54,6 +54,12 @@ group item:only-child {
 #apple { padding: 0pt 7.5pt; --shine: transparent; }
 #apple.running { --shine: currentColor; }
 
+/* The workspace number turns in the bubble's whole inside, 21pt within the border, as the apple's
+   canvas fills it: no padding above or below, so it is clipped where the border begins rather
+   than at its own line. */
+#workspace { padding: 0pt 12pt; }
+#workspace roll { --roll-height: 21pt; }
+
 /* Stats. Two 9pt lines (the built-in .stacked size) fit inside the bubble's 3pt padding and
    border; the graph stretches to their height. */
 #cpu row { gap: 5pt; }
