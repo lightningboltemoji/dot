@@ -24,6 +24,8 @@ bar {
   hole radius=120 feather=0 proximity=0 click="reveal"
   option "reveal"
   position "fixed"
+  // Over a full screen app too, in the black strip beside the notch; the bar wears `fullscreen`.
+  fullscreen "show"
 
   // A click keeps the display awake, and another lets it sleep; it shines while awake. -w ends
   // caffeinate with bario ($PPID), even if bario crashes rather than quits.
@@ -44,6 +46,10 @@ bar {
         }
       }
     }
+  }
+  // emira's focused workspace, its name alone, from the source.
+  item "workspace" module="wasm" path="~/.config/bario/modules/emira-workspace.wasm" {
+    config source="emira"
   }
   item "app" module="front-app" priority=10 format="{name}" max-length=28 unless="guide"
   spacer

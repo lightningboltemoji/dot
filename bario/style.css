@@ -26,6 +26,11 @@ item:hover {
   background: var(--item-bg-hover);
 }
 
+/* Half strength over a full screen app. The built-in item rule already fades opacity, both ways. */
+bar.fullscreen item {
+  opacity: 0.5;
+}
+
 /* Grouped items round only their outer corners; the built-in rules use 8pt. */
 group item:first-child {
   border-radius: var(--radius) 0 0 var(--radius);
