@@ -50,12 +50,15 @@ bar {
       }
     }
   }
-  // emira's focused workspace, its name alone, from the source. It rolls as emira pans: up to a
-  // later workspace, down to an earlier one.
-  item "workspace" module="wasm" path="~/.config/bario/modules/emira-workspace.wasm" {
-    config source="emira" roll=#true
+  // One bubble: emira's focused workspace, then the app in front.
+  group "focus" {
+    // Its name alone, from the source. It rolls as emira pans: up to a later workspace, down
+    // to an earlier one.
+    item "workspace" module="wasm" path="~/.config/bario/modules/emira-workspace.wasm" {
+      config source="emira" roll=#true
+    }
+    item "app" module="front-app" priority=10 format="{name}" max-length=28 unless="guide"
   }
-  item "app" module="front-app" priority=10 format="{name}" max-length=28 unless="guide"
   spacer
   group "badges" unless="guide" {
     item "slack" module="wasm" path="~/.config/bario/modules/ping-badge.wasm" on-click="exec open -a Slack" {
@@ -96,5 +99,5 @@ bar {
       low 20
     }
   }
-  item "clock" module="clock" format="EEE, MMM d | h:mm:ss" priority=10 on-click="exec open -a Calendar"
+  item "clock" module="clock" format="EEE, MMM d ⌘ h:mm:ss" priority=10 on-click="exec open -a Calendar"
 }

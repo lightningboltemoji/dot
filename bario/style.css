@@ -4,6 +4,7 @@
   --item-bg-hover: rgba(44, 44, 50, 0.9);
   --item-fg: rgb(230, 230, 235);
   --item-border: rgba(255, 255, 255, 0.18);
+  --border: 1.5pt;
   --radius: 18pt;
 }
 
@@ -14,12 +15,13 @@ bar {
 }
 
 item {
-  /* 3pt more per side than the built-in 2pt 9pt, so each item grows 6pt each way. */
-  padding: 3pt 12pt;
+  /* 4.5pt more per side than the built-in 2pt 9pt: with the 1.5pt border, each item is 12pt
+     bigger each way. */
+  padding: 4.5pt 13.5pt;
   border-radius: var(--radius);
   corner-shape: squircle;
   background: var(--item-bg);
-  border: 3pt var(--item-border);
+  border: var(--border) var(--item-border);
 }
 
 item:hover {
@@ -42,26 +44,39 @@ group item:only-child {
   border-radius: var(--radius);
 }
 
+/* The stats, the status icons, and the workspace with the app beside it are one bubble each:
+   the items touch, and each after the first gives up its left border, so neighbours share the
+   one between them. */
+#system, #status, #focus { gap: 0; }
+#system item, #status item, #focus item { border-width: var(--border) var(--border) var(--border) 0; }
+#system item:first-child, #status item:first-child, #focus item:first-child { border-width: var(--border); }
+
 /* The logo reads small at the text's 12pt. icon-size scales only the glyph; font-size would
    also raise the line height and so the bubble. */
 #apple {
   icon-size: 14pt;
 }
 
-/* The apple is a 21pt canvas, as tall as the bubble's inside, and 9pt wider than the logo for
-   its shine: this padding puts the logo where the icon was. The shine shows while caffeinate
-   is running. */
-#apple { padding: 0pt 7.5pt; --shine: transparent; }
+/* The apple is a 21pt canvas, 1.5pt short of the bubble's inside above and below, and 9pt wider
+   than the logo for its shine: this padding puts the logo where the icon was. The shine shows
+   while caffeinate is running. */
+#apple { padding: 1.5pt 9pt; --shine: transparent; }
 #apple.running { --shine: currentColor; }
 
-/* The workspace number turns in the bubble's whole inside, 21pt within the border, as the apple's
-   canvas fills it: no padding above or below, so it is clipped where the border begins rather
-   than at its own line. */
-#workspace { padding: 0pt 12pt; }
-#workspace roll { --roll-height: 21pt; }
+/* The workspace number turns in the bubble's whole inside, 24pt within the border: no padding
+   above or below, so it is clipped where the border begins rather than at its own line. */
+#workspace { padding: 0pt 13.5pt; }
 
-/* Stats. Two 9pt lines (the built-in .stacked size) fit inside the bubble's 3pt padding and
-   border; the graph stretches to their height. */
+/* While the app rolls away under the guide, the workspace's right corners round off with it,
+   and square up again as it rolls back. The rest is the built-in item transition. */
+#workspace {
+  transition: background 120ms ease-out, opacity 120ms, color 120ms,
+              border-radius 280ms ease-in-out;
+}
+#workspace roll { --roll-height: 24pt; }
+
+/* Stats. Two 9pt lines (the built-in .stacked size) fit inside the bubble's 4.5pt padding and
+   1.5pt border; the graph stretches to their height. */
 #cpu row { gap: 5pt; }
 #cpu .stacked text:last-child { opacity: 0.6; }
 #cpu graph { fill: rgba(130, 190, 255, 0.6); }
@@ -82,7 +97,7 @@ group item:only-child {
 #app:leaving, #names:leaving, #badges:leaving {
   transform: perspective(120pt) rotateX(90deg); opacity: 0;
 }
-#names         { padding: 5pt 6pt; }
+#names         { padding: 6.5pt 7.5pt; }
 #names .column { padding: 2pt 9pt; border-radius: 12pt; corner-shape: squircle; }
 #names .focused { background: rgba(255, 255, 255, 0.16); }
 #names .app    { text-transform: lowercase; }
