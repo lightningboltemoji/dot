@@ -1,9 +1,16 @@
-/* Cascades on top of bario's built-in style, so only the changes live here. */
 :root {
-  --item-bg: rgba(24, 24, 28, 0.85);
-  --item-bg-hover: rgba(44, 44, 50, 0.9);
-  --item-fg: rgb(230, 230, 235);
-  --item-border: rgba(255, 255, 255, 0.18);
+  --tint: oklch(
+    from wallpaper(seed, wallpaper(muted-dark)) 0.23 min(c, 0.07) h
+  );
+  --item-bg: color-mix(in oklch, var(--tint) 85%, transparent);
+  --item-bg-hover: color-mix(
+    in oklch,
+    oklch(from var(--tint) calc(l + 0.08) c h) 90%,
+    transparent
+  );
+  --item-fg: on(var(--tint));
+  --item-border: color-mix(in oklch, wallpaper(muted-light) 22%, transparent);
+  --glow: wallpaper(vibrant-light);
   --border: 1.5pt;
   --radius: 18pt;
 }
@@ -15,25 +22,26 @@ bar {
 }
 
 item {
-  /* 4.5pt more per side than the built-in 2pt 9pt: with the 1.5pt border, each item is 12pt
-     bigger each way. */
   padding: 4.5pt 13.5pt;
   border-radius: var(--radius);
   corner-shape: squircle;
   background: var(--item-bg);
   border: var(--border) var(--item-border);
+  transition:
+    background 250ms ease-out,
+    border-color 250ms ease-out,
+    color 250ms ease-out,
+    opacity 120ms;
 }
 
 item:hover {
   background: var(--item-bg-hover);
 }
 
-/* Half strength over a full screen app. The built-in item rule already fades opacity, both ways. */
 bar.fullscreen item {
   opacity: 0.5;
 }
 
-/* Grouped items round only their outer corners; the built-in rules use 8pt. */
 group item:first-child {
   border-radius: var(--radius) 0 0 var(--radius);
 }
@@ -44,80 +52,161 @@ group item:only-child {
   border-radius: var(--radius);
 }
 
-/* The stats, the status icons, and the workspace with the app beside it are one bubble each:
-   the items touch, and each after the first gives up its left border, so neighbours share the
-   one between them. */
-#system, #status, #focus { gap: 0; }
-#system item, #status item, #focus item { border-width: var(--border) var(--border) var(--border) 0; }
-#system item:first-child, #status item:first-child, #focus item:first-child { border-width: var(--border); }
+#system,
+#status,
+#focus {
+  gap: 0;
+}
+#system item,
+#status item,
+#focus item {
+  border-width: var(--border) var(--border) var(--border) 0;
+}
+#system item:first-child,
+#status item:first-child,
+#focus item:first-child {
+  border-width: var(--border);
+}
 
-/* The logo reads small at the text's 12pt. icon-size scales only the glyph; font-size would
-   also raise the line height and so the bubble. */
 #apple {
   icon-size: 14pt;
 }
 
-/* The apple is a 21pt canvas, 1.5pt short of the bubble's inside above and below, and 9pt wider
-   than the logo for its shine: this padding puts the logo where the icon was. The shine shows
-   while caffeinate is running. */
-#apple { padding: 1.5pt 9pt; --shine: transparent; }
-#apple.running { --shine: currentColor; }
+#apple {
+  padding: 1.5pt 9pt;
+  --shine: transparent;
+}
+#apple.running {
+  --shine: currentColor;
+}
 
 /* The workspace number turns in the bubble's whole inside, 24pt within the border: no padding
    above or below, so it is clipped where the border begins rather than at its own line. */
-#workspace { padding: 0pt 13.5pt; }
+#workspace {
+  padding: 0pt 13.5pt;
+}
 
 /* While the app rolls away under the guide, the workspace's right corners round off with it,
    and square up again as it rolls back. The rest is the built-in item transition. */
 #workspace {
-  transition: background 120ms ease-out, opacity 120ms, color 120ms,
-              border-radius 280ms ease-in-out;
+  transition:
+    background 250ms ease-out,
+    border-color 250ms ease-out,
+    color 250ms ease-out,
+    opacity 120ms,
+    border-radius 280ms ease-in-out;
 }
-#workspace roll { --roll-height: 24pt; }
+#workspace roll {
+  --roll-height: 24pt;
+}
 
 /* Stats. Two 9pt lines (the built-in .stacked size) fit inside the bubble's 4.5pt padding and
    1.5pt border; the graph stretches to their height. */
-#cpu row { gap: 5pt; }
-#cpu .stacked text:last-child { opacity: 0.6; }
-#cpu graph { fill: rgba(130, 190, 255, 0.6); }
-#cpu.warn graph { fill: rgba(255, 190, 90, 0.75); }
-#cpu.critical graph { fill: rgba(255, 95, 85, 0.85); }
+#cpu row {
+  gap: 5pt;
+}
+#cpu .stacked text:last-child {
+  opacity: 0.6;
+}
+#cpu graph {
+  fill: color-mix(in oklch, var(--glow) 65%, transparent);
+}
+#cpu.warn graph {
+  fill: rgba(255, 190, 90, 0.75);
+}
+#cpu.critical graph {
+  fill: rgba(255, 95, 85, 0.85);
+}
 
-#mem meter { track: rgba(255, 255, 255, 0.15); }
-#mem.pressure-warn meter { fill: rgb(255, 190, 90); }
-#mem.pressure-critical meter { fill: rgb(255, 95, 85); }
+#mem meter {
+  fill: var(--glow);
+  track: color-mix(in oklch, var(--item-fg) 15%, transparent);
+}
+#mem.pressure-warn meter {
+  fill: rgb(255, 190, 90);
+}
+#mem.pressure-critical meter {
+  fill: rgb(255, 95, 85);
+}
 
 /* emira's names guide: the app name rolls away and the focused strip's columns roll in. */
-#app, #names, #badges {
-  transition: transform 280ms ease-in-out, opacity 220ms ease-in;
+#app,
+#names,
+#badges {
+  transition:
+    transform 280ms ease-in-out,
+    opacity 220ms ease-in;
 }
 @starting-style {
-  #app, #names, #badges { transform: perspective(120pt) rotateX(-90deg); opacity: 0; }
+  #app,
+  #names,
+  #badges {
+    transform: perspective(120pt) rotateX(-90deg);
+    opacity: 0;
+  }
 }
-#app:leaving, #names:leaving, #badges:leaving {
-  transform: perspective(120pt) rotateX(90deg); opacity: 0;
+#app:leaving,
+#names:leaving,
+#badges:leaving {
+  transform: perspective(120pt) rotateX(90deg);
+  opacity: 0;
 }
-#names         { padding: 6.5pt 7.5pt; }
-#names .column { padding: 2pt 9pt; border-radius: 12pt; corner-shape: squircle; }
-#names .focused { background: rgba(255, 255, 255, 0.16); }
-#names .app    { text-transform: lowercase; }
-#names .more   { opacity: 0.5; padding: 0pt 4pt; }
+#names {
+  padding: 6.5pt 7.5pt;
+}
+#names .column {
+  padding: 2pt 9pt;
+  border-radius: 12pt;
+  corner-shape: squircle;
+}
+#names .focused {
+  background: color-mix(in oklch, var(--item-fg) 16%, transparent);
+}
+#names .app {
+  text-transform: lowercase;
+}
+#names .more {
+  opacity: 0.5;
+  padding: 0pt 4pt;
+}
 
 /* Ping's badges: the app's own icon in colour while it has something to say, its shape alone
    while it has not, and the count in red once it is worth dropping things for. */
-#badges .app { icon-rendering: multicolor; icon-size: 15pt; }
-#badges .clear .app { icon-rendering: monochrome; }
-#badges .badge { font-weight: bold; }
-#badges .warn .badge { color: rgb(255, 190, 90); }
-#badges .critical .badge { color: rgb(255, 95, 85); }
-#badges .acknowledged, #badges .snoozed, #badges .silent { opacity: 0.5; }
+#badges .app {
+  icon-rendering: multicolor;
+  icon-size: 15pt;
+}
+#badges .clear .app {
+  icon-rendering: monochrome;
+}
+#badges .badge {
+  font-weight: bold;
+}
+#badges .warn .badge {
+  color: rgb(255, 190, 90);
+}
+#badges .critical .badge {
+  color: rgb(255, 95, 85);
+}
+#badges .acknowledged,
+#badges .snoozed,
+#badges .silent {
+  opacity: 0.5;
+}
 
 /* Slack: yellow for a dot or a word; a count fills the whole bubble red, contents in white. */
-#slack.dot icon, #slack.text icon { icon-color: system(systemYellowColor); }
-#slack.text .badge { color: system(systemYellowColor); }
+#slack.dot icon,
+#slack.text icon {
+  icon-color: system(systemYellowColor);
+}
+#slack.text .badge {
+  color: system(systemYellowColor);
+}
 #slack.count {
   background: system(systemRedColor);
   color: white;
   icon-color: white;
 }
-#slack.count:hover { background: rgb(255, 105, 95); }
+#slack.count:hover {
+  background: rgb(255, 105, 95);
+}
