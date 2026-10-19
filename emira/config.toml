@@ -2,7 +2,7 @@
 column-gap = 20
 window-gap = 20
 outer-gap = 20
-outer-gap-top = 8
+outer-gap-top = 16
 resize-detent = true
 height-presets = [0.5, 0.666]
 width-presets = [0.5, 0.666]
@@ -66,5 +66,5 @@ from-focused-app = true
 float = true
 
 [[display]]
-name-regex = "Studio Display"
-outer-gap-top = 16
+name-regex = '^Built-in'
+outer-gap-top = 8
