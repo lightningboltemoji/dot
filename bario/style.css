@@ -73,7 +73,7 @@ group item:only-child {
 }
 
 #apple {
-  padding: 1.5pt 9pt;
+  padding: 1.5pt 7pt;
   --shine: transparent;
 }
 #apple.running {

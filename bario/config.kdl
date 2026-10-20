@@ -35,17 +35,17 @@ bar {
   item "apple" module="exec" interval="watch" running=#false on-click="toggle" {
     command "exec caffeinate -d -w $PPID"
     content {
-      // The logo where the icon drew it, centred at (11, 10.35), with its shine either side:
-      // three ticks each, level and 25° above and below, 7.75pt to 10pt out from the middle.
-      canvas width=22 height=21 {
-        image "apple.logo" { rect 4.7 2.3 13 16 }
+      // The logo where the icon drew it, centred at (13, 10.35), with its shine either side:
+      // three ticks each, level and 25° above and below, 9.75pt to 12pt out from the middle.
+      canvas width=26 height=21 {
+        image "apple.logo" { rect 6.7 2.3 13 16 }
         stroke "var(--shine)" width=1.5 cap="round" {
-          move 18 7.1; line 20.1 6.1
-          move 18.75 10.35; line 21 10.35
-          move 18 13.6; line 20.1 14.6
-          move 4 7.1; line 1.9 6.1
+          move 21.84 6.23; line 23.88 5.28
+          move 22.75 10.35; line 25 10.35
+          move 21.84 14.47; line 23.88 15.42
+          move 4.16 6.23; line 2.12 5.28
           move 3.25 10.35; line 1 10.35
-          move 4 13.6; line 1.9 14.6
+          move 4.16 14.47; line 2.12 15.42
         }
       }
     }
