@@ -3,7 +3,8 @@ export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
 if [[ -n $SSH_CONNECTION ]]; then
     _agent_link=$HOME/.ssh/agent.sock
-    if [[ -S $SSH_AUTH_SOCK && $SSH_AUTH_SOCK != $_agent_link ]]; then
+    if [[ -S $SSH_AUTH_SOCK && $SSH_AUTH_SOCK != $_agent_link ]] &&
+        [[ -t 0 || ! -S $_agent_link ]]; then
         ssh-add -l >/dev/null 2>&1
         (( $? != 2 )) && ln -sf $SSH_AUTH_SOCK $_agent_link
     fi
