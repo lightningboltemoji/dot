@@ -27,8 +27,9 @@ bar {
   hole radius=120 feather=0 proximity=0 click="reveal"
   option "reveal"
   position "fixed"
-  // Over a full screen app too, in the black strip beside the notch; the bar wears `fullscreen`.
-  fullscreen "show"
+  // Over a full screen app only where it leaves room: in the black strip beside the notch, and
+  // off the Studio Display, where the app has the whole screen. The bar wears `fullscreen`.
+  fullscreen "if-room"
 
   // A click keeps the display awake, and another lets it sleep; it shines while awake. -w ends
   // caffeinate with bario ($PPID), even if bario crashes rather than quits.

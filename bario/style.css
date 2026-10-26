@@ -19,6 +19,9 @@ bar {
   font-family: ui-monospace;
   color: var(--item-fg);
   padding: 0pt 16pt;
+  /* A slow dissolve as the bar comes and goes; the built-in look's @starting-style and
+     :leaving say from and to what. This list replaces the built-in one, hence layout. */
+  transition: opacity 300ms ease-in-out, layout 160ms ease-out;
 }
 
 item {
