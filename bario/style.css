@@ -11,6 +11,7 @@
   --item-fg: on(var(--tint));
   --item-border: color-mix(in oklch, wallpaper(muted-light) 22%, transparent);
   --glow: wallpaper(vibrant-light);
+  --highlight: scheme(primary);
   --border: 1.5pt;
   --radius: 18pt;
 }
@@ -21,7 +22,9 @@ bar {
   padding: 0pt 16pt;
   /* A slow dissolve as the bar comes and goes; the built-in look's @starting-style and
      :leaving say from and to what. This list replaces the built-in one, hence layout. */
-  transition: opacity 300ms ease-in-out, layout 160ms ease-out;
+  transition:
+    opacity 300ms ease-in-out,
+    layout 160ms ease-out;
 }
 
 item {
@@ -130,6 +133,17 @@ group item:only-child {
 }
 #mem.pressure-critical meter {
   fill: rgb(255, 95, 85);
+}
+
+#net row {
+  gap: 6pt;
+}
+
+/* Low battery lights its bubble in the scheme's primary, the wallpaper's hue at full strength,
+   in place of the built-in red, which washes out to pink over a light wallpaper. */
+#battery.low {
+  background: color-mix(in oklch, var(--highlight) 85%, transparent);
+  color: on(var(--highlight));
 }
 
 /* emira's names guide: the app name rolls away and the focused strip's columns roll in. */

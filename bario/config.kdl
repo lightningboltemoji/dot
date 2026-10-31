@@ -90,7 +90,15 @@ bar {
       }
     }
     item "mem" module="mem" interval="2s" preset="meter"
-    item "net" module="net" interval="1s" preset="stacked"
+    // The stacked preset, with each arrow its own text so the stylesheet can space it off.
+    item "net" module="net" interval="1s" {
+      content {
+        column class="stacked" align="end" {
+          row { text "↑"; text "{tx:rate}"; }
+          row { text "↓"; text "{rx:rate}"; }
+        }
+      }
+    }
   }
   spacer
   group "status" {
