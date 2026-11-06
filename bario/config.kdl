@@ -76,12 +76,36 @@ bar {
   notch
   spacer
   group "system" {
+    // What the machine is drawing now, over its 30s average. The bolt fills with `level`, and is
+    // full when a full battery would last 2 hours or less. Its bottom 4pt are always lit, since
+    // the tip is too thin to see at idle. Drawn by hand, as a symbol cannot be a clip.
+    item "power" module="power" interval="1s" windows="30s" {
+      content {
+        row align="center" gap=13 {
+          canvas width=12 height=20 {
+            fill "color-mix(in oklch, var(--item-fg) 15%, transparent)" {
+              move 7.5 0.5; line 1 11.5; line 5.4 11.5; line 4.5 19.5; line 11 8; line 6.6 8; close
+            }
+            clip {
+              move 7.5 0.5; line 1 11.5; line 5.4 11.5; line 4.5 19.5; line 11 8; line 6.6 8; close
+            }
+            translate 0 16
+            scale 1 -16
+            fill "var(--glow)" { rect 0 -0.25 12 0.25; rect 0 0 12 "{level}"; }
+          }
+          column class="stacked" align="end" {
+            text "{draw:watts}"
+            text "{draw-30s:watts}"
+          }
+        }
+      }
+    }
     item "cpu" module="cpu" interval="1s" windows="5s 1m" history="40s" {
       warn 70
       critical 90
       content {
         row align="stretch" {
-          graph values="{history}" max=1 kind="area" scroll="smooth" width=40
+          graph values="{history}" max=1 kind="area" scroll="smooth" width=28
           column class="stacked" align="end" {
             text "{load-5s:%3.0f}%"
             text "{load-1m:%3.0f}%"
@@ -89,13 +113,21 @@ bar {
         }
       }
     }
-    item "mem" module="mem" interval="2s" preset="meter"
+    // The meter preset, stacked to the height of its neighbours' two lines.
+    item "mem" module="mem" interval="2s" {
+      content {
+        column class="stacked" align="center" {
+          meter value="{pressure-fraction}" width=22
+          text "{pressure-pct:%.0f}%"
+        }
+      }
+    }
     // The stacked preset, with each arrow its own text so the stylesheet can space it off.
     item "net" module="net" interval="1s" {
       content {
         column class="stacked" align="end" {
-          row { text "↑"; text "{tx:rate}"; }
-          row { text "↓"; text "{rx:rate}"; }
+          row { text "↑"; text "{tx:rate-short}"; }
+          row { text "↓"; text "{rx:rate-short}"; }
         }
       }
     }
