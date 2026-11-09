@@ -17,6 +17,9 @@ source "ping" module="exec" interval="watch" max-backoff="5s" {
   command "/Applications/Ping.app/Contents/MacOS/ping-dot-app" "watch"
 }
 
+// The display's and the keyboard's brightness, under `brightness`, for the control centre.
+source "brightness" module="brightness"
+
 // Text that turns over as on a drum, for the workspace bubble.
 renderer "roll" path="~/.config/bario/renderers/roll.wasm"
 
@@ -31,9 +34,10 @@ bar {
   // off the Studio Display, where the app has the whole screen. The bar wears `fullscreen`.
   fullscreen "if-room"
 
-  // A click keeps the display awake, and another lets it sleep; it shines while awake. -w ends
-  // caffeinate with bario ($PPID), even if bario crashes rather than quits.
-  item "apple" module="exec" interval="watch" running=#false on-click="toggle" {
+  // A click opens the Apple menu. A right click keeps the display awake or lets it sleep; it
+  // shines while awake. -w ends caffeinate with bario ($PPID), even if bario crashes rather than
+  // quits.
+  item "apple" module="exec" interval="watch" running=#false on-right-click="toggle" {
     command "exec caffeinate -d -w $PPID"
     content {
       // The logo where the icon drew it, centred at (13, 10.35), with its shine either side:
@@ -49,6 +53,20 @@ bar {
           move 4.16 14.47; line 2.12 15.42
         }
       }
+    }
+    menu {
+      row class="awake" on-click="toggle" keep-open=#true {
+        icon "cup.and.saucer.fill" class="glyph"; text "Keep awake"; spacer; icon "checkmark" class="check"
+      }
+      separator
+      row on-click="exec open 'x-apple.systempreferences:com.apple.SystemProfiler.AboutExtension'" { text "About This Mac" }
+      row on-click="exec open -b com.apple.systempreferences" { text "System Settings…" }
+      separator
+      row on-click="exec pmset sleepnow" { text "Sleep" }
+      row on-click=#"exec osascript -e 'tell app "loginwindow" to «event aevtrrst»'"# { text "Restart…" }
+      row on-click=#"exec osascript -e 'tell app "loginwindow" to «event aevtrsdn»'"# { text "Shut Down…" }
+      separator
+      row on-click="key ctrl+cmd+q" { text "Lock Screen" }
     }
   }
   // One bubble: emira's focused workspace, then the app in front.
@@ -140,5 +158,20 @@ bar {
       low 20
     }
   }
-  item "clock" module="clock" format="EEE, MMM d ⌘ h:mm:ss" priority=10 on-click="exec open -a Calendar"
+  // A click opens Notification Center, with the system's own shortcut for it.
+  item "clock" module="clock" format="EEE, MMM d ⌘ h:mm:ss" priority=10 on-click="key fn+n"
+  // A control centre: brightness as sliders. A group of its own, at the end of the bar.
+  group "controls" {
+    item "settings" module="text" {
+      content { icon "gearshape.fill" }
+      menu align="end" {
+        if "/brightness.has-display" {
+          row { icon "sun.max.fill" class="glyph"; slider value="{/brightness.display}" on-change="send brightness set-display" }
+        }
+        if "/brightness.has-keyboard" {
+          row { icon "light.max" class="glyph"; slider value="{/brightness.keyboard}" on-change="send brightness set-keyboard" }
+        }
+      }
+    }
+  }
 }

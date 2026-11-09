@@ -237,3 +237,49 @@ group item:only-child {
 #slack.count:hover {
   background: rgb(255, 105, 95);
 }
+
+/* Menus: one more bubble, hung a gap below the one that was clicked. Its tint is the bubbles' as
+   they show over the wallpaper, made solid, since a menu hangs over windows, not the desktop;
+   the border, squircle and type are theirs. Inside it, a row under the pointer lights as #names'
+   focused column does, a separator is the line between bubbles in a group, a slider is #mem's
+   meter, and secondary text is dimmed as the stats' second lines are. */
+menu {
+  background: color-mix(in srgb, var(--tint) 85%, wallpaper(dominant));
+  border: var(--border) var(--item-border);
+  border-radius: var(--radius);
+  corner-shape: squircle;
+  padding: 4.5pt;
+  margin: 0;
+  shadow: none;
+}
+menu row {
+  padding: 4pt 9pt;
+  border-radius: 13.5pt;
+  corner-shape: squircle;
+}
+menu row:hover {
+  background: color-mix(in oklch, var(--item-fg) 16%, transparent);
+}
+menu row:active {
+  background: color-mix(in oklch, var(--item-fg) 24%, transparent);
+}
+menu .separator {
+  padding: 0.75pt 0;
+  margin: 4.5pt -4.5pt;
+  background: var(--item-border);
+}
+menu slider {
+  fill: var(--glow);
+  track: color-mix(in oklch, var(--item-fg) 15%, transparent);
+}
+
+/* The Apple menu's keep-awake row: checked while caffeinate runs, which is when the item is
+   .running (the built-in look hides a check until something says to show it). */
+#apple.running menu .awake .check {
+  opacity: 1;
+}
+
+/* The bubble a menu hangs from, lit in the theme's own hover while the menu is open. */
+item:open {
+  background: var(--item-bg-hover);
+}
