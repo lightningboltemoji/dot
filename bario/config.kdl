@@ -160,11 +160,24 @@ bar {
   }
   // A click opens Notification Center, with the system's own shortcut for it.
   item "clock" module="clock" format="EEE, MMM d ⌘ h:mm:ss" priority=10 on-click="key fn+n"
-  // A control centre: brightness as sliders. A group of its own, at the end of the bar.
+  // A control centre: the menu bar's own items, which the bar covers, as a grid, then
+  // brightness as sliders. A group of its own, at the end of the bar. Choosing an item presses
+  // the real one, and its menu opens where macOS puts it.
   group "controls" {
-    item "settings" module="text" on-click="menu" {
+    item "settings" module="menu-extras" on-click="menu" {
+      // The bar has its own clock. By name, app, bundle id or Accessibility identifier;
+      // `bario get settings.items` lists each item's.
+      hide "com.apple.menuextra.clock"
       content { icon "gearshape.fill" }
       menu align="end" {
+        each "lines" {
+          row class="extras" {
+            each "items" {
+              row class="extra" on-click="press {id}" { icon "{icon}" class="extra-icon {kind}" }
+            }
+          }
+        }
+        if "count" { separator }
         if "/brightness.has-display" {
           row { icon "sun.max.fill" class="glyph"; slider value="{/brightness.display}" on-change="send brightness set-display" }
         }
