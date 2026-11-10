@@ -37,7 +37,7 @@ bar {
   // A click opens the Apple menu. A right click keeps the display awake or lets it sleep; it
   // shines while awake. -w ends caffeinate with bario ($PPID), even if bario crashes rather than
   // quits.
-  item "apple" module="exec" interval="watch" running=#false on-right-click="toggle" {
+  item "apple" module="exec" interval="watch" running=#false on-click="menu" on-right-click="toggle" {
     command "exec caffeinate -d -w $PPID"
     content {
       // The logo where the icon drew it, centred at (13, 10.35), with its shine either side:
@@ -76,7 +76,7 @@ bar {
     item "workspace" module="wasm" path="~/.config/bario/modules/emira-workspace.wasm" {
       config source="emira" roll=#true
     }
-    item "app" module="front-app" priority=10 format="{name}" max-length=28 unless="guide"
+    item "app" module="front-app" priority=10 format="{name}" max-length=28 unless="guide" on-click="menu"
   }
   spacer
   group "badges" unless="guide" {
@@ -152,9 +152,9 @@ bar {
   }
   spacer
   group "status" {
-    item "wifi" module="wifi" format="{icon}"
-    item "volume" module="volume" format="{icon}"
-    item "battery" module="battery" format="{icon} {pct}%" {
+    item "wifi" module="wifi" format="{icon}" on-click="menu"
+    item "volume" module="volume" format="{icon}" on-click="menu"
+    item "battery" module="battery" format="{icon} {pct}%" on-click="menu" {
       low 20
     }
   }
@@ -162,7 +162,7 @@ bar {
   item "clock" module="clock" format="EEE, MMM d ⌘ h:mm:ss" priority=10 on-click="key fn+n"
   // A control centre: brightness as sliders. A group of its own, at the end of the bar.
   group "controls" {
-    item "settings" module="text" {
+    item "settings" module="text" on-click="menu" {
       content { icon "gearshape.fill" }
       menu align="end" {
         if "/brightness.has-display" {
