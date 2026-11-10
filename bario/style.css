@@ -263,6 +263,10 @@ menu row:hover {
 menu row:active {
   background: color-mix(in oklch, var(--item-fg) 24%, transparent);
 }
+/* The row a submenu hangs from stays lit, as under the pointer, while the submenu is open. */
+menu row:open {
+  background: color-mix(in oklch, var(--item-fg) 16%, transparent);
+}
 menu .separator {
   padding: 0.75pt 0;
   margin: 4.5pt -4.5pt;
