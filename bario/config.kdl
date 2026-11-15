@@ -1,102 +1,143 @@
-// emira's desktop, a snapshot per change, under `emira` in the store. No bubble.
-// `emira watch` exits at once while the daemon is down, so retry often: back within 5s of it.
+// Both `watch` commands exit at once while their app is down, hence the short backoff.
 source "emira" module="exec" interval="watch" max-backoff="5s" {
   command "emira" "watch"
 }
 
-// On while the desktop moves, and for 700ms after the last change or movement.
 mode "guide" {
   while "emira.moving"
   changed "emira.focus" "emira.displays"
   hold "700ms"
 }
 
-// Ping's reading of the Dock, under `ping`: every app's badge, and whether it was acknowledged
-// or snoozed. No bubble. `watch` exits at once while Ping is down, so retry often.
 source "ping" module="exec" interval="watch" max-backoff="5s" {
   command "/Applications/Ping.app/Contents/MacOS/ping-dot-app" "watch"
 }
 
-// The display's and the keyboard's brightness, under `brightness`, for the control centre.
 source "brightness" module="brightness"
 
-// Text that turns over as on a drum, for the workspace bubble.
 renderer "roll" path="~/.config/bario/renderers/roll.wasm"
 
 bar {
-  // The same on every display, down from the top of the screen: the MacBook's menu bar. On
-  // the Studio Display (30pt menu bar) it hangs 8pt below the menu bar.
+  // The MacBook's menu bar; on the Studio Display (30pt) it hangs 8pt below.
   height 38
   hole radius=120 feather=0 proximity=0 click="reveal"
   option "reveal"
   position "fixed"
-  // Over a full screen app only where it leaves room: in the black strip beside the notch, and
-  // off the Studio Display, where the app has the whole screen. The bar wears `fullscreen`.
   fullscreen "if-room"
+  // Every group starts and ends with an empty "shoulder" item (-l/-r), which the stylesheet
+  // draws as the curve into the top of the screen, or zeroes out.
+  align "stretch"
 
-  // A click opens the Apple menu. A right click keeps the display awake or lets it sleep; it
-  // shines while awake. -w ends caffeinate with bario ($PPID), even if bario crashes rather than
-  // quits.
-  item "apple" module="exec" interval="watch" running=#false on-click="menu" on-right-click="toggle" {
-    command "exec caffeinate -d -w $PPID"
-    content {
-      // The logo where the icon drew it, centred at (13, 10.35), with its shine either side:
-      // three ticks each, level and 25° above and below, 9.75pt to 12pt out from the middle.
-      canvas width=26 height=21 {
-        image "apple.logo" { rect 6.7 2.3 13 16 }
-        stroke "var(--shine)" width=1.5 cap="round" {
-          move 21.84 6.23; line 23.88 5.28
-          move 22.75 10.35; line 25 10.35
-          move 21.84 14.47; line 23.88 15.42
-          move 4.16 6.23; line 2.12 5.28
-          move 3.25 10.35; line 1 10.35
-          move 4.16 14.47; line 2.12 15.42
-        }
+  spacer
+  // What changes width is outermost, so the island beside the notch stays put.
+  group "windows" {
+    item "windows-l" module="data"
+    // One pill for both, so the black resizes with it while they roll in and out inside it.
+    group "front" {
+      item "front-l" module="data"
+      item "app" module="front-app" priority=10 format="{name}" max-length=28 unless="guide" on-click="menu"
+      item "names" module="wasm" path="~/.config/bario/modules/emira-names.wasm" when="guide" {
+        config source="emira" max=7
       }
+      item "front-r" module="data"
     }
-    menu {
-      row class="awake" on-click="toggle" keep-open=#true {
-        icon "cup.and.saucer.fill" class="glyph"; text "Keep awake"; spacer; icon "checkmark" class="check"
-      }
-      separator
-      row on-click="exec open 'x-apple.systempreferences:com.apple.SystemProfiler.AboutExtension'" { text "About This Mac" }
-      row on-click="exec open -b com.apple.systempreferences" { text "System Settings…" }
-      separator
-      row on-click="exec pmset sleepnow" { text "Sleep" }
-      row on-click=#"exec osascript -e 'tell app "loginwindow" to «event aevtrrst»'"# { text "Restart…" }
-      row on-click=#"exec osascript -e 'tell app "loginwindow" to «event aevtrsdn»'"# { text "Shut Down…" }
-      separator
-      row on-click="key ctrl+cmd+q" { text "Lock Screen" }
-    }
-  }
-  // One bubble: emira's focused workspace, then the app in front.
-  group "focus" {
-    // Its name alone, from the source. It rolls as emira pans: up to a later workspace, down
-    // to an earlier one.
     item "workspace" module="wasm" path="~/.config/bario/modules/emira-workspace.wasm" {
       config source="emira" roll=#true
     }
-    item "app" module="front-app" priority=10 format="{name}" max-length=28 unless="guide" on-click="menu"
+    item "windows-r" module="data"
   }
-  spacer
-  group "badges" unless="guide" {
-    item "slack" module="wasm" path="~/.config/bario/modules/ping-badge.wasm" on-click="exec open -a Slack" {
-      config app="Slack" icon="number" dot="" hide="quiet"
+  group "focus" {
+    item "focus-l" module="data"
+    // Right click keeps the display awake. -w ends caffeinate with bario ($PPID), even on a crash.
+    item "apple" module="exec" interval="watch" running=#false on-click="menu" on-right-click="toggle" {
+      command "exec caffeinate -d -w $PPID"
+      content { icon "apple.logo" }
+      menu align="start" {
+        row class="awake" on-click="toggle" keep-open=#true {
+          icon "cup.and.saucer.fill" class="glyph"; text "Keep awake"; spacer; icon "checkmark" class="check"
+        }
+        separator
+        row on-click="exec open 'x-apple.systempreferences:com.apple.SystemProfiler.AboutExtension'" { text "About This Mac" }
+        row on-click="exec open -b com.apple.systempreferences" { text "System Settings…" }
+        separator
+        row on-click="exec pmset sleepnow" { text "Sleep" }
+        row on-click=#"exec osascript -e 'tell app "loginwindow" to «event aevtrrst»'"# { text "Restart…" }
+        row on-click=#"exec osascript -e 'tell app "loginwindow" to «event aevtrsdn»'"# { text "Shut Down…" }
+        separator
+        row on-click="key ctrl+cmd+q" { text "Lock Screen" }
+      }
     }
-    item "messages" module="wasm" path="~/.config/bario/modules/ping-badge.wasm" on-click="exec open -a Messages" {
-      config app="Messages" hide="quiet"
+    item "focus-r" module="data"
+  }
+  group "time" {
+    item "time-l" module="data"
+    // fn+n opens Notification Center.
+    item "clock" module="clock" priority=10 on-click="key fn+n" {
+      content {
+        row {
+          text "{now:d}"
+          text "{now:EEE}" class="day"
+          text "{now:h:mm:ss}"
+        }
+      }
     }
+    item "time-r" module="data"
   }
-  item "names" module="wasm" path="~/.config/bario/modules/emira-names.wasm" when="guide" {
-    config source="emira" max=7
-  }
-  spacer
   notch
-  spacer
+  group "status" {
+    item "status-l" module="data"
+    item "seam" module="data" unless="notched"
+    item "wifi" module="wifi" format="{icon}" on-click="menu"
+    item "volume" module="volume" format="{icon}" on-click="menu"
+    item "battery" module="battery" on-click="menu" {
+      low 20
+      content {
+        canvas width=25.5 height=11 {
+          fill "var(--cell-track)" { round-rect 0 0 23 11 3.5 }
+          fill "var(--cell-track)" { round-rect 24 3.5 1.5 4 0.75 }
+          text "{pct}{power-icon}" font="bold 9pt monospace" align="center" valign="baseline" { at 11.5 8.65 }
+          group {
+            clip { round-rect 0 0 23 11 3.5 }
+            scale 23 1
+            clip { rect 0 0 "{fraction}" 11 }
+            scale 0.043478 1
+            fill "var(--cell-fill)" { rect 0 0 23 11 }
+            text "{pct}{power-icon}" font="bold 9pt monospace" color="var(--cell-ink)" align="center" valign="baseline" { at 11.5 8.65 }
+          }
+        }
+      }
+    }
+    item "status-r" module="data"
+  }
+  group "controls" {
+    item "controls-l" module="data"
+    item "settings" module="menu-extras" on-click="menu" {
+      // `bario get settings.items` lists each item's name, app, bundle id and AX identifier.
+      hide "com.apple.menuextra.clock"
+      content { icon "gearshape.fill" }
+      menu align="start" {
+        each "lines" {
+          row class="extras" {
+            each "items" {
+              row class="extra" on-click="press {id}" { icon "{icon}" class="extra-icon {kind}" }
+            }
+          }
+        }
+        if "count" { separator }
+        if "/brightness.has-display" {
+          row { icon "sun.max.fill" class="glyph"; slider value="{/brightness.display}" on-change="send brightness set-display" }
+        }
+        if "/brightness.has-keyboard" {
+          row { icon "light.max" class="glyph"; slider value="{/brightness.keyboard}" on-change="send brightness set-keyboard" }
+        }
+      }
+    }
+    item "controls-r" module="data"
+  }
   group "system" {
-    // What the machine is drawing now, over its 30s average. The bolt fills with `level`, and is
-    // full when a full battery would last 2 hours or less. Its bottom 4pt are always lit, since
-    // the tip is too thin to see at idle. Drawn by hand, as a symbol cannot be a clip.
+    item "system-l" module="data"
+    // The bolt fills with `level` (full at 2h or less of battery). The first rect keeps its bottom
+    // 4pt lit, since the tip is too thin to see at idle. A path because a symbol can't be a clip.
     item "power" module="power" interval="1s" windows="30s" {
       content {
         row align="center" gap=13 {
@@ -131,7 +172,6 @@ bar {
         }
       }
     }
-    // The meter preset, stacked to the height of its neighbours' two lines.
     item "mem" module="mem" interval="2s" {
       content {
         column class="stacked" align="center" {
@@ -140,7 +180,6 @@ bar {
         }
       }
     }
-    // The stacked preset, with each arrow its own text so the stylesheet can space it off.
     item "net" module="net" interval="1s" {
       content {
         column class="stacked" align="end" {
@@ -149,42 +188,10 @@ bar {
         }
       }
     }
+    item "system-r" module="data"
+  }
+  item "slack" module="wasm" path="~/.config/bario/modules/ping-badge.wasm" on-click="exec open -a Slack" {
+    config app="Slack" icon="number" dot="" hide="quiet"
   }
   spacer
-  group "status" {
-    item "wifi" module="wifi" format="{icon}" on-click="menu"
-    item "volume" module="volume" format="{icon}" on-click="menu"
-    item "battery" module="battery" format="{icon} {pct}%" on-click="menu" {
-      low 20
-    }
-  }
-  // A click opens Notification Center, with the system's own shortcut for it.
-  item "clock" module="clock" format="EEE, MMM d ⌘ h:mm:ss" priority=10 on-click="key fn+n"
-  // A control centre: the menu bar's own items, which the bar covers, as a grid, then
-  // brightness as sliders. A group of its own, at the end of the bar. Choosing an item presses
-  // the real one, and its menu opens where macOS puts it.
-  group "controls" {
-    item "settings" module="menu-extras" on-click="menu" {
-      // The bar has its own clock. By name, app, bundle id or Accessibility identifier;
-      // `bario get settings.items` lists each item's.
-      hide "com.apple.menuextra.clock"
-      content { icon "gearshape.fill" }
-      menu align="end" {
-        each "lines" {
-          row class="extras" {
-            each "items" {
-              row class="extra" on-click="press {id}" { icon "{icon}" class="extra-icon {kind}" }
-            }
-          }
-        }
-        if "count" { separator }
-        if "/brightness.has-display" {
-          row { icon "sun.max.fill" class="glyph"; slider value="{/brightness.display}" on-change="send brightness set-display" }
-        }
-        if "/brightness.has-keyboard" {
-          row { icon "light.max" class="glyph"; slider value="{/brightness.keyboard}" on-change="send brightness set-keyboard" }
-        }
-      }
-    }
-  }
 }

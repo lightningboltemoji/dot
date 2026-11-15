@@ -1,43 +1,48 @@
+/* Geometry used throughout:
+   - margin insets what an item paints but takes no room, so space that has to push neighbours
+     is a slot width (the zero-width shoulders, #system-r).
+   - padding counts from the slot, not the painted box: an item with more margin on one side gets
+     as much more padding there, to stay centred (#app, #apple, #power, #net).
+   - radii nest: an outer radius is the inner one plus the gap between (19 = 14 + 5, 17 = 14 + 3). */
+
 :root {
-  --tint: oklch(
-    from wallpaper(seed, wallpaper(muted-dark)) 0.23 min(c, 0.07) h
-  );
-  --item-bg: color-mix(in oklch, var(--tint) 85%, transparent);
-  --item-bg-hover: color-mix(
-    in oklch,
-    oklch(from var(--tint) calc(l + 0.08) c h) 90%,
-    transparent
-  );
-  --item-fg: on(var(--tint));
-  --item-border: color-mix(in oklch, wallpaper(muted-light) 22%, transparent);
+  --notch: black;
+  --item-bg-hover: rgba(255, 255, 255, 0.16);
+  --item-fg: white;
+  --item-border: rgba(255, 255, 255, 0.14);
   --glow: wallpaper(vibrant-light);
   --highlight: scheme(primary);
-  --border: 1.5pt;
-  --radius: 18pt;
+  --radius: 12pt;
+  /* Dark enough for white text over any wallpaper. */
+  --piece: color-mix(in oklch, wallpaper(dominant), black 50%);
 }
 
 bar {
   font-family: ui-monospace;
   color: var(--item-fg);
-  padding: 0pt 16pt;
-  /* A slow dissolve as the bar comes and goes; the built-in look's @starting-style and
-     :leaving say from and to what. This list replaces the built-in one, hence layout. */
+  padding: 0;
+  gap: 0;
+  /* Replaces the built-in list, so layout has to be listed again. */
   transition:
     opacity 300ms ease-in-out,
-    layout 160ms ease-out;
+    layout 240ms ease-out;
 }
 
 item {
   padding: 4.5pt 13.5pt;
-  border-radius: var(--radius);
-  corner-shape: squircle;
-  background: var(--item-bg);
-  border: var(--border) var(--item-border);
+  margin: 5pt 2pt;
+  corner-shape: round;
+  background: none;
   transition:
     background 250ms ease-out,
     border-color 250ms ease-out,
     color 250ms ease-out,
     opacity 120ms;
+}
+
+/* The built-in look squares off items in a group. */
+group item {
+  border-radius: 14pt;
 }
 
 item:hover {
@@ -48,66 +53,233 @@ bar.fullscreen item {
   opacity: 0.5;
 }
 
-group item:first-child {
-  border-radius: var(--radius) 0 0 var(--radius);
-}
-group item:last-child {
-  border-radius: 0 var(--radius) var(--radius) 0;
-}
-group item:only-child {
-  border-radius: var(--radius);
+group {
+  gap: 0;
+  margin: 0 6pt;
+  background: var(--notch);
+  border-radius: 0 0 var(--radius) var(--radius);
+  corner-shape: round;
 }
 
-#system,
-#status,
+/* Shoulders: the concave curve from a notch's side into the top edge. A corner can be at most
+   half its box, so each is a 12pt square astride the notch's edge, half of it above the screen,
+   scooped at its outer bottom corner. 32pt is the bar's 38pt less the 6pt that shows. */
+group item:first-child,
+group item:last-child {
+  width: 6pt;
+  padding: 0;
+  background: var(--notch);
+  corner-shape: scoop;
+}
+group item:first-child {
+  margin: -6pt -6pt 32pt 0;
+  border-radius: 0 0 0 6pt;
+}
+group item:last-child {
+  margin: -6pt 0 32pt -6pt;
+  border-radius: 0 0 6pt 0;
+}
+
+/* Their black runs 20pt on under the real notch, to fill in behind its rounded bottom corners.
+   Elsewhere #status's would cover the clock's hover pill. */
+#time {
+  margin: 0 -20pt 0 0;
+  border-radius: 0;
+}
+#status {
+  margin: 0;
+  border-radius: 0;
+}
+bar.notched #status {
+  margin: 0 0 0 -20pt;
+}
+
 #focus {
-  gap: 0;
+  margin: 0 0 0 6pt;
+  border-radius: 0 0 0 19pt;
 }
-#system item,
-#status item,
-#focus item {
-  border-width: var(--border) var(--border) var(--border) 0;
+#controls {
+  margin: 0 6pt 0 0;
+  border-radius: 0 0 19pt 0;
 }
-#system item:first-child,
-#status item:first-child,
-#focus item:first-child {
-  border-width: var(--border);
+/* No shoulders where the wings meet the time and the status icons. */
+#focus-r,
+#time-l,
+#status-r,
+#controls-l {
+  width: 0;
+  background: none;
+}
+/* 13pt from the battery to the gear's pill, as from the apple's to the date. */
+#status-r {
+  width: 3pt;
+}
+
+#windows,
+#system {
+  margin: 2pt;
+  border-radius: 17pt;
+}
+/* No pill of its own: just the black pieces. */
+#windows {
+  background: none;
+  --item-bg-hover: color-mix(in oklch, var(--notch), white 14%);
+}
+#system {
+  margin: 2pt 6pt 2pt 4pt;
+}
+#windows-l,
+#windows-r,
+#front-l,
+#front-r,
+#system-l,
+#system-r {
+  width: 0;
+  margin: 0;
+  background: none;
+}
+/* With the margins: 10pt to the island, 6pt before Slack's badge. */
+#system-l {
+  width: 2pt;
+}
+#system-r {
+  width: 4pt;
+}
+
+#focus,
+#focus menu,
+#controls,
+#controls menu {
+  --item-fg: on(var(--piece));
+  --item-bg-hover: color-mix(in oklch, var(--piece), white 14%);
+  --item-border: color-mix(in oklch, var(--item-fg) 18%, transparent);
+  color: var(--item-fg);
+}
+#focus menu,
+#controls menu {
+  --notch: var(--piece);
+}
+
+#windows item {
+  background: var(--notch);
+}
+#focus item,
+#controls item {
+  background: var(--piece);
+}
+#windows item:hover,
+#windows item:open,
+#focus item:hover,
+#focus item:open,
+#controls item:hover,
+#controls item:open {
+  background: var(--item-bg-hover);
+}
+/* The app's and the names' shared pill. Inset as they are, so their hover is the same shape;
+   clipped, so whichever is rolling in or out never shows past it while it resizes. */
+#front {
+  margin: 3.5pt 2pt 3.5pt 5pt;
+  border-radius: 15.5pt;
+  background: var(--notch);
+  overflow: clip;
+}
+#front item {
+  background: none;
+}
+/* The windows' pills are 31pt: between the wings' 28pt pieces and the stats' 34pt pill. */
+#app,
+#names {
+  margin: 3.5pt 2pt 3.5pt 5pt;
+  border-radius: 15.5pt;
+}
+#apple,
+#power {
+  margin: 5pt 2pt 5pt 5pt;
+}
+#workspace,
+#settings,
+#net {
+  margin: 5pt 5pt 5pt 2pt;
+}
+/* The shoulders' backgrounds, which the piece rules above would otherwise set. */
+#focus item:first-child,
+#controls item:last-child {
+  background: var(--notch);
+}
+#windows item:first-child,
+#windows item:last-child,
+#focus item:last-child,
+#controls item:first-child {
+  background: none;
+}
+
+#app {
+  padding: 4.5pt 13.5pt 4.5pt 16.5pt;
+}
+/* #seam's margins assume the right side. */
+#clock {
+  padding: 4.5pt 13.5pt 4.5pt 10.25pt;
+  margin: 5pt 4pt 5pt 0.75pt;
+}
+#clock row {
+  gap: 5pt;
+}
+#clock .day {
+  font-size: 9pt;
+  opacity: 0.6;
+}
+
+/* A 0pt slot after #status-l, with negative margins that draw the line back across the centre,
+   midway between the clock and Wi-Fi. In #status so it paints over that group's black, which
+   runs on under #time's. */
+#seam {
+  width: 0;
+  padding: 0;
+  margin: 12pt 8.5pt 12pt -9.5pt;
+  border-radius: 0.5pt;
+  background: color-mix(in oklch, var(--item-fg) 60%, transparent);
 }
 
 #apple {
   icon-size: 14pt;
-}
-
-#apple {
-  padding: 1.5pt 7pt;
-  --shine: transparent;
+  padding: 0 9.5pt 0 12.5pt;
 }
 #apple.running {
-  --shine: currentColor;
+  background: var(--glow);
+  color: on(var(--glow));
+}
+#apple.running:hover,
+#apple.running:open {
+  background: color-mix(in oklch, var(--glow), white 20%);
 }
 
-/* The workspace number turns in the bubble's whole inside, 24pt within the border: no padding
-   above or below, so it is clipped where the border begins rather than at its own line. */
-#workspace {
-  padding: 0pt 13.5pt;
+#settings {
+  padding: 0 11.5pt 0 8.5pt;
 }
 
-/* While the app rolls away under the guide, the workspace's right corners round off with it,
-   and square up again as it rolls back. The rest is the built-in item transition. */
+#wifi,
+#volume,
+#battery {
+  padding: 4.5pt 8pt;
+}
+/* Level with the battery's 11pt cell. */
+#wifi,
+#volume {
+  icon-size: 13.5pt;
+}
+
+/* No vertical padding and a roll as tall as the pill, so the number clips at the pill's edge. */
+/* A one-character name is 7pt wide (monospace), so 7 + 14 + 16 less the 6pt of margin makes a
+   31pt circle. */
 #workspace {
-  transition:
-    background 250ms ease-out,
-    border-color 250ms ease-out,
-    color 250ms ease-out,
-    opacity 120ms,
-    border-radius 280ms ease-in-out;
+  margin: 3.5pt 4pt 3.5pt 2pt;
+  padding: 0 16pt 0 14pt;
+  border-radius: 15.5pt;
 }
 #workspace roll {
-  --roll-height: 24pt;
+  --roll-height: 31pt;
 }
 
-/* Stats. Two 9pt lines (the built-in .stacked size) fit inside the bubble's 4.5pt padding and
-   1.5pt border; the graph stretches to their height. */
 #cpu row {
   gap: 4pt;
 }
@@ -124,12 +296,19 @@ group item:only-child {
   fill: rgba(255, 95, 85, 0.85);
 }
 
+#power {
+  padding: 4.5pt 13.5pt 4.5pt 16.5pt;
+}
+#net {
+  padding: 4.5pt 16.5pt 4.5pt 13.5pt;
+}
+
 #power .stacked text:last-child {
   opacity: 0.6;
 }
 
-/* Meter over percentage. The meter is thinner than a line of text, so the room above it keeps
-   the pair on the same two lines as #cpu and #net either side. */
+/* The meter is thinner than a line of text; the top padding keeps the pair on the same two lines
+   as its neighbours. */
 #mem .stacked {
   gap: 3pt;
   padding: 4pt 0 0 0;
@@ -149,17 +328,34 @@ group item:only-child {
   gap: 3pt;
 }
 
-/* Low battery lights its bubble in the scheme's primary, the wallpaper's hue at full strength,
-   in place of the built-in red, which washes out to pink over a light wallpaper. */
+/* The cell's colours (config.kdl draws it), and the bolt's size: at the text's 9pt it stands
+   taller than the digits. */
+#battery {
+  icon-size: 6.5pt;
+  --cell-track: color-mix(in oklch, var(--item-fg) 32%, transparent);
+  --cell-fill: var(--item-fg);
+  /* The number where the fill covers it: the black behind, so it reads as cut out. */
+  --cell-ink: var(--notch);
+}
+/* Green while charging; plugged in but held (full, or at the 80% limit), only the bolt says so. */
+#battery.charging {
+  --cell-fill: system(systemGreenColor);
+}
+/* Low tints the cell, not the pill, which washed out the number. `background: none` undoes the
+   built-in red, and then hover has to be put back. */
 #battery.low {
-  background: color-mix(in oklch, var(--highlight) 85%, transparent);
-  color: on(var(--highlight));
+  background: none;
+  --cell-fill: var(--highlight);
+  --cell-track: color-mix(in oklch, var(--highlight) 40%, transparent);
+}
+#battery.low:hover,
+#battery.low:open {
+  background: var(--item-bg-hover);
 }
 
-/* emira's names guide: the app name rolls away and the focused strip's columns roll in. */
 #app,
 #names,
-#badges {
+#slack {
   transition:
     transform 280ms ease-in-out,
     opacity 220ms ease-in;
@@ -167,24 +363,34 @@ group item:only-child {
 @starting-style {
   #app,
   #names,
-  #badges {
+  #slack {
     transform: perspective(120pt) rotateX(-90deg);
     opacity: 0;
   }
 }
 #app:leaving,
 #names:leaving,
-#badges:leaving {
+#slack:leaving {
   transform: perspective(120pt) rotateX(90deg);
   opacity: 0;
 }
+/* At most what is left beside the notch, so a long strip is cut short rather than pushing the
+   time off. */
 #names {
-  padding: 6.5pt 7.5pt;
+  padding: 6.5pt 5pt 6.5pt 8pt;
+  max-width: 400pt;
 }
+/* 25pt: the 15pt line plus 5pt either side, 3pt inside the pill. */
 #names .column {
-  padding: 2pt 9pt;
-  border-radius: 12pt;
-  corner-shape: squircle;
+  padding: 5pt 9pt;
+  border-radius: 12.5pt;
+  corner-shape: round;
+}
+/* Margin, not padding: text draws from its box's left edge, so padding would all end up on the
+   right. */
+#names .empty,
+#names .more {
+  margin: 0 9pt;
 }
 #names .focused {
   background: color-mix(in oklch, var(--item-fg) 16%, transparent);
@@ -194,34 +400,44 @@ group item:only-child {
 }
 #names .more {
   opacity: 0.5;
-  padding: 0pt 4pt;
 }
 
-/* Ping's badges: the app's own icon in colour while it has something to say, its shape alone
-   while it has not, and the count in red once it is worth dropping things for. */
-#badges .app {
+#slack .app {
   icon-rendering: multicolor;
   icon-size: 15pt;
 }
-#badges .clear .app {
+#slack .clear .app {
   icon-rendering: monochrome;
 }
-#badges .badge {
+#slack .badge {
   font-weight: bold;
 }
-#badges .warn .badge {
+#slack .warn .badge {
   color: rgb(255, 190, 90);
 }
-#badges .critical .badge {
+#slack .critical .badge {
   color: rgb(255, 95, 85);
 }
-#badges .acknowledged,
-#badges .snoozed,
-#badges .silent {
+#slack.acknowledged,
+#slack.snoozed,
+#slack.silent {
   opacity: 0.5;
 }
 
-/* Slack: yellow for a dot or a word; a count fills the whole bubble red, contents in white. */
+#slack {
+  --notch: var(--piece);
+  --item-fg: on(var(--notch));
+  margin: 5pt 0;
+  padding: 4.5pt 13.5pt;
+  border-radius: 14pt;
+  corner-shape: round;
+  background: var(--notch);
+  color: var(--item-fg);
+}
+#slack:hover {
+  background: color-mix(in oklch, var(--notch) 82%, var(--item-fg));
+}
+
 #slack.dot icon,
 #slack.text icon {
   icon-color: system(systemYellowColor);
@@ -238,15 +454,10 @@ group item:only-child {
   background: rgb(255, 105, 95);
 }
 
-/* Menus: one more bubble, hung a gap below the one that was clicked. Its tint is the bubbles' as
-   they show over the wallpaper, made solid, since a menu hangs over windows, not the desktop;
-   the border, squircle and type are theirs. Inside it, a row under the pointer lights as #names'
-   focused column does, a separator is the line between bubbles in a group, a slider is #mem's
-   meter, and secondary text is dimmed as the stats' second lines are. */
 menu {
-  background: color-mix(in srgb, var(--tint) 85%, wallpaper(dominant));
-  border: var(--border) var(--item-border);
-  border-radius: var(--radius);
+  background: var(--notch);
+  border: 1pt var(--item-border);
+  border-radius: 18pt;
   corner-shape: squircle;
   padding: 4.5pt;
   margin: 0;
@@ -263,7 +474,6 @@ menu row:hover {
 menu row:active {
   background: color-mix(in oklch, var(--item-fg) 24%, transparent);
 }
-/* The row a submenu hangs from stays lit, as under the pointer, while the submenu is open. */
 menu row:open {
   background: color-mix(in oklch, var(--item-fg) 16%, transparent);
 }
@@ -277,13 +487,11 @@ menu slider {
   track: color-mix(in oklch, var(--item-fg) 15%, transparent);
 }
 
-/* The Apple menu's keep-awake row: checked while caffeinate runs, which is when the item is
-   .running (the built-in look hides a check until something says to show it). */
+/* The built-in look hides a check until something shows it. */
 #apple.running menu .awake .check {
   opacity: 1;
 }
 
-/* The bubble a menu hangs from, lit in the theme's own hover while the menu is open. */
 item:open {
   background: var(--item-bg-hover);
 }
