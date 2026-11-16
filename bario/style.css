@@ -425,7 +425,6 @@ bar.notched #status {
 }
 
 #slack {
-  --notch: var(--piece);
   --item-fg: on(var(--notch));
   margin: 5pt 0;
   padding: 4.5pt 13.5pt;
@@ -435,7 +434,7 @@ bar.notched #status {
   color: var(--item-fg);
 }
 #slack:hover {
-  background: color-mix(in oklch, var(--notch) 82%, var(--item-fg));
+  background: color-mix(in srgb, var(--notch), white 16%);
 }
 
 #slack.dot icon,
