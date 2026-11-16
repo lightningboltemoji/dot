@@ -20,7 +20,7 @@ trackpad-scroll-direction = "natural"
 [animation]
 transition = "smooth"
 window = "crop"
-cover = "immediate"
+cover = "immediate-fresh"
 
 [keys]
 fn-q = "focus-workspace 1"
