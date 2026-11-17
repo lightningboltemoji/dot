@@ -1,0 +1,22 @@
+# Every setting, and what it does: https://github.com/lightningboltemoji/dock2/blob/main/config.example.toml
+
+[general]
+onboarded = true
+summon = "cmd-space"
+
+[dock]
+tile-size = 128
+autohide = true
+pinned = ["zip.tanner.fiber", "com.mitchellh.ghostty"]
+pointer-opens-search = false
+
+[search]
+field-form = "lava-lamp"
+
+[clipboard]
+history = true
+shortcut = "ctrl-cmd-v"
+
+[icons]
+files = { picture = "strawberry", color = "#D87087" }
+"com.mitchellh.ghostty" = "icons/ghostty.car"
