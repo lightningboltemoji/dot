@@ -60,6 +60,7 @@ fn-period = "layout stack"
 
 fn-space = "exec osascript -e 'tell application \"Ghostty\" to new window'"
 fn-b = "exec open /Applications/Fiber.app"
+fn-o = "config override toggle focus.unfocused-opacity 1"
 
 [[window-rules]]
 smaller-than-focused = 0.6
