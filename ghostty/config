@@ -3,6 +3,7 @@ cursor-color = #C8C8C8
 window-padding-x = 6
 window-padding-y = 4
 theme = branch
+custom-shader = shaders/cursor_warp.glsl
 auto-update-channel = tip
 auto-update = off
 

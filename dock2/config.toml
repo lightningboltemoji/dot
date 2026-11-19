@@ -7,7 +7,7 @@ summon = "cmd-space"
 [dock]
 tile-size = 128
 autohide = true
-pinned = ["zip.tanner.fiber", "com.mitchellh.ghostty"]
+pinned = ["zip.tanner.fiber", "com.mitchellh.ghostty", "com.scratch.app"]
 pointer-opens-search = false
 
 [search]
