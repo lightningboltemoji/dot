@@ -216,10 +216,12 @@ bar.notched #status {
 #app {
   padding: 4.5pt 13.5pt 4.5pt 16.5pt;
 }
-/* #seam's margins assume the right side. */
+/* 6pt inside the pill each side, as Wi-Fi's. The right is Wi-Fi's 8pt, so the time and Wi-Fi are
+   as far from the notch, or from the centre (#seam). The left is unchanged, which keeps the date
+   where it was beside the apple. */
 #clock {
-  padding: 4.5pt 13.5pt 4.5pt 10.25pt;
-  margin: 5pt 4pt 5pt 0.75pt;
+  padding: 4.5pt 8pt 4.5pt 10.25pt;
+  margin: 5pt 2pt 5pt 4.25pt;
 }
 #clock row {
   gap: 5pt;
@@ -229,13 +231,13 @@ bar.notched #status {
   opacity: 0.6;
 }
 
-/* A 0pt slot after #status-l, with negative margins that draw the line back across the centre,
-   midway between the clock and Wi-Fi. In #status so it paints over that group's black, which
-   runs on under #time's. */
+/* A 0pt slot after #status-l, which starts at the screen's centre (a bare `notch` splits there on
+   a plain display), with negative margins that draw the 1pt line back to straddle it. In #status
+   so it paints over that group's black, which runs on under #time's. */
 #seam {
   width: 0;
   padding: 0;
-  margin: 12pt 8.5pt 12pt -9.5pt;
+  margin: 12pt 5.5pt 12pt -6.5pt;
   border-radius: 0.5pt;
   background: color-mix(in oklch, var(--item-fg) 60%, transparent);
 }

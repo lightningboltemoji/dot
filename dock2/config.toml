@@ -20,3 +20,4 @@ shortcut = "ctrl-cmd-v"
 [icons]
 files = { picture = "strawberry", color = "#D87087" }
 "com.mitchellh.ghostty" = "icons/ghostty.car"
+"com.github.cirruslabs.tart" = { picture = "pear", color = "#D8704F" }
