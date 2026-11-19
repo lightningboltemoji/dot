@@ -41,40 +41,62 @@ hl.monitor({
   disabled = true
 })
 
-hl.bind("ALT+SPACE", hl.dsp.exec_cmd("ghostty"))
-hl.bind("ALT+B", hl.dsp.exec_cmd("firefox"))
+hl.bind("XF86Fn + SPACE", hl.dsp.exec_cmd("ghostty"))
+hl.bind("XF86Fn + B", hl.dsp.exec_cmd("firefox"))
 hl.bind("SUPER+SPACE", hl.dsp.exec_cmd("noctalia msg panel-toggle launcher"))
 
 -- Scrolling layout navigation
 -- Focus: columns with h/l, windows within a column with j/k
-hl.bind("ALT+H", hl.dsp.layout("focus l"))
-hl.bind("ALT+L", hl.dsp.layout("focus r"))
-hl.bind("ALT+J", hl.dsp.focus({ direction = "down" }))
-hl.bind("ALT+K", hl.dsp.focus({ direction = "up" }))
+hl.bind("XF86Fn + H", hl.dsp.layout("focus l"))
+hl.bind("XF86Fn + L", hl.dsp.layout("focus r"))
+hl.bind("XF86Fn + J", hl.dsp.focus({ direction = "down" }))
+hl.bind("XF86Fn + K", hl.dsp.focus({ direction = "up" }))
 
 -- Move: columns with h/l, windows within a column with j/k
-hl.bind("ALT+SHIFT+H", hl.dsp.layout("swapcol l"))
-hl.bind("ALT+SHIFT+L", hl.dsp.layout("swapcol r"))
-hl.bind("ALT+SHIFT+J", hl.dsp.window.move({ direction = "down" }))
-hl.bind("ALT+SHIFT+K", hl.dsp.window.move({ direction = "up" }))
+hl.bind("SHIFT + XF86Fn + H", hl.dsp.layout("swapcol l"))
+hl.bind("SHIFT + XF86Fn + L", hl.dsp.layout("swapcol r"))
+hl.bind("SHIFT + XF86Fn + J", hl.dsp.window.move({ direction = "down" }))
+hl.bind("SHIFT + XF86Fn + K", hl.dsp.window.move({ direction = "up" }))
 
 -- Workspaces: focus next/prev with u/i, move window along with shift
-hl.bind("ALT+U", hl.dsp.focus({ workspace = "+1" }))
-hl.bind("ALT+I", hl.dsp.focus({ workspace = "-1" }))
-hl.bind("ALT+SHIFT+U", hl.dsp.window.move({ workspace = "+1", follow = true }))
-hl.bind("ALT+SHIFT+I", hl.dsp.window.move({ workspace = "-1", follow = true }))
+hl.bind("XF86Fn + U", hl.dsp.focus({ workspace = "+1" }))
+hl.bind("XF86Fn + I", hl.dsp.focus({ workspace = "-1" }))
+hl.bind("SHIFT + XF86Fn + U", hl.dsp.window.move({ workspace = "+1", follow = true }))
+hl.bind("SHIFT + XF86Fn + I", hl.dsp.window.move({ workspace = "-1", follow = true }))
+
+-- Workspaces 1-6 on the left-hand grid (ported from emira):
+--   Q W E  ->  1 2 3
+--   A S D  ->  4 5 6
+-- Shift moves the focused window there and follows it.
+local ws_keys = { "Q", "W", "E", "A", "S", "D" }
+for i, key in ipairs(ws_keys) do
+  hl.bind("XF86Fn + " .. key,         hl.dsp.focus({ workspace = tostring(i) }))
+  hl.bind("SHIFT + XF86Fn + " .. key,   hl.dsp.window.move({ workspace = tostring(i), follow = true }))
+end
 
 -- Window actions
-hl.bind("ALT+F",       hl.dsp.window.fullscreen({ mode = "maximized",  action = "toggle" }))
-hl.bind("ALT+SHIFT+F", hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }))
+hl.bind("XF86Fn + F",       hl.dsp.window.fullscreen({ mode = "maximized",  action = "toggle" }))
+hl.bind("SHIFT + XF86Fn + F", hl.dsp.window.float({ action = "toggle" }))
+
+-- Toggle inactive-window opacity/dim off and on (emira fn-o)
+local dim_off = false
+hl.bind("XF86Fn + O", function()
+  dim_off = not dim_off
+  hl.config({
+    decoration = {
+      inactive_opacity = dim_off and 1.0 or 0.8,
+      dim_inactive = not dim_off,
+    },
+  })
+end)
 
 -- Column width
-hl.bind("ALT+MINUS", hl.dsp.layout("colresize -0.15"), { repeating = true })
-hl.bind("ALT+EQUAL", hl.dsp.layout("colresize +0.15"), { repeating = true })
+hl.bind("XF86Fn + MINUS", hl.dsp.layout("colresize -0.1"), { repeating = true })
+hl.bind("XF86Fn + EQUAL", hl.dsp.layout("colresize +0.1"), { repeating = true })
 
 -- Push/pull windows between columns
-hl.bind("ALT+SHIFT+BRACKETLEFT",  hl.dsp.layout("consume_or_expel prev"))
-hl.bind("ALT+SHIFT+BRACKETRIGHT", hl.dsp.layout("consume_or_expel next"))
+hl.bind("SHIFT + XF86Fn + BRACKETLEFT",  hl.dsp.layout("consume_or_expel prev"))
+hl.bind("SHIFT + XF86Fn + BRACKETRIGHT", hl.dsp.layout("consume_or_expel next"))
 
 -- Brightness: 4% steps, 1% fine steps with Shift; works when locked
 hl.bind("XF86MonBrightnessUp",         hl.dsp.exec_cmd("brightnessctl --class=backlight set +4%"), { locked = true, repeating = true })

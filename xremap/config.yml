@@ -1,7 +1,7 @@
 modmap:
-  - name: Capslock to alt
+  - name: Capslock to Esc
     remap:
-      KEY_CAPSLOCK: KEY_LEFTALT
+      KEY_CAPSLOCK: KEY_ESC
   - name: Swap Super<->Ctrl everywhere except Ghostty
     application:
       not:
